@@ -2,6 +2,37 @@ import React, { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, Github, Linkedin, ArrowUpRight } from "lucide-react";
 
+/**
+ * Global CSS variables and base styles injected via <style> tag.
+ */
+const globalCSS = `
+:root{
+  --bg:#FBFBFD; /* Apple light */
+  --fg:#111111;
+  --fgSoft:#6E6E73;
+  --fgDim:#8E8E93;
+  --hairline:#E5E5EA;
+  --accent:#007AFF; /* Apple blue */
+  --accent2:#5AC8FA; /* light blue */
+  --glass: rgba(255,255,255,0.72);
+  --card:#FFFFFF;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0B0B0F; /* deep near-black */
+    --fg:#EDEDED;
+    --fgSoft:#C7C7CC;
+    --fgDim:#8E8E93;
+    --hairline:#2A2A2E;
+    --glass: rgba(13,13,18,0.6);
+    --card:#0F0F14;
+  }
+}
+html,body,#root{height:100%}
+body{margin:0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Segoe UI, Roboto, Helvetica, Arial, sans-serif;}
+*{outline-color: var(--accent)}
+`;
+
 // --- Data ----------------------------------------------------
 const PROJECTS = [
   {
@@ -67,23 +98,28 @@ const EXPERIENCE = [
   }
 ];
 
-// --- Helpers -------------------------------------------------
 const filters = ["All", "Backend", "Data", "ML", "Systems"] as const;
-
 type Filter = typeof filters[number];
 
 function classNames(...n: Array<string | false | null | undefined>) {
   return n.filter(Boolean).join(" ");
 }
 
-// --- Component ----------------------------------------------
+/**
+ * Pure helper for filtering projects by tag — exported for tests.
+ */
+export function filterProjects(
+  projects: typeof PROJECTS,
+  active: Filter
+) {
+  if (active === "All") return projects;
+  return projects.filter((p) => p.tag === active);
+}
+
 export default function ApplePortfolio() {
   const [active, setActive] = useState<Filter>("All");
 
-  const visible = useMemo(() => {
-    if (active === "All") return PROJECTS;
-    return PROJECTS.filter((p) => p.tag === active);
-  }, [active]);
+  const visible = useMemo(() => filterProjects(PROJECTS, active), [active]);
 
   useEffect(() => {
     document.documentElement.style.scrollBehavior = "smooth";
@@ -92,11 +128,10 @@ export default function ApplePortfolio() {
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--fg)] antialiased selection:bg-[var(--accent)/15] selection:text-[var(--accent)]">
-      {/* Global styles */}
       <style>{globalCSS}</style>
 
       {/* Header */}
-      <header className="fixed inset-x-0 top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-[color:var(--glass)] bg-[color:var(--glass-fallback)] border-b border-[var(--hairline)]">
+      <header className="fixed inset-x-0 top-0 z-40 backdrop-blur bg-[var(--glass)] border-b border-[var(--hairline)]">
         <nav className="mx-auto max-w-[1100px] h-16 flex items-center px-4">
           <div className="text-base font-semibold tracking-[-0.01em]">Jinseo Lee</div>
           <div className="ml-auto hidden sm:flex items-center gap-6 text-sm">
@@ -104,10 +139,7 @@ export default function ApplePortfolio() {
             <NavLink href="#about" label="About" />
             <NavLink href="#projects" label="Projects" />
             <NavLink href="#experience" label="Experience" />
-            <a
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-[10px] border border-[var(--hairline)] hover:border-[var(--fgSoft)] transition"
-              href="#contact"
-            >
+            <a className="inline-flex items-center gap-1 px-3 py-1.5 rounded-[10px] border border-[var(--hairline)] hover:border-[var(--accent)] transition" href="#contact">
               Resume <ArrowUpRight size={16} />
             </a>
           </div>
@@ -117,15 +149,13 @@ export default function ApplePortfolio() {
       <main className="pt-16">
         {/* Hero */}
         <section id="home" className="relative">
-          <div className="absolute inset-0 -z-10 [mask-image:radial-gradient(60%_60%_at_50%_20%,#000_40%,transparent_100%)]">
-            <div className="absolute inset-0 bg-[radial-gradient(1200px_500px_at_50%_-10%,rgba(0,122,255,0.12),transparent)]" />
-          </div>
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[rgba(0,122,255,0.05)] via-transparent to-transparent" />
           <div className="mx-auto max-w-[1100px] px-4 py-24 md:py-28">
             <motion.h1
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="text-5xl md:text-6xl font-bold tracking-[-0.02em]"
+              className="text-5xl md:text-6xl font-bold tracking-[-0.02em] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent"
             >
               Jinseo Lee
             </motion.h1>
@@ -138,11 +168,11 @@ export default function ApplePortfolio() {
               CS at Georgia Tech, focused on backend and data systems.
             </motion.p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="#projects" className="h-9 inline-flex items-center px-4 rounded-[12px] bg-[var(--fg)] text-[var(--bg)] hover:opacity-95 transition">View projects</a>
-              <a href="mailto:jinseo@example.com" className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] hover:border-[var(--fgSoft)] transition">Contact</a>
-              <span className="ml-2 text-sm text-[var(--fgSoft)]">Atlanta, GA</span>
+              <a href="#projects" className="h-9 inline-flex items-center px-4 rounded-[12px] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] text-white hover:opacity-95 transition shadow-[0_0_24px_rgba(0,122,255,0.35)]">
+                View projects
+              </a>
+              <a href="mailto:jinseo@example.com" className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] hover:border-[var(--accent)] transition">Contact</a>
             </div>
-
             <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
                 { title: "Current", text: "Realtime notes agent" },
@@ -155,7 +185,7 @@ export default function ApplePortfolio() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.35 }}
-                  className="rounded-2xl border border-[var(--hairline)] p-5 hover:shadow-sm hover:border-[var(--fgSoft)]/50 transition bg-[var(--card)]"
+                  className="rounded-2xl border border-[var(--hairline)] p-5 hover:shadow-[0_0_15px_rgba(0,122,255,0.35)] transition bg-[var(--card)]"
                 >
                   <div className="text-sm text-[var(--fgDim)]">{c.title}</div>
                   <div className="mt-1 text-base font-medium">{c.text}</div>
@@ -165,12 +195,15 @@ export default function ApplePortfolio() {
           </div>
         </section>
 
+        {/* Divider */}
+        <div className="h-px bg-gradient-to-r from-transparent via-[rgba(0,122,255,0.4)] to-transparent" />
+
         {/* About */}
-        <section id="about" className="border-t border-[var(--hairline)]">
+        <section id="about">
           <div className="mx-auto max-w-[1100px] px-4 py-16 md:py-20">
             <SectionTitle title="About" />
             <p className="mt-4 max-w-[70ch] text-[17px] leading-7 text-[var(--fgSoft)]">
-              I am a CS major at Georgia Tech. I like clean systems, clear APIs, and small tools that help people get work done. I care about fast feedback and readable code.
+              I am a CS major at Georgia Tech. I like clean systems, clear APIs, and small tools that help people get work done.
             </p>
             <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
@@ -179,19 +212,11 @@ export default function ApplePortfolio() {
                 { k: "Tools", v: "TypeScript, Python" },
                 { k: "Interests", v: "ML evals, infra" },
               ].map((t) => (
-                <div key={t.k} className="rounded-xl border border-[var(--hairline)] p-4 bg-[var(--card)]">
+                <div key={t.k} className="rounded-xl border border-[var(--hairline)] p-4 bg-[var(--card)] hover:border-[var(--accent)] transition">
                   <div className="text-xs text-[var(--fgDim)]">{t.k}</div>
                   <div className="text-sm mt-1 font-medium">{t.v}</div>
                 </div>
               ))}
-            </div>
-            <div className="mt-12 pl-4 border-l border-[var(--hairline)]">
-              <div className="text-sm text-[var(--fgDim)]">Timeline</div>
-              <ul className="mt-3 space-y-4">
-                <li className="text-sm">2025, WBD Sports data intern</li>
-                <li className="text-sm">2024, SendSafely SWE intern</li>
-                <li className="text-sm">2023, Started at GT</li>
-              </ul>
             </div>
           </div>
         </section>
@@ -200,8 +225,6 @@ export default function ApplePortfolio() {
         <section id="projects" className="border-t border-[var(--hairline)]">
           <div className="mx-auto max-w-[1100px] px-4 py-16 md:py-20">
             <SectionTitle title="Projects" />
-
-            {/* Filter chips */}
             <div className="mt-4 flex flex-wrap gap-2">
               {filters.map((f) => (
                 <button
@@ -210,16 +233,14 @@ export default function ApplePortfolio() {
                   className={classNames(
                     "px-3 py-1.5 rounded-full text-sm border transition",
                     active === f
-                      ? "bg-[var(--fg)] text-[var(--bg)] border-[var(--fg)]"
-                      : "border-[var(--hairline)] hover:border-[var(--fgSoft)]"
+                      ? "bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] text-white border-transparent shadow-sm"
+                      : "border-[var(--hairline)] hover:border-[var(--accent)]"
                   )}
                 >
                   {f}
                 </button>
               ))}
             </div>
-
-            {/* Grid */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
               {visible.map((p) => (
                 <motion.article
@@ -228,13 +249,13 @@ export default function ApplePortfolio() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-80px" }}
                   transition={{ duration: 0.35 }}
-                  className="group overflow-hidden rounded-3xl border border-[var(--hairline)] bg-[var(--card)] hover:shadow-md hover:border-[var(--fgSoft)]/50 transition"
+                  className="group overflow-hidden rounded-3xl border border-[var(--hairline)] bg-[var(--card)] hover:shadow-[0_0_20px_rgba(0,122,255,0.25)] transition"
                 >
                   <div className="relative aspect-[16/9] overflow-hidden">
                     <img
                       src={p.img}
                       alt={p.title}
-                      className="size-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                       loading="lazy"
                     />
                   </div>
@@ -246,14 +267,16 @@ export default function ApplePortfolio() {
                     <p className="mt-1 text-sm text-[var(--fgSoft)]">{p.blurb}</p>
                     <div className="mt-3 flex flex-wrap items-center gap-2">
                       {p.stack.map((s) => (
-                        <span key={s} className="text-xs px-2 py-1 rounded-full border border-[var(--hairline)]">{s}</span>
+                        <span key={s} className="text-xs px-2 py-1 rounded-full border border-[var(--hairline)] text-[var(--accent)]">
+                          {s}
+                        </span>
                       ))}
                     </div>
                     <div className="mt-4 flex items-center gap-3 text-sm">
-                      <a className="inline-flex items-center gap-1 hover:underline" href="#">
+                      <a className="inline-flex items-center gap-1 text-[var(--accent)] hover:underline" href="#">
                         Case study <ArrowUpRight size={16} />
                       </a>
-                      <a className="inline-flex items-center gap-1 hover:underline" href="#">
+                      <a className="inline-flex items-center gap-1 text-[var(--accent)] hover:underline" href="#">
                         Code <ArrowUpRight size={16} />
                       </a>
                     </div>
@@ -268,10 +291,9 @@ export default function ApplePortfolio() {
         <section id="experience" className="border-t border-[var(--hairline)]">
           <div className="mx-auto max-w-[1100px] px-4 py-16 md:py-20">
             <SectionTitle title="Experience" />
-
             <div className="mt-6 divide-y divide-[var(--hairline)] border border-[var(--hairline)] rounded-2xl overflow-hidden">
               {EXPERIENCE.map((e, i) => (
-                <div key={i} className="p-5 md:p-6 bg-[var(--card)]">
+                <div key={i} className="p-5 md:p-6 bg-[var(--card)] hover:border-l-4 hover:border-[var(--accent)] transition">
                   <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
                     <div className="text-base font-semibold tracking-[-0.01em]">{e.company}</div>
                     <div className="text-sm text-[var(--fgDim)]">{e.role} · {e.dates}</div>
@@ -291,27 +313,26 @@ export default function ApplePortfolio() {
           <div className="mx-auto max-w-[1100px] px-4 py-12 md:py-16">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-semibold tracking-[-0.01em]">Let’s talk</h2>
+                <h2 className="text-2xl font-semibold tracking-[-0.01em] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">Let's talk</h2>
                 <p className="mt-1 text-sm text-[var(--fgSoft)]">Open to 2026 roles and collabs.</p>
               </div>
               <div className="flex items-center gap-3">
-                <a href="mailto:jinseo@example.com" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--fgSoft)] transition"><Mail size={16}/> Email</a>
-                <a href="https://github.com" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--fgSoft)] transition"><Github size={16}/> GitHub</a>
-                <a href="https://linkedin.com" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--fgSoft)] transition"><Linkedin size={16}/> LinkedIn</a>
+                <a href="mailto:jinseo@example.com" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--accent)] transition"><Mail size={16}/> Email</a>
+                <a href="https://github.com" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--accent)] transition"><Github size={16}/> GitHub</a>
+                <a href="https://linkedin.com" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--accent)] transition"><Linkedin size={16}/> LinkedIn</a>
               </div>
             </div>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-[var(--hairline)] text-[var(--fgDim)]">
         <div className="mx-auto max-w-[1100px] px-4 py-6 text-sm flex flex-col md:flex-row md:items-center md:justify-between gap-2">
           <div>© {new Date().getFullYear()} Jinseo Lee</div>
           <div className="flex items-center gap-4">
-            <a className="hover:underline" href="mailto:jinseo@example.com">Email</a>
-            <a className="hover:underline" href="https://github.com">GitHub</a>
-            <a className="hover:underline" href="https://linkedin.com">LinkedIn</a>
+            <a className="hover:text-[var(--accent)] transition" href="mailto:jinseo@example.com">Email</a>
+            <a className="hover:text-[var(--accent)] transition" href="https://github.com">GitHub</a>
+            <a className="hover:text-[var(--accent)] transition" href="https://linkedin.com">LinkedIn</a>
           </div>
         </div>
       </footer>
@@ -321,7 +342,10 @@ export default function ApplePortfolio() {
 
 function NavLink({ href, label }: { href: string; label: string }) {
   return (
-    <a href={href} className="relative py-1 after:absolute after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:h-px after:w-0 after:bg-[var(--fg)] hover:after:w-full after:transition-[width]">
+    <a
+      href={href}
+      className="relative py-1 after:absolute after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-[var(--accent)] after:to-[var(--accent2)] hover:after:w-full after:transition-[width]"
+    >
       {label}
     </a>
   );
@@ -329,37 +353,45 @@ function NavLink({ href, label }: { href: string; label: string }) {
 
 function SectionTitle({ title }: { title: string }) {
   return (
-    <div>
-      <h2 className="text-3xl md:text-[32px] font-semibold tracking-[-0.02em]">{title}</h2>
+    <div className="flex flex-col gap-4">
+      <h2 className="text-3xl md:text-[32px] font-semibold tracking-[-0.02em] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">{title}</h2>
+      <div className="h-px bg-gradient-to-r from-transparent via-[rgba(0,122,255,0.4)] to-transparent" />
     </div>
   );
 }
 
-const globalCSS = `
-:root{
-  --bg:#FBFBFD; /* Apple light */
-  --fg:#111111;
-  --fgSoft:#6E6E73;
-  --fgDim:#8E8E93;
-  --hairline: #E5E5EA;
-  --accent:#007AFF;
-  --glass: rgba(255,255,255,0.6);
-  --glass-fallback: rgba(255,255,255,0.85);
-  --card: #FFFFFF;
+/**
+ * In-file tests (Vitest). These run only in test mode and are ignored in dev/prod builds.
+ * To run:  npx vitest run
+ */
+if (import.meta as any && (import.meta as any).vitest) {
+  // @ts-ignore - vitest globals injected at test time
+  const { describe, it, expect } = (import.meta as any).vitest as typeof import("vitest");
+
+  describe("helpers", () => {
+    it("classNames merges only truthy entries", () => {
+      const out = classNames("a", false && "b", "c", null, undefined, "d");
+      expect(out).toBe("a c d");
+    });
+
+    it("filterProjects returns all when active is All", () => {
+      const out = filterProjects(PROJECTS, "All");
+      expect(out.length).toBe(PROJECTS.length);
+    });
+
+    it("filterProjects filters by tag", () => {
+      const out = filterProjects(PROJECTS, "ML");
+      expect(out.every((p) => p.tag === "ML")).toBe(true);
+    });
+  });
+
+  describe("SectionTitle", () => {
+    it("returns a React element", () => {
+      const el = SectionTitle({ title: "Test" } as any);
+      expect(el).toBeTruthy();
+      // Basic shape test
+      // @ts-ignore
+      expect(el.type).toBe("div");
+    });
+  });
 }
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#0B0B0F; /* deep near-black */
-    --fg:#EDEDED;
-    --fgSoft:#C7C7CC;
-    --fgDim:#8E8E93;
-    --hairline:#2A2A2E;
-    --glass: rgba(13,13,18,0.6);
-    --glass-fallback: rgba(13,13,18,0.8);
-    --card:#0F0F14;
-  }
-}
-html,body,#root{height:100%}
-body{margin:0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Segoe UI, Roboto, Helvetica, Arial, sans-serif;}
-*{outline-color: var(--accent)}
-`;
