@@ -116,7 +116,7 @@ const PROJECTS: Project[] = [
   {
     id: 3,
     title: "Master Exoskeleton Dashboard",
-    blurb: "Real-time control for robotic exoskeleton",
+    blurb: "Live updating dashboard for exoskeleton control center",
     stack: ["Python", "SSH", "Linux"],
     year: "2025",
     tag: "Data",
