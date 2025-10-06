@@ -371,6 +371,7 @@ export default function ApplePortfolio() {
             {/* <NavLink href="#about" label="About" /> */}
             <NavLink href="#experience" label="Experience" />
             <NavLink href="#projects" label="Projects" />
+            <NavLink href="#now" label="Now" />
             <NavLink href="#contact" label="Contact" />
           </div>
         </nav>
@@ -454,6 +455,7 @@ export default function ApplePortfolio() {
                       className="hover-accent rounded-2xl border border-[var(--hairline)] p-4 bg-[var(--card)]"
                       data-interactive="true"
                     >
+                      
                       <div className="text-sm text-[var(--fgDim)] mb-1">{c.title}</div>
                       {c.company ? (
                         <>
@@ -644,6 +646,88 @@ export default function ApplePortfolio() {
                 </motion.article>
               ))}
             </div>
+          </div>
+        </MotionSection>
+        
+        {/* Now / What I'm Working On */}
+        <MotionSection id="now" className="border-t border-[var(--hairline)]">
+          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
+            <SectionTitle title="What I'm Working On" />
+
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, type: "spring", stiffness: 90 }}
+              className="mt-5 rounded-2xl border border-[var(--hairline)] bg-[var(--card)] p-6 hover-accent"
+            >
+              <p className="text-[17px] leading-7 text-[var(--fgSoft)] max-w-[70ch]">
+                Currently building autonomous AI agents at{" "}
+                <span className="font-medium text-[var(--fg)]">K.L. Scott &amp; Associates</span> and
+                enhancing real-time control systems at{" "}
+                <span className="font-medium text-[var(--fg)]">Georgia Tech’s EPIC Lab</span>.
+                Preparing for <span className="font-medium text-[var(--fg)]">Summer 2026 SWE & Data internships</span>.
+              </p>
+              <div className="my-4 h-px bg-[var(--hairline)]" />
+              <p className="mt-4 text-[15px] text-[var(--fgSoft)] italic">Personal Project Spotlight</p>
+              {/* CityScape IQ card */}
+              <div className="mt-6 rounded-xl border border-[var(--hairline)] p-5 bg-[var(--card)]">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-lg font-semibold tracking-[-0.01em]">CityScape IQ - Local Urban Insights</h3>
+                  {/* screenshots/doc link placeholder*/}
+                  {/* <a
+                    href="/docs/cityscape-iq.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[var(--accent)] inline-flex items-center gap-1 text-sm hover:underline"
+                  >
+                    Screenshots / Doc <ArrowUpRight size={16} />
+                  </a> */}
+                </div>
+
+                <p className="mt-2 text-sm text-[var(--fgSoft)] max-w-[75ch]">
+                  CityScape IQ analyzes live and recorded traffic footage to detect vehicles, people, and events such as congestion or stopped cars. 
+                  It fuses weather and public transit data to forecast short-term congestion and lets users query and explore results through an interactive web dashboard.
+                </p>
+
+                <div className="mt-4 grid gap-4 md:grid-cols-3">
+                  <div>
+                    <div className="text-xs font-medium text-[var(--fgDim)]">Key Tasks</div>
+                    <ul className="mt-1 text-sm text-[var(--fgSoft)] list-disc pl-5 space-y-1">
+                      <li>Object detection &amp; simple tracking</li>
+                      <li>Event logic (congestion, stopped vehicle)</li>
+                      <li>Short-term congestion forecasting</li>
+                      <li>NL query over results</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <div className="text-xs font-medium text-[var(--fgDim)]">Stack</div>
+                    <ul className="mt-1 text-sm text-[var(--fgSoft)] list-disc pl-5 space-y-1">
+                      <li>Python, FastAPI, SQLite, Parquet</li>
+                      <li>HF + YOLO / OpenMMLab</li>
+                      <li>Prophet / PyTorch Forecasting</li>
+                      <li>React + Vite + Tailwind, Leaflet</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <div className="text-xs font-medium text-[var(--fgDim)]">MVP Scope</div>
+                    <ul className="mt-1 text-sm text-[var(--fgSoft)] list-disc pl-5 space-y-1">
+                      <li>2–5 FPS sampling &amp; counts</li>
+                      <li>Weather + GTFS fusion</li>
+                      <li>Event clips &amp; searchable gallery</li>
+                      <li>Map pins + timeline + queries</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="mt-4 text-xs text-[var(--fgDim)]">
+                  System: video → detector → tracker → event engine → SQLite/Parquet → forecaster → API → web UI.
+                </div>
+              </div>
+
+              <div className="mt-4 text-sm text-[var(--fgDim)] italic">
+                Last updated Oct 2025
+              </div>
+            </motion.div>
           </div>
         </MotionSection>
 
