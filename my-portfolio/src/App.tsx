@@ -118,7 +118,6 @@ export function filterProjects(
 
 export default function ApplePortfolio() {
   const [active, setActive] = useState<Filter>("All");
-
   const visible = useMemo(() => filterProjects(PROJECTS, active), [active]);
 
   useEffect(() => {
@@ -139,9 +138,6 @@ export default function ApplePortfolio() {
             <NavLink href="#about" label="About" />
             <NavLink href="#projects" label="Projects" />
             <NavLink href="#experience" label="Experience" />
-            <a className="inline-flex items-center gap-1 px-3 py-1.5 rounded-[10px] border border-[var(--hairline)] hover:border-[var(--accent)] transition" href="#contact">
-              Resume <ArrowUpRight size={16} />
-            </a>
           </div>
         </nav>
       </header>
@@ -150,7 +146,7 @@ export default function ApplePortfolio() {
         {/* Hero */}
         <section id="home" className="relative">
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[rgba(0,122,255,0.05)] via-transparent to-transparent" />
-          <div className="mx-auto max-w-[1100px] px-4 py-24 md:py-28">
+          <div className="mx-auto max-w-[1100px] px-4 py-14 md:py-16">
             <motion.h1
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -167,13 +163,33 @@ export default function ApplePortfolio() {
             >
               CS at Georgia Tech, focused on backend and data systems.
             </motion.p>
+
+            {/* Hero CTAs */}
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="#projects" className="h-9 inline-flex items-center px-4 rounded-[12px] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] text-white hover:opacity-95 transition shadow-[0_0_24px_rgba(0,122,255,0.35)]">
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="h-9 inline-flex items-center gap-1 px-4 rounded-[12px] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] text-white hover:opacity-95 transition shadow-[0_0_24px_rgba(0,122,255,0.35)]"
+              >
+                View Resume <ArrowUpRight size={16} />
+              </a>
+              <a
+                href="#projects"
+                className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] hover:border-[var(--accent)] transition"
+              >
                 View projects
               </a>
-              <a href="mailto:jinseo@example.com" className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] hover:border-[var(--accent)] transition">Contact</a>
+              <a
+                href="mailto:jinseo@example.com"
+                className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] hover:border-[var(--accent)] transition"
+              >
+                Contact
+              </a>
             </div>
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
+
+            {/* Quick cards */}
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
                 { title: "Current", text: "Realtime notes agent" },
                 { title: "Last internship", text: "WBD Sports Data" },
@@ -196,16 +212,16 @@ export default function ApplePortfolio() {
         </section>
 
         {/* Divider */}
-        <div className="h-px bg-gradient-to-r from-transparent via-[rgba(0,122,255,0.4)] to-transparent" />
+        <div className="my-6 h-px bg-gradient-to-r from-transparent via-[rgba(0,122,255,0.4)] to-transparent" />
 
         {/* About */}
         <section id="about">
-          <div className="mx-auto max-w-[1100px] px-4 py-16 md:py-20">
+          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
             <SectionTitle title="About" />
             <p className="mt-4 max-w-[70ch] text-[17px] leading-7 text-[var(--fgSoft)]">
               I am a CS major at Georgia Tech. I like clean systems, clear APIs, and small tools that help people get work done.
             </p>
-            <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { k: "School", v: "Georgia Tech" },
                 { k: "Focus", v: "Backend, Data" },
@@ -223,8 +239,10 @@ export default function ApplePortfolio() {
 
         {/* Projects */}
         <section id="projects" className="border-t border-[var(--hairline)]">
-          <div className="mx-auto max-w-[1100px] px-4 py-16 md:py-20">
+          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
             <SectionTitle title="Projects" />
+
+            {/* Filter chips */}
             <div className="mt-4 flex flex-wrap gap-2">
               {filters.map((f) => (
                 <button
@@ -241,7 +259,9 @@ export default function ApplePortfolio() {
                 </button>
               ))}
             </div>
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            {/* Grid */}
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
               {visible.map((p) => (
                 <motion.article
                   key={p.id}
@@ -289,9 +309,9 @@ export default function ApplePortfolio() {
 
         {/* Experience */}
         <section id="experience" className="border-t border-[var(--hairline)]">
-          <div className="mx-auto max-w-[1100px] px-4 py-16 md:py-20">
+          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
             <SectionTitle title="Experience" />
-            <div className="mt-6 divide-y divide-[var(--hairline)] border border-[var(--hairline)] rounded-2xl overflow-hidden">
+            <div className="mt-4 divide-y divide-[var(--hairline)] border border-[var(--hairline)] rounded-2xl overflow-hidden">
               {EXPERIENCE.map((e, i) => (
                 <div key={i} className="p-5 md:p-6 bg-[var(--card)] hover:border-l-4 hover:border-[var(--accent)] transition">
                   <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
@@ -310,7 +330,7 @@ export default function ApplePortfolio() {
 
         {/* Contact */}
         <section id="contact" className="border-t border-[var(--hairline)]">
-          <div className="mx-auto max-w-[1100px] px-4 py-12 md:py-16">
+          <div className="mx-auto max-w-[1100px] px-4 py-8 md:py-10">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-semibold tracking-[-0.01em] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">Let's talk</h2>
@@ -326,6 +346,7 @@ export default function ApplePortfolio() {
         </section>
       </main>
 
+      {/* Footer */}
       <footer className="border-t border-[var(--hairline)] text-[var(--fgDim)]">
         <div className="mx-auto max-w-[1100px] px-4 py-6 text-sm flex flex-col md:flex-row md:items-center md:justify-between gap-2">
           <div>© {new Date().getFullYear()} Jinseo Lee</div>
@@ -353,7 +374,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
 
 function SectionTitle({ title }: { title: string }) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       <h2 className="text-3xl md:text-[32px] font-semibold tracking-[-0.02em] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent">{title}</h2>
       <div className="h-px bg-gradient-to-r from-transparent via-[rgba(0,122,255,0.4)] to-transparent" />
     </div>
