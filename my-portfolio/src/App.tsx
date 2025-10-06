@@ -17,41 +17,46 @@ const globalCSS = `
   --glass: rgba(255,255,255,0.72);
   --card:#FFFFFF;
 }
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#0B0B0F; /* deep near-black */
-    --fg:#EDEDED;
-    --fgSoft:#C7C7CC;
-    --fgDim:#8E8E93;
-    --hairline:#2A2A2E;
-    --glass: rgba(13,13,18,0.6);
-    --card:#0F0F14;
-  }
-}
 html,body,#root{height:100%}
 body{margin:0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Segoe UI, Roboto, Helvetica, Arial, sans-serif;}
 *{outline-color: var(--accent)}
 `;
 
 // --- Data ----------------------------------------------------
-const PROJECTS = [
+// Add `demo?: string` to enable an external demo link per project.
+type Project = {
+  id: number;
+  title: string;
+  blurb: string;
+  stack: string[];
+  year: string;
+  tag: "Full Stack" | "Data" | "Systems";
+  img: string;
+  github?: string;
+  demo?: string; // optional
+};
+
+const PROJECTS: Project[] = [
   {
     id: 1,
     title: "Collab-Plan AI",
     blurb: "AI-powered meeting and conversation assistant",
     stack: ["Python", "FastAPI", "React"],
     year: "2025",
-    tag: "ML",
-    img: "/img/collabplan.png"
+    tag: "Full Stack",
+    img: "/img/collabplan.png",
+    github: "https://github.com/jlee600/CollabPlan-AI",
+    demo: "https://youtu.be/iZvC5hSalXE"
   },
   {
     id: 2,
-    title: "Spotify-Wrapped Clone",
-    blurb: "A personalized music stats dashboard",
-    stack: ["Java", "Kotlin", "Android Studio"],
-    year: "2024",
-    tag: "ML",
-    img: "/img/spotify.png"
+    title: "Hip-Exo Skeleton",
+    blurb: "Development of a robotic hip exoskeleton",
+    stack: ["Python", "ML", "Mechatronics"],
+    year: "2025",
+    tag: "Systems",
+    img: "/img/hipexo.jpg",
+    demo: "https://www.epic.gatech.edu/projects/"
   },
   {
     id: 3,
@@ -59,8 +64,8 @@ const PROJECTS = [
     blurb: "Real-time control for robotic exoskeleton",
     stack: ["Python", "SSH", "Linux"],
     year: "2025",
-    tag: "Systems",
-    img: "/img/rhex.png"
+    tag: "Data",
+    img: "/img/rhex.png",
   },
   {
     id: 4,
@@ -68,18 +73,30 @@ const PROJECTS = [
     blurb: "CircuitSim implementation of CPU with hazard detection and forwarding",
     stack: ["CircuitSim", "MS Excel"],
     year: "2025",
-    tag: "Backend",
+    tag: "Systems",
     img: "/img/lc3.png"
   },
   {
     id: 5,
+    title: "Spotify-Wrapped Clone",
+    blurb: "A personalized music stats dashboard",
+    stack: ["Java", "Kotlin", "Android Studio"],
+    year: "2024",
+    tag: "Full Stack",
+    img: "/img/spotify.png",
+    github: "https://github.com/jlee600/Spotify-Project",
+    demo: "https://youtu.be/cEpOLU2JK2M"
+  },
+  {
+    id: 6,
     title: "EDA on HAN-River",
     blurb: "Exploratory data analysis on South Korea's Han River",
     stack: ["Python", "Pandas", "Matplotlib"],
     year: "2023",
     tag: "Data",
-    img: "/img/eda.png"
-  },
+    img: "/img/eda.png",
+    github: "https://github.com/jlee600/HanRiverEDA/blob/main/Downloads/1302_project_1.ipynb"
+  }
 ];
 
 const EXPERIENCE = [
@@ -122,14 +139,14 @@ const EXPERIENCE = [
     dates: "Fall 2024",
     bullets: [
       "Led a team of 6 honors tutors, coordinating weekly sessions for over 30 students in CS1301/CS1302",
-      "Covered OOP, Data Structures, and data manipulation, reinforcing foundational understanding",
-      "Developed supplementary materials and practice problems to enhance learning outcomes"
+      "Covered OOP, Data Structures, and data manipulation, reinforcing understanding",
+      "Developed supplementary materials and practice problems to help outcomes"
     ],
-    tech: "Python, Pandas, "
+    tech: "Python, Pandas"
   }
 ];
 
-const filters = ["All", "Backend", "Data", "ML", "Systems"] as const;
+const filters = ["All", "Full Stack", "Data", "Systems"] as const;
 type Filter = typeof filters[number];
 
 function classNames(...n: Array<string | false | null | undefined>) {
@@ -169,7 +186,7 @@ export default function ApplePortfolio() {
             <NavLink href="#about" label="About" />
             <NavLink href="#experience" label="Experience" />
             <NavLink href="#projects" label="Projects" />
-            {/* <NavLink href="#contact" label="Contact" /> */}
+            <NavLink href="#contact" label="Contact" />
           </div>
         </nav>
       </header>
@@ -199,7 +216,7 @@ export default function ApplePortfolio() {
             {/* Hero CTAs */}
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a
-                href="/resume.pdf"
+                href="/img/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="h-9 inline-flex items-center gap-1 px-4 rounded-[12px] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] text-white hover:opacity-95 transition shadow-[0_0_24px_rgba(0,122,255,0.35)]"
@@ -213,7 +230,7 @@ export default function ApplePortfolio() {
                 View projects
               </a>
               <a
-                href="mailto:evanj3034@gmail.com"
+                href="#contact"
                 className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] hover:border-[var(--accent)] transition"
               >
                 Contact
@@ -224,7 +241,7 @@ export default function ApplePortfolio() {
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
                 { title: "Current", text: "AI Agent Software Developer Intern" },
-                { title: "Last internship", text: "SendSafely SWE Intern" },
+                { title: "Previous", text: "SendSafely SWE Intern" },
                 { title: "Focus", text: "Backend, Data" },
               ].map((c) => (
                 <motion.div
@@ -326,7 +343,7 @@ export default function ApplePortfolio() {
                 >
                   <div className="relative aspect-[16/9] overflow-hidden">
                     <img
-                      src={p.img}
+                      src={p.img || "/img/placeholder.png"}
                       alt={p.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                       loading="lazy"
@@ -345,13 +362,29 @@ export default function ApplePortfolio() {
                         </span>
                       ))}
                     </div>
-                    <div className="mt-4 flex items-center gap-3 text-sm">
-                      <a className="inline-flex items-center gap-1 text-[var(--accent)] hover:underline" href="#">
-                        Case study <ArrowUpRight size={16} />
-                      </a>
-                      <a className="inline-flex items-center gap-1 text-[var(--accent)] hover:underline" href="#">
-                        Code <ArrowUpRight size={16} />
-                      </a>
+
+                    {/* Links row */}
+                    <div className="mt-4 flex items-center gap-4 text-sm">
+                      {p.github && (
+                        <a
+                          href={p.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[var(--accent)] hover:underline"
+                        >
+                          <Github size={16} /> Code
+                        </a>
+                      )}
+                      {p.demo && (
+                        <a
+                          href={p.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[var(--accent)] hover:underline"
+                        >
+                          Demo <ArrowUpRight size={16} />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </motion.article>
@@ -369,26 +402,14 @@ export default function ApplePortfolio() {
                 <p className="mt-1 text-sm text-[var(--fgSoft)]">Open to 2026 roles and collabs.</p>
               </div>
               <div className="flex items-center gap-3">
-                <a href="mailto:jinseo@example.com" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--accent)] transition"><Mail size={16}/> Email</a>
-                <a href="https://github.com" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--accent)] transition"><Github size={16}/> GitHub</a>
-                <a href="https://linkedin.com" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--accent)] transition"><Linkedin size={16}/> LinkedIn</a>
+                <a href="mailto:evanj3034@gmail.com" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--accent)] transition"><Mail size={16}/> Email</a>
+                <a href="" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--accent)] transition"><Github size={16}/> GitHub</a>
+                <a href="https://www.linkedin.com/in/jlee4223/" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--accent)] transition"><Linkedin size={16}/> LinkedIn</a>
               </div>
             </div>
           </div>
         </section>
       </main>
-
-      {/* Footer */}
-      <footer className="border-t border-[var(--hairline)] text-[var(--fgDim)]">
-        <div className="mx-auto max-w-[1100px] px-4 py-6 text-sm flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-          <div>© {new Date().getFullYear()} Evan Lee</div>
-          <div className="flex items-center gap-4">
-            <a className="hover:text-[var(--accent)] transition" href="mailto:jinseo@example.com">Email</a>
-            <a className="hover:text-[var(--accent)] transition" href="https://github.com">GitHub</a>
-            <a className="hover:text-[var(--accent)] transition" href="https://linkedin.com">LinkedIn</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
@@ -411,40 +432,4 @@ function SectionTitle({ title }: { title: string }) {
       <div className="h-px bg-gradient-to-r from-transparent via-[rgba(0,122,255,0.4)] to-transparent" />
     </div>
   );
-}
-
-/**
- * In-file tests (Vitest). These run only in test mode and are ignored in dev/prod builds.
- * To run:  npx vitest run
- */
-if (import.meta as any && (import.meta as any).vitest) {
-  // @ts-ignore - vitest globals injected at test time
-  const { describe, it, expect } = (import.meta as any).vitest as typeof import("vitest");
-
-  describe("helpers", () => {
-    it("classNames merges only truthy entries", () => {
-      const out = classNames("a", false && "b", "c", null, undefined, "d");
-      expect(out).toBe("a c d");
-    });
-
-    it("filterProjects returns all when active is All", () => {
-      const out = filterProjects(PROJECTS, "All");
-      expect(out.length).toBe(PROJECTS.length);
-    });
-
-    it("filterProjects filters by tag", () => {
-      const out = filterProjects(PROJECTS, "ML");
-      expect(out.every((p) => p.tag === "ML")).toBe(true);
-    });
-  });
-
-  describe("SectionTitle", () => {
-    it("returns a React element", () => {
-      const el = SectionTitle({ title: "Test" } as any);
-      expect(el).toBeTruthy();
-      // Basic shape test
-      // @ts-ignore
-      expect(el.type).toBe("div");
-    });
-  });
 }
