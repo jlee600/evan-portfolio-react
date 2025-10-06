@@ -416,18 +416,18 @@ export default function ApplePortfolio() {
                     View Resume <ArrowUpRight size={16} />
                   </a>
                   <a
-                    href="#projects"
-                    className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] transition hover-accent"
-                    data-interactive="true"
-                  >
-                    View projects
-                  </a>
-                  <a
                     href="#contact"
                     className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] transition hover-accent"
                     data-interactive="true"
                   >
                     Contact
+                  </a>
+                  <a
+                    href="#projects"
+                    className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] transition hover-accent"
+                    data-interactive="true"
+                  >
+                    View projects
                   </a>
                 </div>
 
