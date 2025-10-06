@@ -436,7 +436,7 @@ export default function ApplePortfolio() {
                   {[
                     { title: "Current", company: "K.L. Scott & Associates", role: "AI Agent SDE Intern" },
                     { title: "Previous", company: "SendSafely", role: "SWE Intern" },
-                    { title: "Focus", company: "", role: "Backend, Data" },
+                    { title: "Focus", company: "", role: <>Backend, Data, <br /> Artificial Intelligence</> },
                   ].map((c) => (
                     <motion.div
                       key={c.title}
@@ -478,7 +478,7 @@ export default function ApplePortfolio() {
                 { k: "School", v: "Georgia Institute of Techology" },
                 { k: "Study Focus", v: "Information & Intelligence" },
                 { k: "Skills", v: "Python, Java, SQL, Javascript" },
-                { k: "Interests", v: "Software Engineering" },
+                { k: "Position", v: "Software Engineering" },
               ].map((t) => (
                 <motion.div
                   key={t.k}
