@@ -37,64 +37,95 @@ body{margin:0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
 const PROJECTS = [
   {
     id: 1,
-    title: "Realtime Notes Agent",
-    blurb: "Local-first notes agent with RAG and evals.",
-    stack: ["TypeScript", "Next.js", "Python"],
+    title: "Collab-Plan AI",
+    blurb: "AI-powered meeting and conversation assistant",
+    stack: ["Python", "FastAPI", "React"],
     year: "2025",
     tag: "ML",
-    img: "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop"
+    img: "/img/collabplan.png"
   },
   {
     id: 2,
-    title: "RHEx Viz",
-    blurb: "Multi-graph live telemetry for hip exo.",
-    stack: ["Python", "Plotly", "Dash"],
-    year: "2025",
-    tag: "Systems",
-    img: "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=1200&auto=format&fit=crop"
+    title: "Spotify-Wrapped Clone",
+    blurb: "A personalized music stats dashboard",
+    stack: ["Java", "Kotlin", "Android Studio"],
+    year: "2024",
+    tag: "ML",
+    img: "/img/spotify.png"
   },
   {
     id: 3,
-    title: "CourseHub",
-    blurb: "Small backend for course data and search.",
-    stack: ["Go", "Postgres", "Docker"],
-    year: "2024",
-    tag: "Backend",
-    img: "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop"
+    title: "Master Exoskeleton Dashboard",
+    blurb: "Real-time control for robotic exoskeleton",
+    stack: ["Python", "SSH", "Linux"],
+    year: "2025",
+    tag: "Systems",
+    img: "/img/rhex.png"
   },
   {
     id: 4,
-    title: "Viz Lab",
-    blurb: "WebGL charts for high rate signals.",
-    stack: ["TypeScript", "Vite", "Three.js"],
-    year: "2024",
+    title: "Fully functional five-stage pipelined CPU",
+    blurb: "CircuitSim implementation of CPU with hazard detection and forwarding",
+    stack: ["CircuitSim", "MS Excel"],
+    year: "2025",
+    tag: "Backend",
+    img: "/img/lc3.png"
+  },
+  {
+    id: 5,
+    title: "EDA on HAN-River",
+    blurb: "Exploratory data analysis on South Korea's Han River",
+    stack: ["Python", "Pandas", "Matplotlib"],
+    year: "2023",
     tag: "Data",
-    img: "https://images.unsplash.com/photo-1551281044-8d8d2aa9b265?q=80&w=1200&auto=format&fit=crop"
+    img: "/img/eda.png"
   },
 ];
 
 const EXPERIENCE = [
   {
-    company: "Warner Bros. Discovery",
-    role: "Sports Data Strategy Eng Intern",
-    dates: "Summer 2025",
+    company: "K.L. Scott & Associates",
+    role: "AI Agent Software Dev Intern",
+    dates: "Fall 2025",
     bullets: [
-      "Aligned event data across brands with SQL checks",
-      "Shipped ETL fixes that reduced late loads",
-      "Wrote docs and dashboards for ops"
+      "Conceptualized, designed, and implemented Agentic AI software solutions",
+      "Developed autonomous agents utilizing modern AI technologies such as LLMs, NLP, and ML frameworks",
+      "Supported integration of Agentic AI solutions with existing government IT systems and workflows"
     ],
-    tech: "Python, SQL, dbt, Airflow"
+    tech: "Python, LLM, ML, Reinforcement Learning, NLP"
+  },
+  {
+    company: "Georgia Tech Research Institute",
+    role: "Software Engineer",
+    dates: "Spring 2025 - Present",
+    bullets: [
+      "Developed intelligent controllers for robotic exoskeletons, integrating machine learning models to predict user intent",
+      "Optimized torque assistance across varying gait conditions, user profiles, and biomechanical constraints.",
+      "Built and deployed a real-time sensor visualization pipeline using Python and Dash"
+    ],
+    tech: "Python, TCN, Dash, Plotly, Jetson"
   },
   {
     company: "SendSafely",
     role: "Software Eng Intern",
-    dates: "Summer 2024",
+    dates: "Summer 2025",
     bullets: [
-      "Built REST features and tests",
-      "Improved latency on key API paths",
-      "Hardened auth flows"
+      "Automated CI/CD pipelines and production deployments for Python, Java, and JavaScript SDKs",
+      "Migrated internal encryption infrastructure to AWS Key Management Service",
+      "Maintained and improved backend services for secure file transfer platform"
     ],
-    tech: "Java, Spring, AWS"
+    tech: "Java, Spring, AWS, Javascript, Github Actions"
+  },
+  {
+    company: "Georgia State Honors Program",
+    role: "OOP Head Tutor",
+    dates: "Fall 2024",
+    bullets: [
+      "Led a team of 6 honors tutors, coordinating weekly sessions for over 30 students in CS1301/CS1302",
+      "Covered OOP, Data Structures, and data manipulation, reinforcing foundational understanding",
+      "Developed supplementary materials and practice problems to enhance learning outcomes"
+    ],
+    tech: "Python, Pandas, "
   }
 ];
 
@@ -132,12 +163,13 @@ export default function ApplePortfolio() {
       {/* Header */}
       <header className="fixed inset-x-0 top-0 z-40 backdrop-blur bg-[var(--glass)] border-b border-[var(--hairline)]">
         <nav className="mx-auto max-w-[1100px] h-16 flex items-center px-4">
-          <div className="text-base font-semibold tracking-[-0.01em]">Jinseo Lee</div>
+          <div className="text-base font-semibold tracking-[-0.01em]">Evan Lee</div>
           <div className="ml-auto hidden sm:flex items-center gap-6 text-sm">
             <NavLink href="#home" label="Home" />
             <NavLink href="#about" label="About" />
-            <NavLink href="#projects" label="Projects" />
             <NavLink href="#experience" label="Experience" />
+            <NavLink href="#projects" label="Projects" />
+            {/* <NavLink href="#contact" label="Contact" /> */}
           </div>
         </nav>
       </header>
@@ -153,7 +185,7 @@ export default function ApplePortfolio() {
               transition={{ duration: 0.4 }}
               className="text-5xl md:text-6xl font-bold tracking-[-0.02em] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent"
             >
-              Jinseo Lee
+              Evan Lee
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 8 }}
@@ -181,7 +213,7 @@ export default function ApplePortfolio() {
                 View projects
               </a>
               <a
-                href="mailto:jinseo@example.com"
+                href="mailto:evanj3034@gmail.com"
                 className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] hover:border-[var(--accent)] transition"
               >
                 Contact
@@ -191,9 +223,9 @@ export default function ApplePortfolio() {
             {/* Quick cards */}
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
-                { title: "Current", text: "Realtime notes agent" },
-                { title: "Last internship", text: "WBD Sports Data" },
-                { title: "Focus", text: "APIs, ETL, systems" },
+                { title: "Current", text: "AI Agent Software Developer Intern" },
+                { title: "Last internship", text: "SendSafely SWE Intern" },
+                { title: "Focus", text: "Backend, Data" },
               ].map((c) => (
                 <motion.div
                   key={c.title}
@@ -223,14 +255,35 @@ export default function ApplePortfolio() {
             </p>
             <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { k: "School", v: "Georgia Tech" },
-                { k: "Focus", v: "Backend, Data" },
-                { k: "Tools", v: "TypeScript, Python" },
-                { k: "Interests", v: "ML evals, infra" },
+                { k: "School", v: "Georgia Institute of Techology" },
+                { k: "Study Focus", v: "Information Internetworks & Intelligence" },
+                { k: "Skills", v: "Python, Java, SQL, Javascript" },
+                { k: "Interests", v: "Software Engineering" },
               ].map((t) => (
                 <div key={t.k} className="rounded-xl border border-[var(--hairline)] p-4 bg-[var(--card)] hover:border-[var(--accent)] transition">
                   <div className="text-xs text-[var(--fgDim)]">{t.k}</div>
                   <div className="text-sm mt-1 font-medium">{t.v}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Experience */}
+        <section id="experience" className="border-t border-[var(--hairline)]">
+          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
+            <SectionTitle title="Experience" />
+            <div className="mt-4 divide-y divide-[var(--hairline)] border border-[var(--hairline)] rounded-2xl overflow-hidden">
+              {EXPERIENCE.map((e, i) => (
+                <div key={i} className="p-5 md:p-6 bg-[var(--card)] hover:border-l-4 hover:border-[var(--accent)] transition">
+                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
+                    <div className="text-base font-semibold tracking-[-0.01em]">{e.company}</div>
+                    <div className="text-sm text-[var(--fgDim)]">{e.role} · {e.dates}</div>
+                  </div>
+                  <ul className="mt-3 list-disc pl-5 space-y-1 text-sm text-[var(--fgSoft)]">
+                    {e.bullets.map((b) => <li key={b}>{b}</li>)}
+                  </ul>
+                  <div className="mt-3 text-xs text-[var(--fgDim)]">{e.tech}</div>
                 </div>
               ))}
             </div>
@@ -307,27 +360,6 @@ export default function ApplePortfolio() {
           </div>
         </section>
 
-        {/* Experience */}
-        <section id="experience" className="border-t border-[var(--hairline)]">
-          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
-            <SectionTitle title="Experience" />
-            <div className="mt-4 divide-y divide-[var(--hairline)] border border-[var(--hairline)] rounded-2xl overflow-hidden">
-              {EXPERIENCE.map((e, i) => (
-                <div key={i} className="p-5 md:p-6 bg-[var(--card)] hover:border-l-4 hover:border-[var(--accent)] transition">
-                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
-                    <div className="text-base font-semibold tracking-[-0.01em]">{e.company}</div>
-                    <div className="text-sm text-[var(--fgDim)]">{e.role} · {e.dates}</div>
-                  </div>
-                  <ul className="mt-3 list-disc pl-5 space-y-1 text-sm text-[var(--fgSoft)]">
-                    {e.bullets.map((b) => <li key={b}>{b}</li>)}
-                  </ul>
-                  <div className="mt-3 text-xs text-[var(--fgDim)]">{e.tech}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Contact */}
         <section id="contact" className="border-t border-[var(--hairline)]">
           <div className="mx-auto max-w-[1100px] px-4 py-8 md:py-10">
@@ -349,7 +381,7 @@ export default function ApplePortfolio() {
       {/* Footer */}
       <footer className="border-t border-[var(--hairline)] text-[var(--fgDim)]">
         <div className="mx-auto max-w-[1100px] px-4 py-6 text-sm flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-          <div>© {new Date().getFullYear()} Jinseo Lee</div>
+          <div>© {new Date().getFullYear()} Evan Lee</div>
           <div className="flex items-center gap-4">
             <a className="hover:text-[var(--accent)] transition" href="mailto:jinseo@example.com">Email</a>
             <a className="hover:text-[var(--accent)] transition" href="https://github.com">GitHub</a>
