@@ -72,6 +72,16 @@ body.dim .fade-layer{ opacity: 0.08; }
 }
 .cursor-halo.grow{ width:96px; height:96px; }
 
+.exp-item {
+  border-left: 2px solid transparent;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.exp-item.active {
+  border-left-color: var(--accent);
+  background: rgba(0, 122, 255, 0.03); /* subtle background to match hover */
+}
+
 /* Reduce motion safety */
 @media (prefers-reduced-motion: reduce){
   .cursor-halo{ display:none; }
@@ -520,13 +530,19 @@ export default function ApplePortfolio() {
         <MotionSection id="experience" className="border-t border-[var(--hairline)]">
           <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
             <SectionTitle title="Experience" />
-            <div className="mt-4 divide-y divide-[var(--hairline)] border border-[var(--hairline)] rounded-2xl overflow-hidden">
+            <div className="mt-4 rounded-2xl"> {/* no divide-y, no border, no overflow-hidden */}
               {EXPERIENCE.map((e, i) => (
                 <motion.div
-                  key={i}
-                  whileHover={{ y: -2 }}
-                  transition={{ type: "spring", stiffness: 220, damping: 20 }}
-                  className="bg-[var(--card)] p-5 md:p-6"
+                    key={i}
+                    whileHover={{ y: -2 }}
+                    transition={{ type: "spring", stiffness: 220, damping: 20 }}
+                    className="
+                      relative bg-[var(--card)] p-5 md:p-6 rounded-xl
+                      before:absolute before:inset-y-0 before:left-0 before:w-[2px]
+                      before:bg-[var(--accent)] before:opacity-0
+                      hover:before:opacity-100 focus-within:before:opacity-100
+                      transition-[transform,opacity]
+                    "
                 >
                   <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
                     <div className="text-base font-semibold tracking-[-0.01em]">{e.company}</div>
