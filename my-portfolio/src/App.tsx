@@ -1,29 +1,84 @@
-import React, { useMemo, useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import React, { useMemo, useState, useEffect, useRef } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Mail, Github, Linkedin, ArrowUpRight } from "lucide-react";
 
 /**
- * Global CSS variables and base styles injected via <style> tag.
+ * Global CSS: base vars + micro-animations + ambient gradient + halo + pulse
  */
 const globalCSS = `
 :root{
-  --bg:#FBFBFD; /* Apple light */
-  --fg:#111111;
-  --fgSoft:#6E6E73;
-  --fgDim:#8E8E93;
-  --hairline:#E5E5EA;
-  --accent:#007AFF; /* Apple blue */
-  --accent2:#5AC8FA; /* light blue */
-  --glass: rgba(255,255,255,0.72);
-  --card:#FFFFFF;
+  --bg:#FBFBFD; --fg:#111111; --fgSoft:#6E6E73; --fgDim:#8E8E93;
+  --hairline:#E5E5EA; --accent:#003057;  /* Georgia Tech navy */
+--accent2:#4F9DDE; --glass: rgba(255,255,255,0.72); --card:#FFFFFF;
 }
 html,body,#root{height:100%}
-body{margin:0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Segoe UI, Roboto, Helvetica, Arial, sans-serif;}
-*{outline-color: var(--accent)}
+body{margin:0; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+*{outline-color:var(--accent)}
+
+/* Button pulse (very faint) */
+.resume-glow {
+  position: relative;
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+.resume-glow::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: radial-gradient(circle at center, rgba(0,122,255,0.45), transparent 70%);
+  filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: gentlePulse 5s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+  0%, 85%, 100% { opacity: 0; transform: scale(1); }
+  45% { opacity: 0.9; transform: scale(1.07); }
+}
+
+/* Ambient drifting gradient */
+@keyframes drift {
+  0% { transform: translate3d(-10%, -10%, 0) scale(1.1); }
+  50% { transform: translate3d(5%, 5%, 0) scale(1.1); }
+  100% { transform: translate3d(-10%, -10%, 0) scale(1.1); }
+}
+
+/* Smooth section transition dim */
+body.dim .fade-layer{ opacity: 0.08; }
+.fade-layer{ pointer-events:none; position:fixed; inset:0; background: #000; opacity:0; transition: opacity .35s; z-index:30; }
+
+/* Hover accent reveal */
+.hover-accent{ position:relative; }
+.hover-accent::after{
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; opacity:0;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-mask: 
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  padding:1px;
+  transition:opacity .25s;
+}
+.hover-accent:hover::after{ opacity:1; }
+
+/* Cursor halo element styling */
+.cursor-halo{
+  position:fixed; top:0; left:0; width:80px; height:80px; border-radius:50%;
+  background: radial-gradient(closest-side, rgba(0,122,255,0.20), rgba(0,122,255,0.0));
+  filter: blur(8px);
+  pointer-events:none; z-index:25; transform: translate(-50%, -50%);
+}
+.cursor-halo.grow{ width:96px; height:96px; }
+
+/* Reduce motion safety */
+@media (prefers-reduced-motion: reduce){
+  .cursor-halo{ display:none; }
+}
 `;
 
-// --- Data ----------------------------------------------------
-// Add `demo?: string` to enable an external demo link per project.
+// ---------- Data ----------
 type Project = {
   id: number;
   title: string;
@@ -33,7 +88,7 @@ type Project = {
   tag: "Full Stack" | "Data" | "Systems";
   img: string;
   github?: string;
-  demo?: string; // optional
+  demo?: string;
 };
 
 const PROJECTS: Project[] = [
@@ -41,7 +96,7 @@ const PROJECTS: Project[] = [
     id: 1,
     title: "Collab-Plan AI",
     blurb: "AI-powered meeting and conversation assistant",
-    stack: ["Python", "FastAPI", "React"],
+    stack: ["Python", "FastAPI", "React", "SQLite", "HuggingFace"],
     year: "2025",
     tag: "Full Stack",
     img: "/img/collabplan.png",
@@ -78,9 +133,19 @@ const PROJECTS: Project[] = [
   },
   {
     id: 5,
+    title: "Airline Management System",
+    blurb: "MySQL datbase for managing airline operations",
+    stack: ["MySQL", "Draw.io"],
+    year: "2025",
+    tag: "Data",
+    img: "/img/airline.png",
+    github: "https://github.com/jlee600/Airline-Management-System",
+  },
+  {
+    id: 6,
     title: "Spotify-Wrapped Clone",
     blurb: "A personalized music stats dashboard",
-    stack: ["Java", "Kotlin", "Android Studio"],
+    stack: ["Java", "Kotlin", "Android Studio", "SQLite", "Spotify API"],
     year: "2024",
     tag: "Full Stack",
     img: "/img/spotify.png",
@@ -88,14 +153,15 @@ const PROJECTS: Project[] = [
     demo: "https://youtu.be/cEpOLU2JK2M"
   },
   {
-    id: 6,
+    id: 7,
     title: "EDA on HAN-River",
     blurb: "Exploratory data analysis on South Korea's Han River",
     stack: ["Python", "Pandas", "Matplotlib"],
     year: "2023",
     tag: "Data",
     img: "/img/eda.png",
-    github: "https://github.com/jlee600/HanRiverEDA/blob/main/Downloads/1302_project_1.ipynb"
+    github: "https://github.com/jlee600/HanRiverEDA/blob/main/Downloads/1302_project_1.ipynb",
+    demo: "https://youtu.be/qtIOA0pR8lQ"
   }
 ];
 
@@ -153,29 +219,138 @@ function classNames(...n: Array<string | false | null | undefined>) {
   return n.filter(Boolean).join(" ");
 }
 
-/**
- * Pure helper for filtering projects by tag — exported for tests.
- */
-export function filterProjects(
-  projects: typeof PROJECTS,
-  active: Filter
-) {
+export function filterProjects(projects: typeof PROJECTS, active: Filter) {
   if (active === "All") return projects;
   return projects.filter((p) => p.tag === active);
 }
+
+/** Motion section: fade + lift on scroll (spring) */
+const sectionVariants = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 100,
+      damping: 20,
+      duration: 0.5,
+    },
+  },
+} as const;
+
+function MotionSection({
+  id,
+  children,
+  className = ""
+}: React.PropsWithChildren<{ id?: string; className?: string }>) {
+  return (
+    <motion.section
+      id={id}
+      className={className}
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+    >
+      {children}
+    </motion.section>
+  );
+}
+
+/** Card hover lift (micro) */
+const cardHover = {
+  whileHover: {
+    y: -4,
+    boxShadow: "0 10px 24px rgba(0,0,0,0.12)",
+    transition: { type: "spring" as const, stiffness: 220, damping: 18 },
+  },
+  whileTap: { scale: 0.985 },
+} as const;
 
 export default function ApplePortfolio() {
   const [active, setActive] = useState<Filter>("All");
   const visible = useMemo(() => filterProjects(PROJECTS, active), [active]);
 
+  /** Cursor halo: follow with slight spring; grow over interactive */
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const smoothX = useSpring(x, { stiffness: 300, damping: 30 });
+  const smoothY = useSpring(y, { stiffness: 300, damping: 30 });
+  const haloRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
+    };
+    const onOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target?.closest('[data-interactive="true"]')) {
+        haloRef.current?.classList.add("grow");
+      } else {
+        haloRef.current?.classList.remove("grow");
+      }
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseover", onOver);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseover", onOver);
+    };
+  }, [x, y]);
+
+  /** Smooth section transition: brief dim before anchor scroll */
+  useEffect(() => {
+    const handler = (ev: Event) => {
+      const a = ev.currentTarget as HTMLAnchorElement;
+      const href = a.getAttribute("href");
+      if (!href || !href.startsWith("#")) return;
+      ev.preventDefault();
+      document.body.classList.add("dim");
+      const el = document.querySelector(href);
+      window.setTimeout(() => {
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.setTimeout(() => document.body.classList.remove("dim"), 350);
+      }, 60);
+    };
+    const navLinks = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')
+    );
+    navLinks.forEach((n) => n.addEventListener("click", handler));
+    return () => navLinks.forEach((n) => n.removeEventListener("click", handler));
+  }, []);
+
+  /** Keep native smooth when not using the dim effect */
   useEffect(() => {
     document.documentElement.style.scrollBehavior = "smooth";
     return () => { document.documentElement.style.scrollBehavior = "auto"; };
   }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--bg)] text-[var(--fg)] antialiased selection:bg-[var(--accent)/15] selection:text-[var(--accent)]">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--fg)] antialiased selection:bg-[var(--accent)/15] selection:text-[var(--accent)] relative overflow-x-clip">
       <style>{globalCSS}</style>
+
+      {/* Ambient gradient backdrop */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -inset-20 -z-10 opacity-[0.08]"
+        style={{
+          background:
+            "linear-gradient(115deg, rgba(0,122,255,0.5), rgba(90,200,250,0.5), rgba(0,0,0,0))",
+          animation: "drift 22s linear infinite"
+        }}
+      />
+      {/* Dim overlay for smooth section transitions */}
+      <div className="fade-layer" />
+
+      {/* Cursor halo */}
+      <motion.div
+        ref={haloRef}
+        className="cursor-halo"
+        style={{ x: smoothX, y: smoothY }}
+        aria-hidden
+      />
 
       {/* Header */}
       <header className="fixed inset-x-0 top-0 z-40 backdrop-blur bg-[var(--glass)] border-b border-[var(--hairline)]">
@@ -183,7 +358,7 @@ export default function ApplePortfolio() {
           <div className="text-base font-semibold tracking-[-0.01em]">Evan Lee</div>
           <div className="ml-auto hidden sm:flex items-center gap-6 text-sm">
             <NavLink href="#home" label="Home" />
-            <NavLink href="#about" label="About" />
+            {/* <NavLink href="#about" label="About" /> */}
             <NavLink href="#experience" label="Experience" />
             <NavLink href="#projects" label="Projects" />
             <NavLink href="#contact" label="Contact" />
@@ -193,106 +368,166 @@ export default function ApplePortfolio() {
 
       <main className="pt-16">
         {/* Hero */}
-        <section id="home" className="relative">
+        <MotionSection id="home" className="relative">
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[rgba(0,122,255,0.05)] via-transparent to-transparent" />
           <div className="mx-auto max-w-[1100px] px-4 py-14 md:py-16">
-            <motion.h1
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="text-5xl md:text-6xl font-bold tracking-[-0.02em] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent"
-            >
-              Evan Lee
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.05 }}
-              className="mt-4 text-lg text-[var(--fgSoft)] max-w-[60ch]"
-            >
-              CS at Georgia Tech, focused on backend and data systems.
-            </motion.p>
+            {/* 2-col layout: image left, content right */}
+            <div className="grid grid-cols-1 md:grid-cols-[minmax(220px,320px)_1fr] gap-8 md:gap-12 items-center">
+              {/* Left: square profile image */}
+              <div className="order-1 md:order-none">
+                <img
+                  src="/img/profile.jpg"         
+                  alt="Evan Lee"
+                  className="w-[220px] md:w-[320px] aspect-square object-cover rounded-[12px] border border-[var(--hairline)] shadow-[0_2px_12px_rgba(0,0,0,0.08)] bg-[var(--card)]"
+                  loading="eager"
+                  fetchPriority="high"
+                />
+              </div>
 
-            {/* Hero CTAs */}
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a
-                href="/img/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-9 inline-flex items-center gap-1 px-4 rounded-[12px] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] text-white hover:opacity-95 transition shadow-[0_0_24px_rgba(0,122,255,0.35)]"
-              >
-                View Resume <ArrowUpRight size={16} />
-              </a>
-              <a
-                href="#projects"
-                className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] hover:border-[var(--accent)] transition"
-              >
-                View projects
-              </a>
-              <a
-                href="#contact"
-                className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] hover:border-[var(--accent)] transition"
-              >
-                Contact
-              </a>
-            </div>
-
-            {/* Quick cards */}
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[
-                { title: "Current", text: "AI Agent Software Developer Intern" },
-                { title: "Previous", text: "SendSafely SWE Intern" },
-                { title: "Focus", text: "Backend, Data" },
-              ].map((c) => (
-                <motion.div
-                  key={c.title}
+              {/* Right: your original heading, copy, CTAs, quick cards */}
+              <div>
+                <motion.h1
                   initial={{ opacity: 0, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.35 }}
-                  className="rounded-2xl border border-[var(--hairline)] p-5 hover:shadow-[0_0_15px_rgba(0,122,255,0.35)] transition bg-[var(--card)]"
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="text-5xl md:text-6xl font-bold tracking-[-0.02em] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] bg-clip-text text-transparent"
                 >
-                  <div className="text-sm text-[var(--fgDim)]">{c.title}</div>
-                  <div className="mt-1 text-base font-medium">{c.text}</div>
-                </motion.div>
-              ))}
+                  Evan Lee
+                </motion.h1>
+
+                <motion.p
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.05 }}
+                className="mt-4 text-lg text-[var(--fgSoft)] max-w-[60ch]"
+                >
+                  Interested in backend engineering and AI-driven automation
+                </motion.p>
+
+                {/* CTAs */}
+                <div className="mt-8 flex flex-wrap items-center gap-3">
+                  <a
+                    href="/img/resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="resume-glow h-9 inline-flex items-center gap-1 px-4 rounded-[12px] bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] text-white shadow-lg"
+                    data-interactive="true"
+                  >
+                    View Resume <ArrowUpRight size={16} />
+                  </a>
+                  <a
+                    href="#projects"
+                    className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] transition hover-accent"
+                    data-interactive="true"
+                  >
+                    View projects
+                  </a>
+                  <a
+                    href="#contact"
+                    className="h-9 inline-flex items-center px-4 rounded-[12px] border border-[var(--hairline)] transition hover-accent"
+                    data-interactive="true"
+                  >
+                    Contact
+                  </a>
+                </div>
+
+                {/* Quick cards */}
+                <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[
+                    { title: "Current", company: "K.L. Scott & Associates", role: "AI Agent SDE Intern" },
+                    { title: "Previous", company: "SendSafely", role: "SWE Intern" },
+                    { title: "Focus", company: "", role: "Backend, Data" },
+                  ].map((c) => (
+                    <motion.div
+                      key={c.title}
+                      {...cardHover}
+                      className="hover-accent rounded-2xl border border-[var(--hairline)] p-4 bg-[var(--card)]"
+                      data-interactive="true"
+                    >
+                      <div className="text-sm text-[var(--fgDim)] mb-1">{c.title}</div>
+                      {c.company ? (
+                        <>
+                          <div className="text-sm font-semibold text-[var(--fg)] leading-tight">{c.company}</div>
+                          <div className="text-sm text-[var(--fgSoft)]">{c.role}</div>
+                        </>
+                      ) : (
+                        <div className="text-sm font-medium text-[var(--fg)]">{c.role}</div>
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        </section>
+        </MotionSection>
 
         {/* Divider */}
         <div className="my-6 h-px bg-gradient-to-r from-transparent via-[rgba(0,122,255,0.4)] to-transparent" />
 
         {/* About */}
-        <section id="about">
+        <MotionSection id="about">
           <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
             <SectionTitle title="About" />
             <p className="mt-4 max-w-[70ch] text-[17px] leading-7 text-[var(--fgSoft)]">
-              I am a CS major at Georgia Tech. I like clean systems, clear APIs, and small tools that help people get work done.
+              I am a CS major at <span className="text-[#B3A369] font-medium">Georgia Tech</span>, concentrating in Information Internetworks and Intelligence. 
+              <br />
+              I enjoy designing clean architectures, building fast prototypes, and solving problems at the intersection of code and human impact.
             </p>
             <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { k: "School", v: "Georgia Institute of Techology" },
-                { k: "Study Focus", v: "Information Internetworks & Intelligence" },
+                { k: "Study Focus", v: "Information & Intelligence" },
                 { k: "Skills", v: "Python, Java, SQL, Javascript" },
                 { k: "Interests", v: "Software Engineering" },
               ].map((t) => (
-                <div key={t.k} className="rounded-xl border border-[var(--hairline)] p-4 bg-[var(--card)] hover:border-[var(--accent)] transition">
+                <motion.div
+                  key={t.k}
+                  {...cardHover}
+                  className="hover-accent rounded-xl border border-[var(--hairline)] p-4 bg-[var(--card)]"
+                  data-interactive="true"
+                >
                   <div className="text-xs text-[var(--fgDim)]">{t.k}</div>
                   <div className="text-sm mt-1 font-medium">{t.v}</div>
-                </div>
+                </motion.div>
+              ))}
+            </div>
+            <div className="mt-6 border-t border-[var(--hairline)] pt-4">
+            <div className="text-sm text-[var(--fgDim)] mb-2 font-medium">
+              Relevant Coursework
+            </div>
+            <div className="flex flex-wrap gap-2 text-sm">
+              {[
+                "Data Structures & Algos",
+                "Systems & Networks",
+                "Computer Org & Prog",
+                "Database Systems",
+                "Artificial Intelligence",
+                "Computer Vision",
+              ].map((course) => (
+                <span
+                  key={course}
+                  className="course-chip px-3 py-1.5 rounded-full border border-[var(--hairline)] bg-[var(--card)] text-[var(--fgSoft)]"
+                >
+                  {course}
+                </span>
               ))}
             </div>
           </div>
-        </section>
+          </div>
+        </MotionSection>
 
         {/* Experience */}
-        <section id="experience" className="border-t border-[var(--hairline)]">
+        <MotionSection id="experience" className="border-t border-[var(--hairline)]">
           <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
             <SectionTitle title="Experience" />
             <div className="mt-4 divide-y divide-[var(--hairline)] border border-[var(--hairline)] rounded-2xl overflow-hidden">
               {EXPERIENCE.map((e, i) => (
-                <div key={i} className="p-5 md:p-6 bg-[var(--card)] hover:border-l-4 hover:border-[var(--accent)] transition">
+                <motion.div
+                  key={i}
+                  whileHover={{ y: -2 }}
+                  transition={{ type: "spring", stiffness: 220, damping: 20 }}
+                  className="bg-[var(--card)] p-5 md:p-6"
+                >
                   <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
                     <div className="text-base font-semibold tracking-[-0.01em]">{e.company}</div>
                     <div className="text-sm text-[var(--fgDim)]">{e.role} · {e.dates}</div>
@@ -301,14 +536,14 @@ export default function ApplePortfolio() {
                     {e.bullets.map((b) => <li key={b}>{b}</li>)}
                   </ul>
                   <div className="mt-3 text-xs text-[var(--fgDim)]">{e.tech}</div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
-        </section>
+        </MotionSection>
 
         {/* Projects */}
-        <section id="projects" className="border-t border-[var(--hairline)]">
+        <MotionSection id="projects" className="border-t border-[var(--hairline)]">
           <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
             <SectionTitle title="Projects" />
 
@@ -321,9 +556,12 @@ export default function ApplePortfolio() {
                   className={classNames(
                     "px-3 py-1.5 rounded-full text-sm border transition",
                     active === f
-                      ? "bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] text-white border-transparent shadow-sm"
-                      : "border-[var(--hairline)] hover:border-[var(--accent)]"
+                      ? "relative isolate overflow-hidden rounded-full px-3 py-1.5 text-sm \
+                        border-0 bg-gradient-to-r from-[var(--accent)] to-[var(--accent2)] \
+                        text-white shadow-sm bg-clip-padding"
+                      : "px-3 py-1.5 rounded-full text-sm border border-[var(--hairline)] hover-accent"
                   )}
+                  data-interactive="true"
                 >
                   {f}
                 </button>
@@ -335,11 +573,9 @@ export default function ApplePortfolio() {
               {visible.map((p) => (
                 <motion.article
                   key={p.id}
-                  initial={{ opacity: 0, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.35 }}
-                  className="group overflow-hidden rounded-3xl border border-[var(--hairline)] bg-[var(--card)] hover:shadow-[0_0_20px_rgba(0,122,255,0.25)] transition"
+                  {...cardHover}
+                  className="group hover-accent overflow-hidden rounded-3xl border border-[var(--hairline)] bg-[var(--card)]"
+                  data-interactive="true"
                 >
                   <div className="relative aspect-[16/9] overflow-hidden">
                     <img
@@ -371,6 +607,7 @@ export default function ApplePortfolio() {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1 text-[var(--accent)] hover:underline"
+                          data-interactive="true"
                         >
                           <Github size={16} /> Code
                         </a>
@@ -381,6 +618,7 @@ export default function ApplePortfolio() {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1 text-[var(--accent)] hover:underline"
+                          data-interactive="true"
                         >
                           Demo <ArrowUpRight size={16} />
                         </a>
@@ -391,10 +629,10 @@ export default function ApplePortfolio() {
               ))}
             </div>
           </div>
-        </section>
+        </MotionSection>
 
         {/* Contact */}
-        <section id="contact" className="border-t border-[var(--hairline)]">
+        <MotionSection id="contact" className="border-t border-[var(--hairline)]">
           <div className="mx-auto max-w-[1100px] px-4 py-8 md:py-10">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
@@ -402,14 +640,23 @@ export default function ApplePortfolio() {
                 <p className="mt-1 text-sm text-[var(--fgSoft)]">Open to 2026 roles and collabs.</p>
               </div>
               <div className="flex items-center gap-3">
-                <a href="mailto:evanj3034@gmail.com" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--accent)] transition"><Mail size={16}/> Email</a>
-                <a href="" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--accent)] transition"><Github size={16}/> GitHub</a>
-                <a href="https://www.linkedin.com/in/jlee4223/" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] hover:border-[var(--accent)] transition"><Linkedin size={16}/> LinkedIn</a>
+                <a href="mailto:evanj3034@gmail.com" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] transition hover-accent" target="_blank" rel="noopener noreferrer"data-interactive="true"><Mail size={16}/> Email</a>
+                <a href="https://github.com/jlee600" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] transition hover-accent" target="_blank" rel="noopener noreferrer"data-interactive="true"><Github size={16}/> GitHub</a>
+                <a href="https://www.linkedin.com/in/jlee4223/" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-[var(--hairline)] transition hover-accent" target="_blank" rel="noopener noreferrer" data-interactive="true"><Linkedin size={16}/> LinkedIn</a>
               </div>
             </div>
           </div>
-        </section>
+        </MotionSection>
       </main>
+
+      <footer className="border-t border-[var(--hairline)] text-[var(--fgDim)]">
+        <div className="mx-auto max-w-[1100px] px-4 py-6 text-sm flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+          <div>© {new Date().getFullYear()} Evan Lee</div>
+          <div className="flex items-center gap-4">
+            <a className="hover:underline" href = "https://ramblinwreck.com/thwg-the-next-generation/" target="_blank" rel="noopener noreferrer" data-interactive="true">THWG, STING 'EM</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
@@ -419,6 +666,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
     <a
       href={href}
       className="relative py-1 after:absolute after:left-1/2 after:-translate-x-1/2 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-[var(--accent)] after:to-[var(--accent2)] hover:after:w-full after:transition-[width]"
+      data-interactive="true"
     >
       {label}
     </a>
