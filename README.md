@@ -1,6 +1,6 @@
 # Evan Lee | Portfolio
 <p align="center">
-  <img src="public/preview.png" alt="Evan Lee Portfolio Preview" width="800"/>
+  <img src="my-portfolio/public/preview.png" alt="Evan Lee Portfolio Preview" width="800"/>
 </p
 
 This is my personal portfolio website, built with **React**, **TypeScript**, and **Vite**, and deployed on **Vercel**.  
