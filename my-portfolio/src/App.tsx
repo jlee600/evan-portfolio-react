@@ -645,7 +645,7 @@ export default function ApplePortfolio() {
                 },
                 {
                   k: "Cloud / DevOps",
-                  v: "GitHub Actions, Docker, AWS (KMS, S3, Secrets Manager)"
+                  v: "GitHub Actions, Docker, AWS (KMS, S3, Secrets Manager), Shell Scripting"
                 },
                 {
                   k: "Tooling",
@@ -653,7 +653,7 @@ export default function ApplePortfolio() {
                 },
                 {
                   k: "Team",
-                  v: "Mentoring, Peer Instruction, Project Coordination"
+                  v: "Mentoring, Peer Instruction, Project Coordination, Jira"
                 }
               ].map((s) => (
                 <motion.div
