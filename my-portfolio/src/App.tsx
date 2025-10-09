@@ -369,6 +369,7 @@ export default function ApplePortfolio() {
           <div className="ml-auto hidden sm:flex items-center gap-6 text-sm">
             <NavLink href="#home" label="Home" />
             <NavLink href="#about" label="About" />
+            <NavLink href="#skills" label="Skills" />
             <NavLink href="#experience" label="Experience" />
             <NavLink href="#projects" label="Projects" />
             {/* <NavLink href="#now" label="Now" /> */}
@@ -412,7 +413,7 @@ export default function ApplePortfolio() {
                 transition={{ duration: 0.45, delay: 0.05 }}
                 className="mt-4 text-lg text-[var(--fgSoft)] max-w-[60ch]"
                 >
-                  Interested in backend engineering and AI-driven automation
+                  Backend & data engineer - I ship fast, reliable systems with clean APIs
                 </motion.p>
 
                 {/* CTAs */}
@@ -607,6 +608,67 @@ export default function ApplePortfolio() {
                 Last updated Oct 2025
               </div>
             </motion.div>
+          </div>
+        </MotionSection>
+
+        {/* Skills */}
+        <MotionSection id="skills" className="border-t border-[var(--hairline)]">
+          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
+            <SectionTitle title="Skills" />
+
+            {/* Optional highlights row */}
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
+              <span className="font-medium text-[var(--accent)]">Highlights:</span>
+              <span className="text-[var(--fgSoft)]">Python</span>·
+              <span className="text-[var(--fgSoft)]">FastAPI</span>·
+              <span className="text-[var(--fgSoft)]">React</span>·
+              <span className="text-[var(--fgSoft)]">SQL</span>·
+              <span className="text-[var(--fgSoft)]">Hugging Face</span>·
+              <span className="text-[var(--fgSoft)]">GitHub Actions</span>·
+              <span className="text-[var(--fgSoft)]">AWS</span>
+            </div>
+
+            {/* Grouped skill cards */}
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                {
+                  k: "Backend",
+                  v: "Python, Java, TypeScript, FastAPI, REST APIs, SQLite, MySQL"
+                },
+                {
+                  k: "Frontend",
+                  v: "React, Vite, Tailwind, Android (Java/XML)"
+                },
+                {
+                  k: "Data / ML",
+                  v: "Hugging Face, TCN, Computer Vision, Dash, Plotly"
+                },
+                {
+                  k: "Cloud / DevOps",
+                  v: "GitHub Actions, Docker, AWS (KMS, S3, Secrets Manager)"
+                },
+                {
+                  k: "Tooling",
+                  v: "Git, VS Code, IntelliJ, MySQL Workbench, DataGrip, LaTeX"
+                },
+                {
+                  k: "Team",
+                  v: "Mentoring, Peer Instruction, Project Coordination"
+                }
+              ].map((s) => (
+                <motion.div
+                  key={s.k}
+                  {...cardHover}
+                  className="hover-accent rounded-xl border border-[var(--hairline)] p-4 bg-[var(--card)]"
+                  data-interactive="true"
+                >
+                  <div className="text-sm font-semibold text-[var(--fg)] mb-1">
+                    {s.k}
+                  </div>
+                  <div className="text-sm text-[var(--fgSoft)]">{s.v}</div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </MotionSection>
 
