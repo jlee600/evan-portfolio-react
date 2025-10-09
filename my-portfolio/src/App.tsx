@@ -171,7 +171,7 @@ const PROJECTS: Project[] = [
     tag: "Data",
     img: "/img/eda.png",
     github: "https://github.com/jlee600/HanRiverEDA/blob/main/Downloads/1302_project_1.ipynb",
-    demo: "https://youtu.be/qtIOA0pR8lQ"
+    demo: "/img/eda_report.pdf"
   }
 ];
 
