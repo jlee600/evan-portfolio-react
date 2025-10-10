@@ -282,7 +282,7 @@ const EXPERIENCE = [
       "Refined torque-assistance logic across gait conditions and user profiles to enhance system adaptability.",
       "Built and deployed a live sensor-visualization dashboard for real-time monitoring and diagnostics."
     ],
-    tech: "Python, TCN, Dash, Plotly, Jetson"
+    tech: "Python, TCN, Dash, Plotly, Jetson, ssh, Linux"
   },
   {
     company: "SendSafely",
@@ -308,7 +308,7 @@ const EXPERIENCE = [
       "Taught OOP, data structures, and algorithmic thinking through guided practice and code reviews.",
       "Created supplemental materials and assessments that improved student comprehension and outcomes."
     ],
-    tech: "Python, Pandas"
+    tech: "Python, Pandas, OOP, Data Structures"
   }
 ];
 
@@ -844,101 +844,112 @@ export default function ApplePortfolio() {
         </MotionSection>
         
         {/* Experience */}
-<MotionSection id="experience" className="border-t border-[var(--hairline)]">
-  <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
-    <SectionTitle title="Experience" />
+        <MotionSection id="experience" className="border-t border-[var(--hairline)]">
+          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
+            <SectionTitle title="Experience" />
 
-    <div className="mt-4 rounded-2xl">
-      {EXPERIENCE.map((e, i) => (
-        <motion.div
-          key={i}
-          whileHover={{ y: -2 }}
-          transition={{ type: "spring", stiffness: 220, damping: 20 }}
-          tabIndex={0}
-          className="
-            relative bg-[var(--card)] p-5 md:p-6 rounded-xl ring-0
-            focus:ring-2 focus:ring-[var(--accent)/35]
-            before:absolute before:left-0 before:top-4 before:bottom-4 before:w-[2px]
-            before:bg-[var(--accent)] before:opacity-0
-            hover:before:opacity-100 focus:before:opacity-100
-            transition-[transform,opacity,box-shadow]
-          "
-          aria-label={`${e.company}, ${e.role}, ${e.dates}`}
-        >
-          {/* Top row */}
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
-            <div className="flex items-center gap-3">
-              {/* Logo chip */}
-              <div
-                className="
-                  relative h-8 w-8 shrink-0 rounded-md
-                  border border-[var(--hairline)]
-                  bg-[var(--card)]
-                  ring-1 ring-transparent
-                  hover:ring-[var(--accent)/25] focus:ring-[var(--accent)/25]
-                  transition
-                "
-                style={{
-                  background:
-                    e.logo
-                      ? `url(${e.logo}) center/cover no-repeat`
-                      : `linear-gradient(135deg, var(--accent)/10, transparent)`
-                }}
-                aria-hidden
-              >
-                {!e.logo && (
-                  <div className="absolute inset-0 grid place-items-center text-[10px] font-semibold text-[var(--fgSoft)]">
-                    {e.company.split(' ').map(w => w[0]).slice(0,2).join('')}
+            <div className="mt-4 rounded-2xl">
+              {EXPERIENCE.map((e, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ y: -2 }}
+                  transition={{ type: "spring", stiffness: 220, damping: 20 }}
+                  tabIndex={0}
+                  className="
+                    relative bg-[var(--card)] p-5 md:p-6 rounded-xl ring-0
+                    focus:ring-2 focus:ring-[var(--accent)/35]
+                    before:absolute before:left-0 before:top-4 before:bottom-4 before:w-[2px]
+                    before:bg-[var(--accent)] before:opacity-0
+                    hover:before:opacity-100 focus:before:opacity-100
+                    transition-[transform,opacity,box-shadow]
+                  "
+                  aria-label={`${e.company}, ${e.role}, ${e.dates}`}
+                >
+                  {/* Top row */}
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      {/* Logo chip */}
+                      <div
+                        className="
+                          relative h-8 w-8 shrink-0 rounded-md
+                          border border-[var(--hairline)]
+                          bg-[var(--card)]
+                          ring-1 ring-transparent
+                          hover:ring-[var(--accent)/25] focus:ring-[var(--accent)/25]
+                          transition
+                        "
+                        style={{
+                          background:
+                            e.logo
+                              ? `url(${e.logo}) center/cover no-repeat`
+                              : `linear-gradient(135deg, var(--accent)/10, transparent)`
+                        }}
+                        aria-hidden
+                      >
+                        {!e.logo && (
+                          <div className="absolute inset-0 grid place-items-center text-[10px] font-semibold text-[var(--fgSoft)]">
+                            {e.company.split(' ').map(w => w[0]).slice(0,2).join('')}
+                          </div>
+                        )}
+                        {/* Glow ring */}
+                        <span
+                          className="pointer-events-none absolute -inset-[2px] rounded-[10px]"
+                          style={{
+                            background:
+                              'radial-gradient(40% 40% at 50% 50%, rgba(0,122,255,0.18), transparent 70%)'
+                          }}
+                        />
+                      </div>
+
+                      <div className="flex flex-wrap items-baseline gap-2">
+                        <div className="text-base font-semibold tracking-[-0.01em]">
+                          {e.company}
+                        </div>
+                        <span className="hidden sm:inline text-xs text-[var(--fgDim)]">•</span>
+                        <div className="text-sm text-[var(--fgDim)]">{e.role}</div>
+                      </div>
+                    </div>
+
+                    {/* Date pill */}
+                    <div className="inline-flex items-center rounded-full border border-[var(--hairline)] px-2.5 py-1 text-xs text-[var(--fgDim)] bg-[var(--card)]">
+                      <time>{e.dates}</time>
+                    </div>
                   </div>
-                )}
-                {/* Glow ring */}
-                <span
-                  className="pointer-events-none absolute -inset-[2px] rounded-[10px]"
-                  style={{
-                    background:
-                      'radial-gradient(40% 40% at 50% 50%, rgba(0,122,255,0.18), transparent 70%)'
-                  }}
-                />
-              </div>
 
-              <div className="flex flex-wrap items-baseline gap-2">
-                <div className="text-base font-semibold tracking-[-0.01em]">
-                  {e.company}
-                </div>
-                <span className="hidden sm:inline text-xs text-[var(--fgDim)]">•</span>
-                <div className="text-sm text-[var(--fgDim)]">{e.role}</div>
-              </div>
-            </div>
+                  {/* Bullets */}
+                  <ul className="mt-3 list-disc pl-5 space-y-1.5 text-sm text-[var(--fgSoft)] leading-[1.35]">
+                    {e.bullets.map((b) => (
+                      <li key={b}>{b}</li>
+                    ))}
+                  </ul>
 
-            {/* Date pill */}
-            <div className="inline-flex items-center rounded-full border border-[var(--hairline)] px-2.5 py-1 text-xs text-[var(--fgDim)] bg-[var(--card)]">
-              <time>{e.dates}</time>
+                  {/* Tech / Skill summary */}
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {e.tech
+                      ?.split(",")
+                      .map((t) => t.trim())
+                      .filter(Boolean)
+                      .map((t) => (
+                        <span
+                          key={t}
+                          className="
+                            text-[11px] md:text-xs px-2 py-[4px]
+                            rounded-full border border-[var(--hairline)]
+                            bg-[var(--card)]
+                            text-[var(--accent)]
+                            hover:bg-[var(--accent)/10]
+                            transition
+                          "
+                        >
+                          {t}
+                        </span>
+                      ))}
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
-
-          {/* Bullets */}
-          <ul className="mt-3 list-disc pl-5 space-y-1.5 text-sm text-[var(--fgSoft)] leading-[1.35]">
-            {e.bullets.map((b) => (
-              <li key={b}>{b}</li>
-            ))}
-          </ul>
-
-          {/* Optional tech chips (toggle by uncomment) */}
-          {/* <div className="mt-3 flex flex-wrap gap-2">
-            {e.techList?.slice(0, 6).map((t) => (
-              <span
-                key={t}
-                className="text-xs px-2 py-1 rounded-full border border-[var(--hairline)] bg-[var(--card)] text-[var(--accent)]"
-              >
-                {t}
-              </span>
-            ))}
-          </div> */}
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</MotionSection>
+        </MotionSection>
 
         {/* Projects */}
         <MotionSection id="projects" className="border-t border-[var(--hairline)]">
