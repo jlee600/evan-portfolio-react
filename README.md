@@ -6,10 +6,10 @@
 This is my personal portfolio website, built with **React**, **TypeScript**, and **Vite**, and deployed on **Vercel**.  
 It highlights my software engineering experience, selected projects, and ongoing work in AI-driven systems and backend development.
 
-🌐 **Live site:** [https://evanlee.site](https://evanlee.site)
+**Live site:** [https://evanlee.site](https://evanlee.site)
 
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **Frontend:** React, TypeScript, Tailwind CSS, Framer Motion  
 - **Build Tool:** Vite  
