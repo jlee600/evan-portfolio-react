@@ -261,44 +261,52 @@ const EXPERIENCE = [
   {
     company: "K.L. Scott & Associates",
     role: "AI Agent Software Dev Intern",
+    location: "Atlanta, GA",
     dates: "Fall 2025",
+    logo: "/img/logo/klsa.jpg",
     bullets: [
-      "Conceptualized, designed, and implemented Agentic AI software solutions",
-      "Developed autonomous agents utilizing modern AI technologies such as LLMs, NLP, and ML frameworks",
-      "Supported integration of Agentic AI solutions with existing government IT systems and workflows"
+      "Built autonomous AI agents leveraging LLMs, NLP, and reinforcement learning for government workflows.",
+      "Developed modular agent pipelines to automate decision processes and improve data interoperability.",
+      "Integrated agentic frameworks with legacy systems to streamline analytics and reduce manual oversight."
     ],
     tech: "Python, LLM, ML, Reinforcement Learning, NLP"
   },
   {
     company: "Georgia Tech Research Institute",
     role: "Software Engineer",
-    dates: "Spring 2025 - Present",
+    location: "Atlanta, GA",
+    dates: "Spring 2025 – Present",
+    logo: "/img/logo/gtri.jpg",
     bullets: [
-      "Developed intelligent controllers for robotic exoskeletons, integrating machine learning models to predict user intent",
-      "Optimized torque assistance across varying gait conditions, user profiles, and biomechanical constraints.",
-      "Built and deployed a real-time sensor visualization pipeline using Python and Dash"
+      "Engineered machine-learning-driven controllers for robotic exoskeletons to predict user motion intent.",
+      "Refined torque-assistance logic across gait conditions and user profiles to enhance system adaptability.",
+      "Built and deployed a live sensor-visualization dashboard for real-time monitoring and diagnostics."
     ],
     tech: "Python, TCN, Dash, Plotly, Jetson"
   },
   {
     company: "SendSafely",
     role: "Software Eng Intern",
+    location: "Newark, DE",
     dates: "Summer 2025",
+    logo: "/img/logo/ss.png",
     bullets: [
-      "Automated CI/CD pipelines and production deployments for Python, Java, and JavaScript SDKs",
-      "Migrated internal encryption infrastructure to AWS Key Management Service",
-      "Maintained and improved backend services for secure file transfer platform"
+      "Automated SDK release and deployment pipelines across Python, Java, and JavaScript codebases.",
+      "Migrated encryption workflows to AWS KMS, improving security and reducing key-rotation overhead.",
+      "Enhanced backend reliability and data throughput for the secure file-transfer service."
     ],
-    tech: "Java, Spring, AWS, Javascript, Github Actions"
+    tech: "Java, Spring, AWS, JavaScript, GitHub Actions"
   },
   {
     company: "Georgia State Honors Program",
     role: "OOP Head Tutor",
-    dates: "Fall 2024",
+    location: "Atlanta, GA",
+    dates: "Fall 2023",
+    logo: "/img/logo/gsu.png",
     bullets: [
-      "Led a team of 6 honors tutors, coordinating weekly sessions for over 30 students in CS1301/CS1302",
-      "Covered OOP, Data Structures, and data manipulation, reinforcing understanding",
-      "Developed supplementary materials and practice problems to help outcomes"
+      "Led a team of six tutors and organized weekly sessions for over 30 students in CS1301 and CS1302.",
+      "Taught OOP, data structures, and algorithmic thinking through guided practice and code reviews.",
+      "Created supplemental materials and assessments that improved student comprehension and outcomes."
     ],
     tech: "Python, Pandas"
   }
@@ -836,42 +844,101 @@ export default function ApplePortfolio() {
         </MotionSection>
         
         {/* Experience */}
-        <MotionSection id="experience" className="border-t border-[var(--hairline)]">
-          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
-            <SectionTitle title="Experience" />
-            <div className="mt-4 rounded-2xl">
-              {EXPERIENCE.map((e, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ y: -2 }}
-                  transition={{ type: "spring", stiffness: 220, damping: 20 }}
-                  className="
-                    relative bg-[var(--card)] p-5 md:p-6 rounded-xl
-                    before:absolute before:inset-y-0 before:left-0 before:w-[2px]
-                    before:bg-[var(--accent)] before:opacity-0
-                    hover:before:opacity-100 focus-within:before:opacity-100
-                    transition-[transform,opacity]
-                  "
-                >
-                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
-                    <div className="text-base font-semibold tracking-[-0.01em]">
-                      {e.company}
-                    </div>
-                    <div className="text-sm text-[var(--fgDim)]">
-                      {e.role} · {e.dates}
-                    </div>
+<MotionSection id="experience" className="border-t border-[var(--hairline)]">
+  <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
+    <SectionTitle title="Experience" />
+
+    <div className="mt-4 rounded-2xl">
+      {EXPERIENCE.map((e, i) => (
+        <motion.div
+          key={i}
+          whileHover={{ y: -2 }}
+          transition={{ type: "spring", stiffness: 220, damping: 20 }}
+          tabIndex={0}
+          className="
+            relative bg-[var(--card)] p-5 md:p-6 rounded-xl ring-0
+            focus:ring-2 focus:ring-[var(--accent)/35]
+            before:absolute before:left-0 before:top-4 before:bottom-4 before:w-[2px]
+            before:bg-[var(--accent)] before:opacity-0
+            hover:before:opacity-100 focus:before:opacity-100
+            transition-[transform,opacity,box-shadow]
+          "
+          aria-label={`${e.company}, ${e.role}, ${e.dates}`}
+        >
+          {/* Top row */}
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+            <div className="flex items-center gap-3">
+              {/* Logo chip */}
+              <div
+                className="
+                  relative h-8 w-8 shrink-0 rounded-md
+                  border border-[var(--hairline)]
+                  bg-[var(--card)]
+                  ring-1 ring-transparent
+                  hover:ring-[var(--accent)/25] focus:ring-[var(--accent)/25]
+                  transition
+                "
+                style={{
+                  background:
+                    e.logo
+                      ? `url(${e.logo}) center/cover no-repeat`
+                      : `linear-gradient(135deg, var(--accent)/10, transparent)`
+                }}
+                aria-hidden
+              >
+                {!e.logo && (
+                  <div className="absolute inset-0 grid place-items-center text-[10px] font-semibold text-[var(--fgSoft)]">
+                    {e.company.split(' ').map(w => w[0]).slice(0,2).join('')}
                   </div>
-                  <ul className="mt-3 list-disc pl-5 space-y-1 text-sm text-[var(--fgSoft)]">
-                    {e.bullets.map((b) => (
-                      <li key={b}>{b}</li>
-                    ))}
-                  </ul>
-                  <div className="mt-3 text-xs text-[var(--fgDim)]">{e.tech}</div>
-                </motion.div>
-              ))}
+                )}
+                {/* Glow ring */}
+                <span
+                  className="pointer-events-none absolute -inset-[2px] rounded-[10px]"
+                  style={{
+                    background:
+                      'radial-gradient(40% 40% at 50% 50%, rgba(0,122,255,0.18), transparent 70%)'
+                  }}
+                />
+              </div>
+
+              <div className="flex flex-wrap items-baseline gap-2">
+                <div className="text-base font-semibold tracking-[-0.01em]">
+                  {e.company}
+                </div>
+                <span className="hidden sm:inline text-xs text-[var(--fgDim)]">•</span>
+                <div className="text-sm text-[var(--fgDim)]">{e.role}</div>
+              </div>
+            </div>
+
+            {/* Date pill */}
+            <div className="inline-flex items-center rounded-full border border-[var(--hairline)] px-2.5 py-1 text-xs text-[var(--fgDim)] bg-[var(--card)]">
+              <time>{e.dates}</time>
             </div>
           </div>
-        </MotionSection>
+
+          {/* Bullets */}
+          <ul className="mt-3 list-disc pl-5 space-y-1.5 text-sm text-[var(--fgSoft)] leading-[1.35]">
+            {e.bullets.map((b) => (
+              <li key={b}>{b}</li>
+            ))}
+          </ul>
+
+          {/* Optional tech chips (toggle by uncomment) */}
+          {/* <div className="mt-3 flex flex-wrap gap-2">
+            {e.techList?.slice(0, 6).map((t) => (
+              <span
+                key={t}
+                className="text-xs px-2 py-1 rounded-full border border-[var(--hairline)] bg-[var(--card)] text-[var(--accent)]"
+              >
+                {t}
+              </span>
+            ))}
+          </div> */}
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</MotionSection>
 
         {/* Projects */}
         <MotionSection id="projects" className="border-t border-[var(--hairline)]">
