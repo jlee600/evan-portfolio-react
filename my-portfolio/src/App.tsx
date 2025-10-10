@@ -848,7 +848,7 @@ export default function ApplePortfolio() {
           <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
             <SectionTitle title="Experience" />
 
-            <div className="mt-4 rounded-2xl">
+            <div className="mt-6 rounded-2xl">
               {EXPERIENCE.map((e, i) => (
                 <motion.div
                   key={i}
@@ -857,9 +857,9 @@ export default function ApplePortfolio() {
                   tabIndex={0}
                   className="
                     relative bg-[var(--card)] p-5 md:p-6 rounded-xl ring-0
-                    focus:ring-2 focus:ring-[var(--accent)/35]
+                    focus:ring-2 focus:ring-[color:var(--accent)/35]
                     before:absolute before:left-0 before:top-4 before:bottom-4 before:w-[2px]
-                    before:bg-[var(--accent)] before:opacity-0
+                    before:bg-[color:var(--accent)] before:opacity-0
                     hover:before:opacity-100 focus:before:opacity-100
                     transition-[transform,opacity,box-shadow]
                   "
@@ -875,7 +875,7 @@ export default function ApplePortfolio() {
                           border border-[var(--hairline)]
                           bg-[var(--card)]
                           ring-1 ring-transparent
-                          hover:ring-[var(--accent)/25] focus:ring-[var(--accent)/25]
+                          hover:ring-[color:var(--accent)/25] focus:ring-[var(--accent)/25]
                           transition
                         "
                         style={{
@@ -913,8 +913,8 @@ export default function ApplePortfolio() {
                     {/* Date pill */}
                     <div className="inline-flex items-center rounded-full border border-[var(--hairline)] px-2.5 py-1 text-xs text-[var(--fgDim)] bg-[var(--card)]">
                       <time>{e.dates}</time>
+                      </div>
                     </div>
-                  </div>
 
                   {/* Bullets */}
                   <ul className="mt-3 list-disc pl-5 space-y-1.5 text-sm text-[var(--fgSoft)] leading-[1.35]">
@@ -923,27 +923,9 @@ export default function ApplePortfolio() {
                     ))}
                   </ul>
 
-                  {/* Tech / Skill summary */}
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {e.tech
-                      ?.split(",")
-                      .map((t) => t.trim())
-                      .filter(Boolean)
-                      .map((t) => (
-                        <span
-                          key={t}
-                          className="
-                            text-[11px] md:text-xs px-2 py-[4px]
-                            rounded-full border border-[var(--hairline)]
-                            bg-[var(--card)]
-                            text-[var(--accent)]
-                            hover:bg-[var(--accent)/10]
-                            transition
-                          "
-                        >
-                          {t}
-                        </span>
-                      ))}
+                  {/* Tech summary */}
+                  <div className="mt-3 text-xs text-[var(--fgSoft)] leading-relaxed">
+                    <span className="font-medium text-[var(--accent)]">Tools:</span> {e.tech}
                   </div>
                 </motion.div>
               ))}
