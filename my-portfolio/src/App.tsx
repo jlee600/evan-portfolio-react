@@ -834,6 +834,44 @@ export default function ApplePortfolio() {
           </div>
         </div>
         </MotionSection>
+        
+        {/* Experience */}
+        <MotionSection id="experience" className="border-t border-[var(--hairline)]">
+          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
+            <SectionTitle title="Experience" />
+            <div className="mt-4 rounded-2xl">
+              {EXPERIENCE.map((e, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ y: -2 }}
+                  transition={{ type: "spring", stiffness: 220, damping: 20 }}
+                  className="
+                    relative bg-[var(--card)] p-5 md:p-6 rounded-xl
+                    before:absolute before:inset-y-0 before:left-0 before:w-[2px]
+                    before:bg-[var(--accent)] before:opacity-0
+                    hover:before:opacity-100 focus-within:before:opacity-100
+                    transition-[transform,opacity]
+                  "
+                >
+                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
+                    <div className="text-base font-semibold tracking-[-0.01em]">
+                      {e.company}
+                    </div>
+                    <div className="text-sm text-[var(--fgDim)]">
+                      {e.role} · {e.dates}
+                    </div>
+                  </div>
+                  <ul className="mt-3 list-disc pl-5 space-y-1 text-sm text-[var(--fgSoft)]">
+                    {e.bullets.map((b) => (
+                      <li key={b}>{b}</li>
+                    ))}
+                  </ul>
+                  <div className="mt-3 text-xs text-[var(--fgDim)]">{e.tech}</div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </MotionSection>
 
         {/* Projects */}
         <MotionSection id="projects" className="border-t border-[var(--hairline)]">
