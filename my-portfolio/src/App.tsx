@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Mail, Github, Linkedin, ArrowUpRight } from "lucide-react";
+// import * as Recharts from "recharts";
 
 /**
  * Global CSS: base vars + micro-animations + ambient gradient + halo + pulse
@@ -86,9 +87,219 @@ body.dim .fade-layer{ opacity: 0.08; }
 @media (prefers-reduced-motion: reduce){
   .cursor-halo{ display:none; }
 }
+
+.skill-level {
+  display: inline-block;
+  width: 70px;  /* keeps all labels same width */
+  text-align: right;
+}
+
+.skill-dot:hover {
+  transform: scale(1.3);
+  filter: brightness(1.3);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
 `;
 
-// ---------- Data ----------
+// skills 
+type SkillLevel = 1 | 2 | 3 | 4 | 5;
+
+type SkillGroup = {
+  category:
+    | "Backend"
+    | "Frontend"
+    | "Data / ML"
+    | "Cloud / DevOps"
+    | "Tooling"
+    | "Team";
+  items: { name: string; level: SkillLevel; note?: string }[];
+};
+
+const SKILL_LEVEL_LABEL: Record<
+  SkillLevel,
+  "Familiar" | "Working" | "Proficient" | "Advanced" | "Expert"
+> = {
+  1: "Familiar",
+  2: "Working",
+  3: "Proficient",
+  4: "Advanced",
+  5: "Expert",
+};
+
+const SKILLS: SkillGroup[] = [
+  {
+    category: "Backend",
+    items: [
+      { name: "Python", level: 5 },
+      { name: "Java", level: 5 },
+      { name: "SQLite / MySQL", level: 4 },
+      { name: "FastAPI", level: 4 },
+      { name: "REST APIs", level: 4 },
+    ],
+  },
+  {
+    category: "Frontend",
+    items: [
+      { name: "React", level: 4 },
+      { name: "Tailwind", level: 4 },
+      { name: "Vite", level: 3 },
+      { name: "Android (Java/XML)", level: 3 },
+    ],
+  },
+  {
+    category: "Data / ML",
+    items: [
+      { name: "Dash / Plotly", level: 4 },
+      { name: "Hugging Face", level: 3 },
+      { name: "Computer Vision", level: 3 },
+      { name: "TCN", level: 3 },
+    ],
+  },
+  {
+    category: "Cloud / DevOps",
+    items: [
+      { name: "GitHub Actions", level: 5 },
+      { name: "Shell Scripting", level: 4 }, 
+      { name: "Jira", level: 4 },            
+      { name: "Docker", level: 3 },
+      { name: "AWS (KMS, S3, Secrets)", level: 3 },
+    ],
+  },
+  {
+    category: "Tooling",
+    items: [
+      { name: "Git", level: 5 },
+      { name: "VS Code / IntelliJ", level: 5 },
+      { name: "MySQL Workbench / DataGrip", level: 4 },
+      { name: "LaTeX", level: 3 },
+    ],
+  },
+  {
+    category: "Team",
+    items: [
+      { name: "Mentoring / Peer Instruction", level: 5 },
+      { name: "Project Coordination", level: 4 },
+      { name: "Code Reviews", level: 4 },
+    ],
+  },
+];
+
+const HIGHLIGHTS = Array.from(
+  new Set(
+    SKILLS.flatMap((g) => g.items.filter((i) => i.level >= 4).map((i) => i.name))
+  )
+).slice(0, 8);
+
+// keep this
+const LEVEL_COLOR: Record<1 | 2 | 3 | 4 | 5, string> = {
+  1: "rgba(0,122,255,0.15)", // Familiar
+  2: "rgba(0,122,255,0.30)", // Working
+  3: "rgba(0,122,255,0.50)", // Proficient
+  4: "rgba(0,122,255,0.75)", // Advanced
+  5: "rgba(0,122,255,1.00)", // Expert
+};
+
+function DotMeter({ level }: { level: 1 | 2 | 3 | 4 | 5 }) {
+  const shade = LEVEL_COLOR[level];
+  return (
+    <div className="flex items-center gap-1" aria-hidden>
+      {[1, 2, 3, 4, 5].map((n) => {
+        const filled = n <= level;
+        return (
+          <span
+            key={n}
+            className="skill-dot block h-2.5 w-2.5 rounded-full"
+            style={{
+              // filled dots get the level shade; others use hairline
+              backgroundColor: filled ? shade : "var(--hairline)",
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+// skill groups to 4 categories
+const RADAR_GROUPS: Record<string, "Backend" | "Frontend" | "Data / ML" | "DevOps" | null> = {
+  "Backend": "Backend",
+  "Frontend": "Frontend",
+  "Data / ML": "Data / ML",
+  "Cloud / DevOps": "DevOps",
+  "Tooling": null,
+  "Team": null,
+};
+
+function makeRadarData() {
+  const buckets: Record<string, { sum: number; n: number }> = {};
+  Object.values(RADAR_GROUPS).forEach((cat) => {
+    if (cat) buckets[cat] = { sum: 0, n: 0 };
+  });
+
+  SKILLS.forEach((group) => {
+    const cat = RADAR_GROUPS[group.category] || null;
+    if (!cat) return;
+    group.items.forEach((it) => {
+      buckets[cat].sum += it.level;
+      buckets[cat].n += 1;
+    });
+  });
+
+  return Object.entries(buckets).map(([name, { sum, n }]) => ({
+    name,
+    score: n ? Math.round((sum / n) * 20) : 0, 
+  }));
+}
+
+// experience
+const EXPERIENCE = [
+  {
+    company: "K.L. Scott & Associates",
+    role: "AI Agent Software Dev Intern",
+    dates: "Fall 2025",
+    bullets: [
+      "Conceptualized, designed, and implemented Agentic AI software solutions",
+      "Developed autonomous agents utilizing modern AI technologies such as LLMs, NLP, and ML frameworks",
+      "Supported integration of Agentic AI solutions with existing government IT systems and workflows"
+    ],
+    tech: "Python, LLM, ML, Reinforcement Learning, NLP"
+  },
+  {
+    company: "Georgia Tech Research Institute",
+    role: "Software Engineer",
+    dates: "Spring 2025 - Present",
+    bullets: [
+      "Developed intelligent controllers for robotic exoskeletons, integrating machine learning models to predict user intent",
+      "Optimized torque assistance across varying gait conditions, user profiles, and biomechanical constraints.",
+      "Built and deployed a real-time sensor visualization pipeline using Python and Dash"
+    ],
+    tech: "Python, TCN, Dash, Plotly, Jetson"
+  },
+  {
+    company: "SendSafely",
+    role: "Software Eng Intern",
+    dates: "Summer 2025",
+    bullets: [
+      "Automated CI/CD pipelines and production deployments for Python, Java, and JavaScript SDKs",
+      "Migrated internal encryption infrastructure to AWS Key Management Service",
+      "Maintained and improved backend services for secure file transfer platform"
+    ],
+    tech: "Java, Spring, AWS, Javascript, Github Actions"
+  },
+  {
+    company: "Georgia State Honors Program",
+    role: "OOP Head Tutor",
+    dates: "Fall 2024",
+    bullets: [
+      "Led a team of 6 honors tutors, coordinating weekly sessions for over 30 students in CS1301/CS1302",
+      "Covered OOP, Data Structures, and data manipulation, reinforcing understanding",
+      "Developed supplementary materials and practice problems to help outcomes"
+    ],
+    tech: "Python, Pandas"
+  }
+];
+
+// Project
 type Project = {
   id: number;
   title: string;
@@ -175,53 +386,7 @@ const PROJECTS: Project[] = [
   }
 ];
 
-const EXPERIENCE = [
-  {
-    company: "K.L. Scott & Associates",
-    role: "AI Agent Software Dev Intern",
-    dates: "Fall 2025",
-    bullets: [
-      "Conceptualized, designed, and implemented Agentic AI software solutions",
-      "Developed autonomous agents utilizing modern AI technologies such as LLMs, NLP, and ML frameworks",
-      "Supported integration of Agentic AI solutions with existing government IT systems and workflows"
-    ],
-    tech: "Python, LLM, ML, Reinforcement Learning, NLP"
-  },
-  {
-    company: "Georgia Tech Research Institute",
-    role: "Software Engineer",
-    dates: "Spring 2025 - Present",
-    bullets: [
-      "Developed intelligent controllers for robotic exoskeletons, integrating machine learning models to predict user intent",
-      "Optimized torque assistance across varying gait conditions, user profiles, and biomechanical constraints.",
-      "Built and deployed a real-time sensor visualization pipeline using Python and Dash"
-    ],
-    tech: "Python, TCN, Dash, Plotly, Jetson"
-  },
-  {
-    company: "SendSafely",
-    role: "Software Eng Intern",
-    dates: "Summer 2025",
-    bullets: [
-      "Automated CI/CD pipelines and production deployments for Python, Java, and JavaScript SDKs",
-      "Migrated internal encryption infrastructure to AWS Key Management Service",
-      "Maintained and improved backend services for secure file transfer platform"
-    ],
-    tech: "Java, Spring, AWS, Javascript, Github Actions"
-  },
-  {
-    company: "Georgia State Honors Program",
-    role: "OOP Head Tutor",
-    dates: "Fall 2024",
-    bullets: [
-      "Led a team of 6 honors tutors, coordinating weekly sessions for over 30 students in CS1301/CS1302",
-      "Covered OOP, Data Structures, and data manipulation, reinforcing understanding",
-      "Developed supplementary materials and practice problems to help outcomes"
-    ],
-    tech: "Python, Pandas"
-  }
-];
-
+// project filters
 const filters = ["All", "Full Stack", "Data", "Systems"] as const;
 type Filter = typeof filters[number];
 
@@ -413,7 +578,7 @@ export default function ApplePortfolio() {
                 transition={{ duration: 0.45, delay: 0.05 }}
                 className="mt-4 text-lg text-[var(--fgSoft)] max-w-[60ch]"
                 >
-                  Backend & data engineer - I ship fast, reliable systems with clean APIs
+                  Backend & Data engineer - I ship fast, reliable systems with clean APIs
                 </motion.p>
 
                 {/* CTAs */}
@@ -529,179 +694,107 @@ export default function ApplePortfolio() {
           </div>
         </MotionSection>
 
-        {/* Now / What I'm Working On */}
-        <MotionSection id="now" className="border-t border-[var(--hairline)]">
-          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
-            <SectionTitle title="What I'm Working On" />
-
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, type: "spring", stiffness: 90 }}
-              className="mt-5 rounded-2xl border border-[var(--hairline)] bg-[var(--card)] p-6 hover-accent"
-            >
-              <p className="text-[17px] leading-7 text-[var(--fgSoft)] max-w-[70ch]">
-                Currently building autonomous AI agents at{" "}
-                <span className="font-medium text-[var(--fg)]">K.L. Scott &amp; Associates</span> and
-                enhancing real-time control systems at{" "}
-                <span className="font-medium text-[var(--fg)]">Georgia Tech’s EPIC Lab</span>.
-                Preparing for <span className="font-medium text-[var(--fg)]">Summer 2026 SWE & Data internships</span>.
-              </p>
-              <div className="my-4 h-px bg-[var(--hairline)]" />
-              <p className="mt-4 text-[15px] text-[var(--fgSoft)] italic">Personal Project Spotlight</p>
-              {/* CityScape IQ card */}
-              <div className="mt-6 rounded-xl border border-[var(--hairline)] p-5 bg-[var(--card)]">
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-semibold tracking-[-0.01em]">CityScape IQ - Local Urban Insights</h3>
-                  {/* screenshots/doc link placeholder*/}
-                  {/* <a
-                    href="/docs/cityscape-iq.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[var(--accent)] inline-flex items-center gap-1 text-sm hover:underline"
-                  >
-                    Screenshots / Doc <ArrowUpRight size={16} />
-                  </a> */}
-                </div>
-
-                <p className="mt-2 text-sm text-[var(--fgSoft)] max-w-[75ch]">
-                  CityScape IQ analyzes live and recorded traffic footage to detect vehicles, people, and events such as congestion or stopped cars. 
-                  It fuses weather and public transit data to forecast short-term congestion and lets users query and explore results through an interactive web dashboard.
-                </p>
-
-                <div className="mt-4 grid gap-4 md:grid-cols-3">
-                  <div>
-                    <div className="text-xs font-medium text-[var(--fgDim)]">Key Tasks</div>
-                    <ul className="mt-1 text-sm text-[var(--fgSoft)] list-disc pl-5 space-y-1">
-                      <li>Object detection &amp; simple tracking</li>
-                      <li>Event logic (congestion, stopped vehicle)</li>
-                      <li>Short-term congestion forecasting</li>
-                      <li>NL query over results</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div className="text-xs font-medium text-[var(--fgDim)]">Stack</div>
-                    <ul className="mt-1 text-sm text-[var(--fgSoft)] list-disc pl-5 space-y-1">
-                      <li>Python, FastAPI, SQLite, Parquet</li>
-                      <li>HF + YOLO / OpenMMLab</li>
-                      <li>Prophet / PyTorch Forecasting</li>
-                      <li>React + Vite + Tailwind, Leaflet</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <div className="text-xs font-medium text-[var(--fgDim)]">MVP Scope</div>
-                    <ul className="mt-1 text-sm text-[var(--fgSoft)] list-disc pl-5 space-y-1">
-                      <li>2–5 FPS sampling &amp; counts</li>
-                      <li>Weather + GTFS fusion</li>
-                      <li>Event clips &amp; searchable gallery</li>
-                      <li>Map pins + timeline + queries</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="mt-4 text-xs text-[var(--fgDim)]">
-                  System: video → detector → tracker → event engine → SQLite/Parquet → forecaster → API → web UI.
-                </div>
-              </div>
-
-              <div className="mt-4 text-sm text-[var(--fgDim)] italic">
-                Last updated Oct 2025
-              </div>
-            </motion.div>
-          </div>
-        </MotionSection>
-
         {/* Skills */}
         <MotionSection id="skills" className="border-t border-[var(--hairline)]">
-          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
-            <SectionTitle title="Skills" />
-
-            {/* Optional highlights row */}
-            <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
-              <span className="font-medium text-[var(--accent)]">Highlights:</span>
-              <span className="text-[var(--fgSoft)]">Python</span>·
-              <span className="text-[var(--fgSoft)]">FastAPI</span>·
-              <span className="text-[var(--fgSoft)]">React</span>·
-              <span className="text-[var(--fgSoft)]">SQL</span>·
-              <span className="text-[var(--fgSoft)]">Hugging Face</span>·
-              <span className="text-[var(--fgSoft)]">GitHub Actions</span>·
-              <span className="text-[var(--fgSoft)]">AWS</span>
+        <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
+          <SectionTitle title="Skills" />
+          <p className="mt-4 mb-6 text-[15px] leading-relaxed text-[var(--fgSoft)] max-w-[70ch]">
+            My technical foundation spans backend systems, data-driven ML work, and cloud infrastructure, with a strong emphasis on building reliable tools for research and deployment.
+          </p>
+          
+          {/* Focus Radar */}
+          <div className="mt-6 rounded-xl border border-[var(--hairline)] bg-[var(--card)] p-4">
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-semibold text-[var(--fg)]">Skill Focus</div>
+              <div className="text-xs text-[var(--fgDim)]">Relative emphasis by category</div>
             </div>
 
-            {/* Grouped skill cards */}
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                {
-                  k: "Backend",
-                  v: "Python, Java, TypeScript, FastAPI, REST APIs, SQLite, MySQL"
-                },
-                {
-                  k: "Frontend",
-                  v: "React, Vite, Tailwind, Android (Java/XML)"
-                },
-                {
-                  k: "Data / ML",
-                  v: "Hugging Face, TCN, Computer Vision, Dash, Plotly"
-                },
-                {
-                  k: "Cloud / DevOps",
-                  v: "GitHub Actions, Docker, AWS (KMS, S3, Secrets Manager), Shell Scripting"
-                },
-                {
-                  k: "Tooling",
-                  v: "Git, VS Code, IntelliJ, MySQL Workbench, DataGrip, LaTeX"
-                },
-                {
-                  k: "Team",
-                  v: "Mentoring, Peer Instruction, Project Coordination, Jira"
-                }
-              ].map((s) => (
-                <motion.div
-                  key={s.k}
-                  {...cardHover}
-                  className="hover-accent rounded-xl border border-[var(--hairline)] p-4 bg-[var(--card)]"
-                  data-interactive="true"
-                >
-                  <div className="text-sm font-semibold text-[var(--fg)] mb-1">
-                    {s.k}
-                  </div>
-                  <div className="text-sm text-[var(--fgSoft)]">{s.v}</div>
-                </motion.div>
-              ))}
-            </div>
+            {/* <div className="mt-2 h-[240px] w-full">
+              <Recharts.ResponsiveContainer width="100%" height="100%">
+                <Recharts.RadarChart data={makeRadarData()} outerRadius="75%">
+                  <Recharts.PolarGrid stroke="rgba(0,0,0,0.08)" />
+                  <Recharts.PolarAngleAxis
+                    dataKey="name"
+                    tick={{ fill: "var(--fgSoft)", fontSize: 12 }}
+                  />
+                  <Recharts.PolarRadiusAxis
+                    angle={90}
+                    domain={[0, 100]}
+                    tick={{ fill: "var(--fgDim)", fontSize: 10 }}
+                    tickCount={6}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <Recharts.Radar
+                    name="Focus"
+                    dataKey="score"
+                    stroke="var(--accent)"
+                    fill="var(--accent)"
+                    fillOpacity={0.25}
+                    strokeWidth={2}
+                  />
+                  <Recharts.Tooltip
+                    formatter={(v: any) => [`${v}`, "Score"]}
+                    labelStyle={{ color: "var(--fg)" }}
+                    contentStyle={{
+                      background: "var(--card)",
+                      border: "1px solid var(--hairline)",
+                      borderRadius: 12,
+                      boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
+                    }}
+                  />
+                </Recharts.RadarChart>
+              </Recharts.ResponsiveContainer>
+            </div> */}
           </div>
-        </MotionSection>
 
-        {/* Experience */}
-        <MotionSection id="experience" className="border-t border-[var(--hairline)]">
-          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
-            <SectionTitle title="Experience" />
-            <div className="mt-4 rounded-2xl"> {/* no divide-y, no border, no overflow-hidden */}
-              {EXPERIENCE.map((e, i) => (
-                <motion.div
-                    key={i}
-                    whileHover={{ y: -2 }}
-                    transition={{ type: "spring", stiffness: 220, damping: 20 }}
-                    className="
-                      relative bg-[var(--card)] p-5 md:p-6 rounded-xl
-                      before:absolute before:inset-y-0 before:left-0 before:w-[2px]
-                      before:bg-[var(--accent)] before:opacity-0
-                      hover:before:opacity-100 focus-within:before:opacity-100
-                      transition-[transform,opacity]
-                    "
-                >
-                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1">
-                    <div className="text-base font-semibold tracking-[-0.01em]">{e.company}</div>
-                    <div className="text-sm text-[var(--fgDim)]">{e.role} · {e.dates}</div>
-                  </div>
-                  <ul className="mt-3 list-disc pl-5 space-y-1 text-sm text-[var(--fgSoft)]">
-                    {e.bullets.map((b) => <li key={b}>{b}</li>)}
-                  </ul>
-                  <div className="mt-3 text-xs text-[var(--fgDim)]">{e.tech}</div>
-                </motion.div>
-              ))}
-            </div>
+          {/* Highlights */}
+          <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
+            <span className="font-medium text-[var(--accent)]">Highlights:</span>
+            {HIGHLIGHTS.map((h) => (
+              <span key={h} className="text-[var(--fgSoft)]">{h}</span>
+            ))}
           </div>
+          
+          <div className="mt-2 text-xs text-[var(--fgDim)]">
+            Levels: 1 <span className="mx-1">Familiar</span> · 2 Working · 3 Proficient · 4 Advanced · 5 Expert
+          </div>
+
+          {/* Category cards */}
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            {SKILLS.map((group) => (
+              <motion.div
+                key={group.category}
+                {...cardHover}
+                className="hover-accent rounded-xl border border-[var(--hairline)] p-4 bg-[var(--card)]"
+                data-interactive="true"
+              >
+                <div className="text-sm font-semibold text-[var(--fg)] mb-2">
+                  {group.category}
+                </div>
+
+                <ul className="space-y-2">
+                  {group.items.map((skill) => (
+                    <li
+                      key={skill.name}
+                      className="flex items-center justify-between gap-3"
+                      title={`${skill.name} — ${SKILL_LEVEL_LABEL[skill.level]}`}
+                      aria-label={`${skill.name} proficiency: ${skill.level} of 5 (${SKILL_LEVEL_LABEL[skill.level]})`}
+                    >
+                      <span className="text-sm text-[var(--fgSoft)]">{skill.name}</span>
+                      <div className="flex items-center gap-2">
+                        <DotMeter level={skill.level} />
+                        <span className="skill-level text-xs text-[var(--fgDim)] hidden sm:block">
+                          {SKILL_LEVEL_LABEL[skill.level]}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
         </MotionSection>
 
         {/* Projects */}
@@ -790,6 +883,88 @@ export default function ApplePortfolio() {
                 </motion.article>
               ))}
             </div>
+          </div>
+        </MotionSection>
+
+        {/* Now / What I'm Working On */}
+        <MotionSection id="now" className="border-t border-[var(--hairline)]">
+          <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
+            <SectionTitle title="What I'm Working On" />
+
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, type: "spring", stiffness: 90 }}
+              className="mt-5 rounded-2xl border border-[var(--hairline)] bg-[var(--card)] p-6 hover-accent"
+            >
+              <p className="text-[17px] leading-7 text-[var(--fgSoft)] max-w-[70ch]">
+                Currently building autonomous AI agents at{" "}
+                <span className="font-medium text-[var(--fg)]">K.L. Scott &amp; Associates</span> and
+                enhancing real-time control systems at{" "}
+                <span className="font-medium text-[var(--fg)]">Georgia Tech’s EPIC Lab</span>.
+                Preparing for <span className="font-medium text-[var(--fg)]">Summer 2026 SWE & Data internships</span>.
+              </p>
+              <div className="my-4 h-px bg-[var(--hairline)]" />
+              <p className="mt-4 text-[15px] text-[var(--fgSoft)] italic">Personal Project Spotlight</p>
+              {/* CityScape IQ card */}
+              <div className="mt-6 rounded-xl border border-[var(--hairline)] p-5 bg-[var(--card)]">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-lg font-semibold tracking-[-0.01em]">CityScape IQ - Local Urban Insights</h3>
+                  {/* screenshots/doc link placeholder*/}
+                  {/* <a
+                    href="/docs/cityscape-iq.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[var(--accent)] inline-flex items-center gap-1 text-sm hover:underline"
+                  >
+                    Screenshots / Doc <ArrowUpRight size={16} />
+                  </a> */}
+                </div>
+
+                <p className="mt-2 text-sm text-[var(--fgSoft)] max-w-[75ch]">
+                  CityScape IQ analyzes live and recorded traffic footage to detect vehicles, people, and events such as congestion or stopped cars. 
+                  It fuses weather and public transit data to forecast short-term congestion and lets users query and explore results through an interactive web dashboard.
+                </p>
+
+                <div className="mt-4 grid gap-4 md:grid-cols-3">
+                  <div>
+                    <div className="text-xs font-medium text-[var(--fgDim)]">Key Tasks</div>
+                    <ul className="mt-1 text-sm text-[var(--fgSoft)] list-disc pl-5 space-y-1">
+                      <li>Object detection &amp; simple tracking</li>
+                      <li>Event logic (congestion, stopped vehicle)</li>
+                      <li>Short-term congestion forecasting</li>
+                      <li>NL query over results</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <div className="text-xs font-medium text-[var(--fgDim)]">Stack</div>
+                    <ul className="mt-1 text-sm text-[var(--fgSoft)] list-disc pl-5 space-y-1">
+                      <li>Python, FastAPI, SQLite, Parquet</li>
+                      <li>HF + YOLO / OpenMMLab</li>
+                      <li>Prophet / PyTorch Forecasting</li>
+                      <li>React + Vite + Tailwind, Leaflet</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <div className="text-xs font-medium text-[var(--fgDim)]">MVP Scope</div>
+                    <ul className="mt-1 text-sm text-[var(--fgSoft)] list-disc pl-5 space-y-1">
+                      <li>2–5 FPS sampling &amp; counts</li>
+                      <li>Weather + GTFS fusion</li>
+                      <li>Event clips &amp; searchable gallery</li>
+                      <li>Map pins + timeline + queries</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="mt-4 text-xs text-[var(--fgDim)]">
+                  System: video → detector → tracker → event engine → SQLite/Parquet → forecaster → API → web UI.
+                </div>
+              </div>
+
+              <div className="mt-4 text-sm text-[var(--fgDim)] italic">
+                Last updated Oct 2025
+              </div>
+            </motion.div>
           </div>
         </MotionSection>
 
