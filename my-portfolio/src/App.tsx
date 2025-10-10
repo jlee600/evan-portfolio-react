@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Mail, Github, Linkedin, ArrowUpRight } from "lucide-react";
-// import * as Recharts from "recharts";
+import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Tooltip, } from "recharts";
 
 /**
  * Global CSS: base vars + micro-animations + ambient gradient + halo + pulse
@@ -108,7 +108,7 @@ type SkillGroup = {
   category:
     | "Backend"
     | "Frontend"
-    | "Data / ML"
+    | "Data"
     | "Cloud / DevOps"
     | "Tooling"
     | "Team";
@@ -135,24 +135,28 @@ const SKILLS: SkillGroup[] = [
       { name: "SQLite / MySQL", level: 4 },
       { name: "FastAPI", level: 4 },
       { name: "REST APIs", level: 4 },
+      { name: "C", level: 3 },
     ],
   },
   {
     category: "Frontend",
     items: [
-      { name: "React", level: 4 },
-      { name: "Tailwind", level: 4 },
+      { name: "Javascript / Typescript", level: 4 },
+      { name: "HTML / CSS", level: 4 },
+      { name: "React", level: 3 },
+      { name: "Tailwind", level: 3 },
       { name: "Vite", level: 3 },
-      { name: "Android (Java/XML)", level: 3 },
+      { name: "Android (Java/XML)", level: 2 },
     ],
   },
   {
-    category: "Data / ML",
+    category: "Data",
     items: [
+      { name: "Pandas / Numpy", level: 5 },
+      { name: "Matplotlib", level: 5 },
       { name: "Dash / Plotly", level: 4 },
       { name: "Hugging Face", level: 3 },
-      { name: "Computer Vision", level: 3 },
-      { name: "TCN", level: 3 },
+      { name: "TCN", level: 2 },
     ],
   },
   {
@@ -161,8 +165,8 @@ const SKILLS: SkillGroup[] = [
       { name: "GitHub Actions", level: 5 },
       { name: "Shell Scripting", level: 4 }, 
       { name: "Jira", level: 4 },            
-      { name: "Docker", level: 3 },
       { name: "AWS (KMS, S3, Secrets)", level: 3 },
+      { name: "Docker", level: 2 },
     ],
   },
   {
@@ -171,15 +175,16 @@ const SKILLS: SkillGroup[] = [
       { name: "Git", level: 5 },
       { name: "VS Code / IntelliJ", level: 5 },
       { name: "MySQL Workbench / DataGrip", level: 4 },
-      { name: "LaTeX", level: 3 },
+      { name: "LaTeX", level: 2 },
     ],
   },
   {
     category: "Team",
     items: [
       { name: "Mentoring / Peer Instruction", level: 5 },
-      { name: "Project Coordination", level: 4 },
+      { name: "Cross-Team Collaboration", level: 5 },
       { name: "Code Reviews", level: 4 },
+      { name: "Technical Documentation", level: 4 },
     ],
   },
 ];
@@ -221,10 +226,10 @@ function DotMeter({ level }: { level: 1 | 2 | 3 | 4 | 5 }) {
 }
 
 // skill groups to 4 categories
-const RADAR_GROUPS: Record<string, "Backend" | "Frontend" | "Data / ML" | "DevOps" | null> = {
+const RADAR_GROUPS: Record<string, "Backend" | "Frontend" | "Data" | "DevOps" | null> = {
   "Backend": "Backend",
   "Frontend": "Frontend",
-  "Data / ML": "Data / ML",
+  "Data": "Data",
   "Cloud / DevOps": "DevOps",
   "Tooling": null,
   "Team": null,
@@ -533,7 +538,7 @@ export default function ApplePortfolio() {
           <div className="text-base font-semibold tracking-[-0.01em]">Evan Lee</div>
           <div className="ml-auto hidden sm:flex items-center gap-6 text-sm">
             <NavLink href="#home" label="Home" />
-            <NavLink href="#about" label="About" />
+            {/* <NavLink href="#about" label="About" /> */}
             <NavLink href="#skills" label="Skills" />
             <NavLink href="#experience" label="Experience" />
             <NavLink href="#projects" label="Projects" />
@@ -578,7 +583,7 @@ export default function ApplePortfolio() {
                 transition={{ duration: 0.45, delay: 0.05 }}
                 className="mt-4 text-lg text-[var(--fgSoft)] max-w-[60ch]"
                 >
-                  Backend & Data engineer - I ship fast, reliable systems with clean APIs
+                  Software Engineer
                 </motion.p>
 
                 {/* CTAs */}
@@ -639,11 +644,8 @@ export default function ApplePortfolio() {
           </div>
         </MotionSection>
 
-        {/* Divider */}
-        <div className="my-6 h-px bg-gradient-to-r from-transparent via-[rgba(0,122,255,0.4)] to-transparent" />
-
         {/* About */}
-        <MotionSection id="about">
+        <MotionSection id="about" className="border-t border-[var(--hairline)]">
           <div className="mx-auto max-w-[1100px] px-4 py-10 md:py-12">
             <SectionTitle title="About" />
             <p className="mt-4 max-w-[70ch] text-[17px] leading-7 text-[var(--fgSoft)]">
@@ -703,50 +705,86 @@ export default function ApplePortfolio() {
           </p>
           
           {/* Focus Radar */}
-          <div className="mt-6 rounded-xl border border-[var(--hairline)] bg-[var(--card)] p-4">
-            <div className="flex items-center justify-between">
-              <div className="text-sm font-semibold text-[var(--fg)]">Skill Focus</div>
-              <div className="text-xs text-[var(--fgDim)]">Relative emphasis by category</div>
-            </div>
+          <div className="mt-6 rounded-xl border border-[var(--hairline)] bg-[var(--card)] p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            {/* Left: Radar chart */}
+            <div className="flex-1 min-w-[280px]">
+              <ResponsiveContainer width="100%" height={280}>
+                <RadarChart data={makeRadarData()} outerRadius="72%" startAngle={90} endAngle={-270}>
+                  <defs>
+                    <linearGradient id="radarFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.35" />
+                      <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.12" />
+                    </linearGradient>
+                  </defs>
 
-            {/* <div className="mt-2 h-[240px] w-full">
-              <Recharts.ResponsiveContainer width="100%" height="100%">
-                <Recharts.RadarChart data={makeRadarData()} outerRadius="75%">
-                  <Recharts.PolarGrid stroke="rgba(0,0,0,0.08)" />
-                  <Recharts.PolarAngleAxis
+                  <PolarGrid stroke="rgba(0,0,0,0.10)" gridType="polygon" radialLines={false} />
+                  <PolarAngleAxis
                     dataKey="name"
-                    tick={{ fill: "var(--fgSoft)", fontSize: 12 }}
+                    tick={{ fill: "var(--fgSoft)", fontSize: 12, fontWeight: 600 }}
                   />
-                  <Recharts.PolarRadiusAxis
+                  <PolarRadiusAxis
                     angle={90}
                     domain={[0, 100]}
-                    tick={{ fill: "var(--fgDim)", fontSize: 10 }}
+                    tick={{ fill: "var(--fgDim)", fontSize: 7.5 }}
+                    tickFormatter={(v) => `${v}%`}
                     tickCount={6}
                     axisLine={false}
                     tickLine={false}
                   />
-                  <Recharts.Radar
+                  <Radar
                     name="Focus"
                     dataKey="score"
                     stroke="var(--accent)"
-                    fill="var(--accent)"
-                    fillOpacity={0.25}
-                    strokeWidth={2}
+                    strokeWidth={3}
+                    fill="url(#radarFill)"
+                    dot={{ r: 3, strokeWidth: 0 }}
+                    isAnimationActive={false}
                   />
-                  <Recharts.Tooltip
-                    formatter={(v: any) => [`${v}`, "Score"]}
-                    labelStyle={{ color: "var(--fg)" }}
+                  <Tooltip
+                    formatter={(v: number) => [`${v}%`]} // just shows the value
                     contentStyle={{
                       background: "var(--card)",
                       border: "1px solid var(--hairline)",
-                      borderRadius: 12,
-                      boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
+                      borderRadius: 8,
+                      boxShadow: "0 4px 10px rgba(0,0,0,0.06)",
+                      padding: "6px 10px",
+                      fontSize: 11,
+                      color: "var(--fg)",
                     }}
+                    itemStyle={{
+                      color: "var(--accent)",
+                      fontWeight: 600,
+                    }}
+                    labelStyle={{
+                      display: "none", // hide redundant title line
+                    }}
+                    cursor={{ stroke: "transparent" }}
                   />
-                </Recharts.RadarChart>
-              </Recharts.ResponsiveContainer>
-            </div> */}
+                </RadarChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Right: Explanation */}
+            <div className="flex-1 text-sm text-[var(--fgSoft)] leading-relaxed">
+            <div className="text-[17px] md:text-[18px] font-semibold text-[var(--fg)] mb-3">
+              What this shows
+            </div>
+              <p>
+                The radar chart compares emphasis across four key skill areas.
+                A wider reach means higher relative strength in that category.
+                <br />
+                <br />
+                <span className="text-[var(--fg)] font-medium">Backend</span> and{" "}
+                <span className="text-[var(--fg)] font-medium">Data</span> form the
+                foundation of my profile, with solid depth in{" "}
+                <span className="text-[var(--fg)] font-medium">DevOps</span> and
+                supporting <span className="text-[var(--fg)] font-medium">Frontend</span> experience
+                for full-stack development.
+              </p>
+            </div>
           </div>
+
+          <div className="mt-6 border-t border-[var(--hairline)] pt-4" />
 
           {/* Highlights */}
           <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
