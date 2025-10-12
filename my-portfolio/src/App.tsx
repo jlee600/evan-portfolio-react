@@ -355,6 +355,7 @@ const PROJECTS: Project[] = [
     year: "2025",
     tag: "Data",
     img: "/img/rhex.png",
+    github: "https://github.com/jlee600/Exo-Launcher"
   },
   {
     id: 4,
