@@ -362,7 +362,7 @@ const PROJECTS: Project[] = [
     id: 4,
     title: "Fully functional five-stage pipelined CPU",
     blurb: "CircuitSim implementation of CPU with hazard detection and forwarding",
-    stack: ["CircuitSim", "MS Excel"],
+    stack: ["Assembly", "CircuitSim", "MS Excel"],
     year: "2025",
     tag: "Systems",
     img: "/img/lc3.png",
