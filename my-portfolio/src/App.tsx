@@ -366,6 +366,7 @@ const PROJECTS: Project[] = [
     year: "2025",
     tag: "Systems",
     img: "/img/lc3.png",
+    github: "https://github.com/jlee600/lc3200b-pipelined-processor",
     demo: "/img/lc3_report.pdf"
   },
   {
