@@ -365,7 +365,8 @@ const PROJECTS: Project[] = [
     stack: ["CircuitSim", "MS Excel"],
     year: "2025",
     tag: "Systems",
-    img: "/img/lc3.png"
+    img: "/img/lc3.png",
+    demo: "/img/lc3_report.pdf"
   },
   {
     id: 5,
