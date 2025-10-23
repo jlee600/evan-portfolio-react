@@ -354,7 +354,7 @@ const PROJECTS: Project[] = [
     stack: ["Python", "SSH", "Linux"],
     year: "2025",
     tag: "Data",
-    img: "/img/rhex.png",
+    img: "/img/rhex2.png",
     github: "https://github.com/jlee600/Exo-Launcher",
     demo: "img/exo_dashboard.pdf"
   },
