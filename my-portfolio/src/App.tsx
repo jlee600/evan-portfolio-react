@@ -162,7 +162,6 @@ export default function App() {
       {/* Top bar */}
       <header className="border-b border-[var(--border-subtle)] bg-[var(--bg-subtle)] shadow-sm">
         <div className="mx-auto max-w-[1500px] px-4 md:px-6 h-14 flex items-center gap-3">
-          <Github size={22} className="text-[var(--fg-muted)]" />
           <span className="text-sm text-[var(--fg-muted)]">EvanLee</span>
           <span className="text-sm text-[var(--fg-muted)] opacity-60">/</span>
           <span className="text-sm font-semibold text-[var(--fg)]">
