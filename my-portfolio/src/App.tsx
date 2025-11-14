@@ -404,7 +404,7 @@ function OverviewTab() {
         <p className="mt-3 text-[13px] leading-relaxed text-[var(--fg-muted)] max-w-[70ch]">
           I am a Computer Science student at{" "}
           <span className="font-semibold text-[var(--fg)]">Georgia Tech</span>{" "}
-          focusing on Information Internetworks and Intelligence. I like working
+          focusing on Information Internetworks<br></br>and Intelligence. I like working
           on systems where data, infra, and machine learning meet, especially
           when there is a clear feedback loop from users or hardware.
         </p>
@@ -753,12 +753,12 @@ const SKILLS: SkillGroup[] = [
   {
     category: "Frontend",
     items: [
+      { name: "Android (Java/XML)", level: 4 },
       { name: "Javascript / Typescript", level: 4 },
-      { name: "HTML / CSS", level: 4 },
+      { name: "HTML / CSS", level: 3 },
       { name: "React", level: 3 },
       { name: "Tailwind", level: 3 },
       { name: "Vite", level: 2 },
-      { name: "Android (Java/XML)", level: 2 },
     ],
   },
   {
