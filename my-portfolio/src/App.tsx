@@ -146,7 +146,7 @@ const PROJECTS: Project[] = [
     id: 4,
     name: "Pipelined LC-3200b CPU",
     description:
-      "Five-stage pipelined CPU in CircuitSim with hazard detection.",
+      "Five-stage pipelined CPU in CircuitSim with hazard detection",
     tech: "Assembly · CircuitSim · Excel",
     year: "2025",
     href: "https://github.com/jlee600/lc3200b-pipelined-processor",
@@ -934,12 +934,19 @@ function SkillGroupGrid({
 }
 
 function LevelSquares({ level }: { level: number }) {
-  const shades = ["#ebedf0", "#c6e48b", "#7bc96f", "#239a3b", "#196127"];
+  const shades = [
+    "#ebedf0", // 0
+    "#c6e48b", // 1
+    "#9be9a8", // 2
+    "#40c463", // 3
+    "#30a14e", // 4
+    "#216e39", // 5
+  ];
 
   return (
     <div className="flex gap-[3px]">
       {Array.from({ length: 5 }).map((_, i) => {
-        const paletteIndex = i < level ? Math.min(level, 4) : 0;
+        const paletteIndex = i < level ? level : 0;
         return (
           <div
             key={i}
