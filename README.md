@@ -1,4 +1,4 @@
-# Evan Lee | Portfolio
+# Portfolio
 <p align="center">
   <img src="my-portfolio/public/preview.png" alt="Evan Lee Portfolio Preview" width="800"/>
 </p
