@@ -12,7 +12,11 @@ import {
   ArrowUpRight,
   GithubIcon,
   Linkedin,
-  FolderGit2
+  FolderGit2,
+  FileText,
+  Spotlight,
+  TrendingUp,
+  Boxes
 } from "lucide-react";
 
 import {
@@ -27,7 +31,8 @@ import {
 
 const globalCSS = `
 :root {
-  --bg: #f6f8fa;
+  --bg: #ffffff;
+  --shell-bg: #f6f8fa;
   --bg-subtle: #ffffff;
   --fg: #24292f;
   --fg-muted: #57606a;
@@ -111,7 +116,7 @@ const PROJECTS: Project[] = [
     id: 1,
     name: "Collab-Plan AI",
     description:
-      "AI-powered meeting and conversation assistant with transcription, diarization, and action items.",
+      "AI-powered meeting and conversation assistant with transcription.",
     tech: "Python · FastAPI · React · SQLite · HuggingFace",
     year: "2025",
     href: "https://github.com/jlee600/CollabPlan-AI",
@@ -141,7 +146,7 @@ const PROJECTS: Project[] = [
     id: 4,
     name: "Pipelined LC-3200b CPU",
     description:
-      "Five-stage pipelined CPU in CircuitSim with hazard detection and forwarding.",
+      "Five-stage pipelined CPU in CircuitSim with hazard detection.",
     tech: "Assembly · CircuitSim · Excel",
     year: "2025",
     href: "https://github.com/jlee600/lc3200b-pipelined-processor",
@@ -200,7 +205,7 @@ export default function App() {
       <style>{globalCSS}</style>
 
       {/* Top bar */}
-      <header className="border-b border-[var(--border-subtle)] bg-[var(--bg-subtle)] shadow-sm">
+      <header className="border-b border-[var(--border-subtle)] bg-[var(--shell-bg)] shadow-sm">
         <div className="mx-auto max-w-[1500px] px-4 md:px-6 h-14 flex items-center gap-3">
           <span className="text-sm text-[var(--fg-muted)]">EvanLee</span>
           <span className="text-sm text-[var(--fg-muted)] opacity-60">/</span>
@@ -231,8 +236,9 @@ export default function App() {
                   <div className="text-[17px] font-semibold leading-tight">
                     Evan Lee
                   </div>
-                  <div className="mt-2 inline-flex items-center gap-1 rounded-full border border-[var(--border-subtle)] bg-[#f6f8fa] px-3 py-[5px] text-[12px] text-[var(--fg-muted)]">
-                    Software engineer · CS @ Georgia Tech
+                  <div className="mt-1 text-[13px] text-[var(--fg-muted)]">
+                    <span className="font-medium text-[var(--fg)]">Software engineer</span>
+                    <span className="opacity-70"> · CS @ Georgia Tech</span>
                   </div>
                 </div>
               </div>
@@ -259,7 +265,7 @@ export default function App() {
                   </a>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <LinkIcon size={14} />
+                  <FileText size={14} />
                   <a
                     href="/img/resume.pdf"
                     className="text-[var(--accent)] hover:underline"
@@ -340,7 +346,7 @@ function OverviewTab() {
       {/* About */}
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
         <div className="flex items-center justify-between">
-          <h2 className="text-[15px] font-semibold flex items-center gap-2">
+          <h2 className="text-[15px] font-semibold flex items-center gap-2 text-[var(--accent)]">
             <BookOpen size={16} className="text-[var(--fg-muted)]" />
             Overview
           </h2>
@@ -367,7 +373,10 @@ function OverviewTab() {
 
       {/* Current focus */}
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
-        <h2 className="text-[15px] font-semibold mb-2">Current Focus</h2>
+        <h2 className="text-[15px] font-semibold mb-2 flex items-center gap-2 text-[var(--accent)]">
+          <Spotlight size={16} className="text-[var(--fg-muted)]" />
+        Current Focus
+        </h2>
         <ul className="list-disc pl-5 space-y-1.5 text-[13px] text-[var(--fg-muted)]">
           <li>Building agentic workflows for planning and analysis at KLSA.</li>
           <li>
@@ -380,7 +389,7 @@ function OverviewTab() {
 
       {/* Pinned work */}
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
-        <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2">
+        <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2 text-[var(--accent)]">
           <Star size={16} className="text-[var(--fg-muted)]" />
           Pinned Work
         </h2>
@@ -431,14 +440,15 @@ function OverviewTab() {
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
         <div className="space-y-4">
           <div>
-            <h2 className="text-[15px] font-semibold mb-3">
+            <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2 text-[var(--accent)]">
+              <TrendingUp size={16} className="text-[var(--fg-muted)]" />
               Impact at a glance
             </h2>
             <div className="grid gap-3 sm:grid-cols-3 text-[12px]">
               {IMPACT_AT_A_GLANCE.map((item) => (
                 <div
                   key={item.label}
-                  className="rounded-md border border-[var(--border-subtle)] bg-[#f6f8fa] px-3 py-2"
+                  className="rounded-md border border-[var(--border-subtle)] bg-transparent px-3 py-2"
                 >
                   <div className="text-[11px] text-[var(--fg-muted)]">
                     {item.label}
@@ -457,14 +467,15 @@ function OverviewTab() {
           <div className="py-1" />
 
           <div>
-            <h2 className="text-[15px] font-semibold mb-3">
+            <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2 text-[var(--accent)]">
+              <Boxes size={16} className="text-[var(--fg-muted)]" />
               Tech Stack at a glance
             </h2>
             <div className="grid gap-3 sm:grid-cols-3 text-[12px]">
               {TECH_STACK_AT_A_GLANCE.map((item) => (
                 <div
                   key={item.label}
-                  className="rounded-md border border-[var(--border-subtle)] bg-[#f6f8fa] px-3 py-2"
+                  className="rounded-md border border-[var(--border-subtle)] bg-transparent px-3 py-2"
                 >
                   <div className="text-[11px] text-[var(--fg-muted)]">
                     {item.label}
@@ -555,7 +566,7 @@ function ExperienceTab() {
   return (
     <div className="space-y-4">
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
-        <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2">
+        <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2 text-[var(--accent)]">
           <Briefcase size={16} className="text-[var(--fg-muted)]" />
           Experience
         </h2>
@@ -663,7 +674,7 @@ function ProjectsTab() {
   return (
     <div className="space-y-4">
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
-        <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2">
+        <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2 text-[var(--accent)]">
           <Layers size={16} className="text-[var(--fg-muted)]" />
           Projects
         </h2>
@@ -793,7 +804,7 @@ function SkillsTab() {
   return (
     <div className="space-y-4">
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
-        <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2">
+        <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2 text-[var(--accent)]">
           <Code2 size={16} className="text-[var(--fg-muted)]" />
           Skills
         </h2>
@@ -963,7 +974,7 @@ function ContactTab() {
   return (
     <div className="space-y-4">
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
-        <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2">
+        <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2 text-[var(--accent)]">
           <Mail size={16} className="text-[var(--fg-muted)]" />
           Contact
         </h2>
@@ -1015,7 +1026,7 @@ function ContactTab() {
 
         {/* Recruiter notes */}
         <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] text-[12px] text-[var(--fg-muted)]">
-          <div className="font-semibold text-[var(--fg)] mb-1">
+          <div className="font-semibold text-[var(--accent)] mb-1">
             Quick notes for recruiters
           </div>
 
