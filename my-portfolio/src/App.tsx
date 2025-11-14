@@ -222,7 +222,7 @@ export default function App() {
                 <div className="flex items-center gap-1.5">
                   <LinkIcon size={14} />
                   <a
-                    href="/img/Resume.pdf"
+                    href="/img/resume.pdf"
                     className="text-[var(--accent)] hover:underline"
                     target="_blank"
                     rel="noreferrer"
@@ -307,7 +307,7 @@ function OverviewTab() {
           </h2>
 
           <a
-            href="/img/Resume.pdf"
+            href="/img/resume.pdf"
             target="_blank"
             rel="noreferrer"
             className="text-[13px] text-[var(--accent)] hover:underline flex items-center gap-1"
@@ -861,6 +861,13 @@ function SkillRow({ name, level }: { name: string; level: number }) {
 /* -------------------- Contact -------------------- */
 
 function ContactTab() {
+  const handleEmailClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Just in case some global handler runs preventDefault
+    e.stopPropagation();
+    // Do NOT call e.preventDefault()
+    window.location.href = "mailto:evanj3034@gmail.com";
+  };
+
   return (
     <div className="space-y-4">
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
@@ -875,16 +882,19 @@ function ContactTab() {
         </p>
 
         <div className="space-y-2 text-[13px] text-[var(--fg-muted)]">
+          {/* Email */}
           <div className="flex items-center gap-2">
             <Mail size={14} />
             <a
               href="mailto:evanj3034@gmail.com"
+              onClick={handleEmailClick}
               className="flex items-center gap-2 text-[var(--accent)] hover:underline"
-              data-interactive="true"
             >
               evanj3034@gmail.com
             </a>
           </div>
+
+          {/* GitHub */}
           <div className="flex items-center gap-2">
             <Github size={14} />
             <a
@@ -896,6 +906,8 @@ function ContactTab() {
               github.com/jlee600
             </a>
           </div>
+
+          {/* LinkedIn */}
           <div className="flex items-center gap-2">
             <Linkedin size={14} />
             <a
