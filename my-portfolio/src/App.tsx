@@ -160,7 +160,7 @@ const PROJECTS: Project[] = [
     id: 4,
     name: "Pipelined LC-3200b CPU",
     description:
-      "Five-stage pipelined CPU in CircuitSim with hazard detection",
+      "Five-stage pipelined CPU in CircuitSim with hazard detection.",
     tech: "Assembly · CircuitSim · Excel",
     year: "2025",
     href: "https://github.com/jlee600/lc3200b-pipelined-processor",
