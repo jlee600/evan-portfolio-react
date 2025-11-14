@@ -414,7 +414,7 @@ function OverviewTab() {
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
         <h2 className="text-[15px] font-semibold mb-2 flex items-center gap-2 text-[var(--accent)]">
           <Spotlight size={16} className="text-[var(--fg-muted)]" />
-        Current Focus
+          Current Focus
         </h2>
         <ul className="list-disc pl-5 space-y-1.5 text-[13px] text-[var(--fg-muted)]">
           <li>Building agentic workflows for planning and analysis at KLSA.</li>
