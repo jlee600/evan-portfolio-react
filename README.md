@@ -11,9 +11,6 @@ It highlights my software engineering experience, selected projects, and ongoing
 
 ## Tech Stack
 
-- **Frontend:** React, TypeScript, Tailwind CSS, Framer Motion  
+- **Frontend:** React, TypeScript, Tailwind CSS
 - **Build Tool:** Vite  
 - **Deployment:** Vercel  
-- **Design:** Minimal layout with soft gradients and dynamic hover animations  
-
----
