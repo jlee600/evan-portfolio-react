@@ -210,6 +210,22 @@ const TABS: { id: TabId; label: string; icon: React.ReactNode }[] = [
 function classNames(...list: Array<string | false | null | undefined>) {
   return list.filter(Boolean).join(" ");
 }
+function FocusMixRow({
+  label,
+  level,
+}: {
+  label: string;
+  level: number;
+}) {
+  return (
+    <div className="flex items-center justify-between text-[11px]">
+      <span className="text-[var(--fg-muted)]">{label}</span>
+      <div className="ml-2">
+        <LevelSquares level={level} />
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>("overview");
@@ -324,12 +340,15 @@ export default function App() {
                 <span className="font-semibold text-[var(--fg)]">
                   Backend · Data · AI
                 </span>
+                
               </div>
-              <div className="mt-2 flex items-center justify-between text-[12px] text-[var(--fg-muted)]">
-                <span>Looking for</span>
-                <span className="font-semibold text-[var(--fg)]">
-                  2026 SWE / Data roles
-                </span>
+              <div className="mt-3 border-t border-[var(--border-subtle)] pt-3">
+                <div className="space-y-1">
+                  <FocusMixRow label="Backend" level={5} />
+                  <FocusMixRow label="Data" level={5} />
+                  <FocusMixRow label="DevOps" level={4} />
+                  <FocusMixRow label="Frontend" level={3} />
+                </div>
               </div>
             </div>
           </aside>
