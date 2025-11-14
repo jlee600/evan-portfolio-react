@@ -300,6 +300,8 @@ export default function App() {
 
               <p className="mt-3 text-[13px] leading-relaxed text-[var(--fg-muted)]">
                 Backend and data focused developer who likes clean systems,
+              </p>
+              <p className="text-[13px] leading-relaxed text-[var(--fg-muted)]">
                 fast feedback loops, and practical ML.
               </p>
 
