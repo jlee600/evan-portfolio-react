@@ -643,10 +643,10 @@ function ExperienceTab() {
             ]}
           />
           <ExperienceItem
-            company="Georgia Tech Research Institute"
+            company="Georgia Tech EPIC Lab"
             role="Software Engineer"
             dates="Spring 2025 – Present"
-            logo="/img/logo/gtri.jpg"
+            logo="/img/logo/epic.jpeg"
             bullets={[
               "Working on ML-driven controllers and tooling for a hip exoskeleton platform.",
               "Shipping dashboards and scripts that make it easier for researchers to run experiments.",
@@ -697,7 +697,7 @@ function ExperienceItem({
         {/* Left side: logo + company */}
         <div className="flex items-center gap-2">
           {logo && (
-            <div className="h-5 w-5 rounded-sm overflow-hidden opacity-70">
+            <div className="h-5 w-5 rounded-sm overflow-hidden opacity-100">
               <img
                 src={logo}
                 alt={`${company} logo`}
