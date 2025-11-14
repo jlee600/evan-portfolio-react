@@ -743,7 +743,7 @@ const SKILLS: SkillGroup[] = [
     category: "Backend",
     items: [
       { name: "Python", level: 5 },
-      { name: "Java", level: 5 },
+      { name: "Java / Kotlin", level: 5 },
       { name: "PostgreSQL / MySQL", level: 4 },
       { name: "FastAPI", level: 4 },
       { name: "REST APIs", level: 4 },
