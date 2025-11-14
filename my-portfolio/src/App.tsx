@@ -66,6 +66,46 @@ type Project = {
   demo?: string; 
   img?: string;
 };
+
+const IMPACT_AT_A_GLANCE = [
+  {
+    label: "Automation savings",
+    value: "33%",
+    detail:
+      "Shorter analysis time across 27 research workflows with n8n + AI agents at KLSA",
+  },
+  {
+    label: "Experiment setup",
+    value: "55%",
+    detail:
+      "Faster Jetson controller setup from the real-time dashboard used by EPIC Lab researchers",
+  },
+  {
+    label: "Deployments",
+    value: "43%",
+    detail:
+      "Faster SDK deployment cycles after CI/CD work on GitHub Actions and AWS at SendSafely",
+  },
+];
+
+const TECH_STACK_AT_A_GLANCE = [
+  {
+    label: "Languages",
+    value: "Python · Java · SQL",
+    detail: "C, TypeScript, JavaScript, and Assembly",
+  },
+  {
+    label: "Backend & data",
+    value: "FastAPI · REST · SQL",
+    detail: "PostgreSQL, MySQL, SQLite, and data tooling",
+  },
+  {
+    label: "Cloud & workflow",
+    value: "AWS · GitHub Actions",
+    detail: "KMS, S3, Secrets Manager, and n8n",
+  },
+];
+
 const PROJECTS: Project[] = [
   {
     id: 1,
@@ -325,6 +365,19 @@ function OverviewTab() {
         </p>
       </section>
 
+      {/* Current focus */}
+      <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
+        <h2 className="text-[15px] font-semibold mb-2">Current focus</h2>
+        <ul className="list-disc pl-5 space-y-1.5 text-[13px] text-[var(--fg-muted)]">
+          <li>Building agentic workflows for planning and analysis at KLSA.</li>
+          <li>
+            Improving exoskeleton control tools and dashboards for the EPIC
+            Lab.
+          </li>
+          <li>Preparing for 2026 SWE / data internships.</li>
+        </ul>
+      </section>
+
       {/* Pinned work */}
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
         <h2 className="text-[15px] font-semibold mb-3 flex items-center gap-2">
@@ -338,19 +391,19 @@ function OverviewTab() {
               title: "CollabPlan-AI",
               desc: "Local-first meeting analysis with transcription, diarization, and action items.",
               tech: "Python · FastAPI · React · SQLite · HF",
-              link: "https://github.com/jlee600/CollabPlan-AI"
+              link: "https://github.com/jlee600/CollabPlan-AI",
             },
             {
-              title: "hip-exo-controller",
+              title: "Exo-Launcher",
               desc: "Control tools and dashboards for a Jetson-based robotic hip exoskeleton.",
               tech: "Python · Jetson · Dash · SSH",
-              link: "https://github.com/jlee600/Exo-Launcher"
+              link: "https://github.com/jlee600/Exo-Launcher",
             },
             {
               title: "lc3200b-pipeline",
               desc: "Five-stage pipelined CPU with hazard detection and forwarding.",
               tech: "CircuitSim · Assembly",
-              link: "https://github.com/jlee600/lc3200b-pipelined-processor"
+              link: "https://github.com/jlee600/lc3200b-pipelined-processor",
             },
           ].map((proj) => (
             <a
@@ -374,17 +427,56 @@ function OverviewTab() {
         </div>
       </section>
 
-      {/* Current focus */}
+      {/* Impact strip */}
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
-        <h2 className="text-[15px] font-semibold mb-2">Current focus</h2>
-        <ul className="list-disc pl-5 space-y-1.5 text-[13px] text-[var(--fg-muted)]">
-          <li>Building agentic workflows for planning and analysis at KLSA.</li>
-          <li>
-            Improving exoskeleton control tools and dashboards for the EPIC
-            Lab.
-          </li>
-          <li>Preparing for 2026 SWE / data internships.</li>
-        </ul>
+        <h2 className="text-[15px] font-semibold mb-3">
+          Impact at a glance
+        </h2>
+        <div className="grid gap-3 sm:grid-cols-3 text-[12px]">
+          {IMPACT_AT_A_GLANCE.map((item) => (
+            <div
+              key={item.label}
+              className="rounded-md border border-[var(--border-subtle)] bg-[#f6f8fa] px-3 py-2"
+            >
+              <div className="text-[11px] text-[var(--fg-muted)]">
+                {item.label}
+              </div>
+              <div className="text-[18px] font-semibold text-[var(--fg)] leading-tight">
+                {item.value}
+              </div>
+              <div className="mt-1 text-[11px] text-[var(--fg-muted)]">
+                {item.detail}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+      
+      <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
+        <h2 className="text-[15px] font-semibold mb-3">
+          Tech stack at a glance
+        </h2>
+
+        <div className="grid gap-3 sm:grid-cols-3 text-[12px]">
+          {TECH_STACK_AT_A_GLANCE.map((item) => (
+            <div
+              key={item.label}
+              className="rounded-md border border-[var(--border-subtle)] bg-[#f6f8fa] px-3 py-2"
+            >
+              <div className="text-[11px] text-[var(--fg-muted)]">
+                {item.label}
+              </div>
+
+              <div className="text-[15px] font-semibold text-[var(--fg)] leading-tight">
+                {item.value}
+              </div>
+
+              <div className="mt-1 text-[11px] text-[var(--fg-muted)]">
+                {item.detail}
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );
@@ -861,9 +953,7 @@ function SkillRow({ name, level }: { name: string; level: number }) {
 
 function ContactTab() {
   const handleEmailClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    // Just in case some global handler runs preventDefault
     e.stopPropagation();
-    // Do NOT call e.preventDefault()
     window.location.href = "mailto:evanj3034@gmail.com";
   };
 
@@ -918,6 +1008,18 @@ function ContactTab() {
               linkedin.com/in/jlee4223
             </a>
           </div>
+        </div>
+
+        {/* Recruiter notes */}
+        <div className="mt-4 pt-3 border-t border-[var(--border-subtle)] text-[12px] text-[var(--fg-muted)]">
+          <div className="font-semibold text-[var(--fg)] mb-1">
+            Quick notes for recruiters
+          </div>
+          <ul className="space-y-1">
+            <li>Open to backend and data-focused SWE roles for 2026.</li>
+            <li>Based in Atlanta, open to remote and relocations.</li>
+            <li>Strong fit for teams that mix backend systems and data workflows.</li>
+          </ul>
         </div>
       </section>
     </div>
