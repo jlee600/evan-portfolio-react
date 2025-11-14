@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Github,
   Mail,
@@ -16,7 +16,9 @@ import {
   FileText,
   Spotlight,
   TrendingUp,
-  Boxes
+  Boxes,
+  Sun, 
+  Moon
 } from "lucide-react";
 
 import {
@@ -41,6 +43,18 @@ const globalCSS = `
   --accent: #0969da;
   --accent-soft: #ddf4ff;
   --shadow: 0 1px 0 rgba(31,35,40,0.04);
+}
+:root[data-theme="dark"] {
+  --bg: #0d1117;
+  --shell-bg: #010409; 
+  --bg-subtle: #0d1117;  
+  --fg: #c9d1d9;
+  --fg-muted: #8b949e;
+  --border: #30363d;
+  --border-subtle: #21262d;
+  --accent: #58a6ff;
+  --accent-soft: #1f6feb33;
+  --shadow: 0 0 0 rgba(0,0,0,0);
 }
 
 * {
@@ -199,6 +213,11 @@ function classNames(...list: Array<string | false | null | undefined>) {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>("overview");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
 
   return (
     <div className="min-h-screen">
@@ -209,9 +228,29 @@ export default function App() {
         <div className="mx-auto max-w-[1500px] px-4 md:px-6 h-14 flex items-center gap-3">
           <span className="text-sm text-[var(--fg-muted)]">EvanLee</span>
           <span className="text-sm text-[var(--fg-muted)] opacity-60">/</span>
-          <span className="text-sm font-semibold text-[var(--fg)]">
-            portfolio
-          </span>
+          <span className="text-sm font-semibold text-[var(--fg)]">portfolio</span>
+
+          <div className="ml-auto flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                setTheme((prev) => (prev === "light" ? "dark" : "light"))
+              }
+              className="inline-flex items-center gap-1 rounded-full border border-[var(--border-subtle)] bg-[var(--bg)] px-2.5 py-1 text-[11px] text-[var(--fg-muted)] hover:border-[var(--accent)] hover:text-[var(--fg)]"
+            >
+              {theme === "light" ? (
+                <>
+                  <Moon size={13} />
+                  <span>Dark</span>
+                </>
+              ) : (
+                <>
+                  <Sun size={13} />
+                  <span>Light</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -420,7 +459,7 @@ function OverviewTab() {
               href={proj.link}
               target="_blank"
               rel="noreferrer"
-              className="group block rounded-lg border border-[var(--border-subtle)] bg-[var(--bg)] p-4 hover:border-[var(--accent)] transition-colors"
+              className="group block rounded-lg border border-[var(--border-subtle)] bg-[var(--bg-subtle)] p-4 hover:border-[var(--accent)] hover:bg-[var(--bg-subtle)]/95 transition-colors"
             >
               <div className="text-[14px] font-semibold text-[var(--fg)] group-hover:underline flex items-center gap-1">
                 {proj.title}
@@ -762,7 +801,7 @@ const SKILLS: SkillGroup[] = [
   },
 ];
 
-// map your 6 groups to 4 radar axes
+// map 6 groups to 4 radar axes
 const RADAR_GROUPS: Record<SkillGroup["category"], "Backend" | "Frontend" | "Data" | "DevOps" | null> = {
   Backend: "Backend",
   Frontend: "Frontend",
@@ -810,7 +849,7 @@ function SkillsTab() {
         </h2>
 
         {/* Radar card */}
-        <div className="mb-5 rounded-md border border-[var(--border-subtle)] bg-[#fff] px-3 py-2 md:px-4 md:py-2">
+        <div className="mb-5 rounded-md border border-[var(--border-subtle)] bg-[var(--bg-subtle)] px-3 py-2 md:px-4 md:py-2">
           <div className="mx-auto flex max-w-[540px] flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="w-full max-w-[260px]">
               <SkillRadar data={radarData} />
@@ -922,7 +961,7 @@ function SkillGroupGrid({
   items: SkillItem[];
 }) {
   return (
-    <div className="border border-[var(--border-subtle)] rounded-md p-3 bg-[#fff]">
+    <div className="border border-[var(--border-subtle)] rounded-md p-3 bg-[var(--bg-subtle)]">
       <div className="text-[13px] font-semibold mb-2">{title}</div>
       <div className="space-y-1.5">
         {items.map((item) => (
@@ -935,12 +974,12 @@ function SkillGroupGrid({
 
 function LevelSquares({ level }: { level: number }) {
   const shades = [
-    "#ebedf0", // 0
-    "#c6e48b", // 1
-    "#9be9a8", // 2
-    "#40c463", // 3
-    "#30a14e", // 4
-    "#216e39", // 5
+    "#ebedf0", 
+    "#c6e48b", 
+    "#9be9a8", 
+    "#40c463", 
+    "#30a14e", 
+    "#216e39",
   ];
 
   return (
