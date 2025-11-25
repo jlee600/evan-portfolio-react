@@ -1088,7 +1088,7 @@ function ResumeTab() {
             </div>
             <div className="space-y-1.5">
               {csCourses.map((course) => (
-                <CourseRow key={course.code} course={course} />
+                <CourseRow key={course.code} course={course} codeWidthClass="min-w-[70px]"/>
               ))}
             </div>
           </div>
@@ -1098,7 +1098,7 @@ function ResumeTab() {
             <div className="text-[13px] font-semibold mb-2">Math</div>
             <div className="space-y-1.5">
               {mathCourses.map((course) => (
-                <CourseRow key={course.code} course={course} />
+                <CourseRow key={course.code} course={course} codeWidthClass="min-w-[80px]"/>
               ))}
             </div>
           </div>
@@ -1110,7 +1110,7 @@ function ResumeTab() {
 
 function CourseRow({
   course,
-  codeWidthClass = "min-w-[70px]",
+  codeWidthClass = "min-w-[80px]",
 }: {
   course: Course;
   codeWidthClass?: string;
