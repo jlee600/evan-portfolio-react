@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+
 import {
   Github,
   Mail,
@@ -73,7 +74,7 @@ body {
 }
 `;
 
-type TabId = "overview" | "experience" | "projects" | "skills" | "contact";
+type TabId = "overview" | "experience" | "projects" | "skills" | "resume" | "contact";
 type ProjectTag = "Full Stack" | "Data" | "Systems";
 type Project = {
   id: number;
@@ -198,11 +199,148 @@ const PROJECTS: Project[] = [
   },
 ];
 
+type SkillLevel = 1 | 2 | 3 | 4 | 5;
+type SkillItem = { name: string; level: SkillLevel };
+type SkillGroup = {
+  category: "Backend" | "Frontend" | "Data" | "Cloud / DevOps" | "Tooling" | "Team";
+  items: { name: string; level: SkillLevel }[];
+};
+
+const SKILLS: SkillGroup[] = [
+  {
+    category: "Backend",
+    items: [
+      { name: "Python", level: 5 },
+      { name: "Java / Kotlin", level: 5 },
+      { name: "PostgreSQL / MySQL", level: 4 },
+      { name: "FastAPI", level: 4 },
+      { name: "REST APIs", level: 4 },
+      { name: "C", level: 3 },
+    ],
+  },
+  {
+    category: "Frontend",
+    items: [
+      { name: "Android (Java/XML)", level: 4 },
+      { name: "Javascript / Typescript", level: 4 },
+      { name: "HTML / CSS", level: 3 },
+      { name: "React", level: 3 },
+      { name: "Tailwind", level: 3 },
+      { name: "Vite", level: 2 },
+    ],
+  },
+  {
+    category: "Data",
+    items: [
+      { name: "Pandas / Numpy", level: 5 },
+      { name: "Matplotlib", level: 5 },
+      { name: "Dash / Plotly", level: 4 },
+      { name: "Hugging Face", level: 3 },
+      { name: "TCN", level: 2 },
+    ],
+  },
+  {
+    category: "Cloud / DevOps",
+    items: [
+      { name: "GitHub Actions", level: 5 },
+      { name: "Shell scripting", level: 4 },
+      { name: "Jira", level: 4 },
+      { name: "AWS (KMS, S3, Secrets)", level: 3 },
+      { name: "Docker", level: 2 },
+    ],
+  },
+  {
+    category: "Tooling",
+    items: [
+      { name: "Git", level: 5 },
+      { name: "VS Code / IntelliJ", level: 5 },
+      { name: "MySQL Workbench / DataGrip", level: 4 },
+      { name: "LaTeX", level: 2 },
+    ],
+  },
+  {
+    category: "Team",
+    items: [
+      { name: "Mentoring / Peer Instruction", level: 5 },
+      { name: "Cross-Team Collaboration", level: 5 },
+      { name: "Code Reviews", level: 4 },
+      { name: "Technical Documentation", level: 4 },
+    ],
+  },
+];
+
+// map 6 groups to 4 radar axes
+const RADAR_GROUPS: Record<SkillGroup["category"], "Backend" | "Frontend" | "Data" | "DevOps" | null> = {
+  Backend: "Backend",
+  Frontend: "Frontend",
+  Data: "Data",
+  "Cloud / DevOps": "DevOps",
+  Tooling: null,
+  Team: null,
+};
+
+type RadarPoint = { name: string; score: number };
+
+// average levels per axis and scale to 0–100
+function makeRadarData(skills: SkillGroup[]): RadarPoint[] {
+  const buckets: Record<string, { sum: number; n: number }> = {};
+
+  Object.values(RADAR_GROUPS).forEach((axis) => {
+    if (axis) buckets[axis] = { sum: 0, n: 0 };
+  });
+
+  skills.forEach((group) => {
+    const axis = RADAR_GROUPS[group.category];
+    if (!axis) return;
+
+    group.items.forEach((item) => {
+      buckets[axis].sum += item.level;
+      buckets[axis].n += 1;
+    });
+  });
+
+  return Object.entries(buckets).map(([name, { sum, n }]) => ({
+    name,
+    score: n ? Math.round((sum / n) * 20) : 0, 
+  }));
+}
+
+type Course = {
+  code: string;   
+  title: string;   
+  category: "CS" | "Math";
+  key?: boolean;
+};
+const COURSEWORK: Course[] = [
+  // CS
+  { code: "CS 1331", title: "Object-Oriented Programming", category: "CS" },
+  { code: "CS 1332", title: "Data Structures & Algorithms", category: "CS" , key: true },
+  { code: "CS 2050", title: "Discrete Math for CS", category: "CS" },
+  { code: "CS 2340", title: "Objects & Design", category: "CS" },
+  { code: "CS 2110", title: "Computer Organization & Programming", category: "CS" },
+  { code: "CS 2200", title: "Systems & Networks", category: "CS" , key: true},
+  { code: "CS 3251", title: "Computer Networking I", category: "CS" },
+  { code: "CS 3510", title: "Design & Analysis of Algorithms", category: "CS" },
+  { code: "CS 3600", title: "Artificial Intelligence", category: "CS" , key: true},
+  { code: "CS 3630", title: "Perception & Robotics", category: "CS" },
+  { code: "CS 4400", title: "Database Systems", category: "CS", key: true },
+  { code: "CS 4476", title: "Computer Vision", category: "CS" , key: true},
+
+  // Math
+  { code: "MATH 1551", title: "Differential Calculus", category: "Math" },
+  { code: "MATH 1552", title: "Integral Calculus", category: "Math" },
+  { code: "MATH 1554", title: "Linear Algebra", category: "Math" , key: true },
+  { code: "MATH 2550", title: "Multivariable Calculus", category: "Math" },
+  { code: "MATH 3670", title: "Statistics and Applications", category: "Math" , key: true },
+  { code: "MATH 3012", title: "Applied Combinatorics", category: "Math" },
+];
+
 const TABS: { id: TabId; label: string; icon: React.ReactNode }[] = [
   { id: "overview", label: "Overview", icon: <BookOpen size={15} /> },
   { id: "experience", label: "Experience", icon: <Briefcase size={15} /> },
   { id: "projects", label: "Projects", icon: <Layers size={15} /> },
   { id: "skills", label: "Skills", icon: <Code2 size={15} /> },
+  { id: "resume", label: "Resume", icon: <FileText size={15} /> },
   { id: "contact", label: "Contact", icon: <Mail size={15} /> },
 ];
 
@@ -323,14 +461,13 @@ export default function App() {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <FileText size={14} />
-                  <a
-                    href="/img/resume.pdf"
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("resume")}
                     className="text-[var(--accent)] hover:underline"
-                    target="_blank"
-                    rel="noreferrer"
                   >
                     View Resume
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -389,6 +526,7 @@ export default function App() {
               {activeTab === "experience" && <ExperienceTab />}
               {activeTab === "projects" && <ProjectsTab />}
               {activeTab === "skills" && <SkillsTab />}
+              {activeTab === "resume" && <ResumeTab />}
               {activeTab === "contact" && <ContactTab />}
             </div>
           </section>
@@ -752,112 +890,6 @@ function ProjectsTab() {
 
 /* -------------------- Skills -------------------- */
 
-type SkillLevel = 1 | 2 | 3 | 4 | 5;
-type SkillItem = { name: string; level: SkillLevel };
-type SkillGroup = {
-  category: "Backend" | "Frontend" | "Data" | "Cloud / DevOps" | "Tooling" | "Team";
-  items: { name: string; level: SkillLevel }[];
-};
-
-const SKILLS: SkillGroup[] = [
-  {
-    category: "Backend",
-    items: [
-      { name: "Python", level: 5 },
-      { name: "Java / Kotlin", level: 5 },
-      { name: "PostgreSQL / MySQL", level: 4 },
-      { name: "FastAPI", level: 4 },
-      { name: "REST APIs", level: 4 },
-      { name: "C", level: 3 },
-    ],
-  },
-  {
-    category: "Frontend",
-    items: [
-      { name: "Android (Java/XML)", level: 4 },
-      { name: "Javascript / Typescript", level: 4 },
-      { name: "HTML / CSS", level: 3 },
-      { name: "React", level: 3 },
-      { name: "Tailwind", level: 3 },
-      { name: "Vite", level: 2 },
-    ],
-  },
-  {
-    category: "Data",
-    items: [
-      { name: "Pandas / Numpy", level: 5 },
-      { name: "Matplotlib", level: 5 },
-      { name: "Dash / Plotly", level: 4 },
-      { name: "Hugging Face", level: 3 },
-      { name: "TCN", level: 2 },
-    ],
-  },
-  {
-    category: "Cloud / DevOps",
-    items: [
-      { name: "GitHub Actions", level: 5 },
-      { name: "Shell scripting", level: 4 },
-      { name: "Jira", level: 4 },
-      { name: "AWS (KMS, S3, Secrets)", level: 3 },
-      { name: "Docker", level: 2 },
-    ],
-  },
-  {
-    category: "Tooling",
-    items: [
-      { name: "Git", level: 5 },
-      { name: "VS Code / IntelliJ", level: 5 },
-      { name: "MySQL Workbench / DataGrip", level: 4 },
-      { name: "LaTeX", level: 2 },
-    ],
-  },
-  {
-    category: "Team",
-    items: [
-      { name: "Mentoring / Peer Instruction", level: 5 },
-      { name: "Cross-Team Collaboration", level: 5 },
-      { name: "Code Reviews", level: 4 },
-      { name: "Technical Documentation", level: 4 },
-    ],
-  },
-];
-
-// map 6 groups to 4 radar axes
-const RADAR_GROUPS: Record<SkillGroup["category"], "Backend" | "Frontend" | "Data" | "DevOps" | null> = {
-  Backend: "Backend",
-  Frontend: "Frontend",
-  Data: "Data",
-  "Cloud / DevOps": "DevOps",
-  Tooling: null,
-  Team: null,
-};
-
-type RadarPoint = { name: string; score: number };
-
-// average levels per axis and scale to 0–100
-function makeRadarData(skills: SkillGroup[]): RadarPoint[] {
-  const buckets: Record<string, { sum: number; n: number }> = {};
-
-  Object.values(RADAR_GROUPS).forEach((axis) => {
-    if (axis) buckets[axis] = { sum: 0, n: 0 };
-  });
-
-  skills.forEach((group) => {
-    const axis = RADAR_GROUPS[group.category];
-    if (!axis) return;
-
-    group.items.forEach((item) => {
-      buckets[axis].sum += item.level;
-      buckets[axis].n += 1;
-    });
-  });
-
-  return Object.entries(buckets).map(([name, { sum, n }]) => ({
-    name,
-    score: n ? Math.round((sum / n) * 20) : 0, 
-  }));
-}
-
 function SkillsTab() {
   const radarData = makeRadarData(SKILLS);
 
@@ -1027,6 +1059,114 @@ function SkillRow({ name, level }: { name: string; level: number }) {
         <LevelSquares level={level} />
       </div>
     </div>
+  );
+}
+
+/* -------------------- Resume -------------------- */
+
+function ResumeTab() {
+  const csCourses = COURSEWORK.filter((c) => c.category === "CS");
+  const mathCourses = COURSEWORK.filter((c) => c.category === "Math");
+
+  return (
+    <div className="space-y-6">
+      <ResumePreview />
+
+      <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <BookOpen size={16} className="text-[var(--fg-muted)]" />
+          <h2 className="text-[15px] font-semibold text-[var(--accent)]">
+            Coursework
+          </h2>
+        </div>
+
+        <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-x-8">
+          {/* CS column */}
+          <div className="md:pr-6">
+            <div className="text-[13px] font-semibold mb-2">
+              Computer Science
+            </div>
+            <div className="space-y-1.5">
+              {csCourses.map((course) => (
+                <CourseRow key={course.code} course={course} />
+              ))}
+            </div>
+          </div>
+
+          {/* Math column */}
+          <div className="md:pl-6 md:border-l md:border-[var(--border-subtle)]">
+            <div className="text-[13px] font-semibold mb-2">Math</div>
+            <div className="space-y-1.5">
+              {mathCourses.map((course) => (
+                <CourseRow key={course.code} course={course} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function CourseRow({
+  course,
+  codeWidthClass = "min-w-[70px]",
+}: {
+  course: Course;
+  codeWidthClass?: string;
+}) {
+  const isKey = course.key;
+
+  return (
+    <div
+      className={classNames(
+        "flex items-baseline gap-3 text-[13px]",
+        isKey ? "font-semibold text-[var(--fg)]" : "text-[var(--fg-muted)]"
+      )}
+    >
+      <span
+        className={classNames(
+          "whitespace-nowrap",
+          codeWidthClass,
+          !isKey && "text-[var(--fg)]"
+        )}
+      >
+        {course.code}
+      </span>
+      <span>{course.title}</span>
+    </div>
+  );
+}
+
+function ResumePreview() {
+  return (
+    <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <FileText size={16} className="text-[var(--fg-muted)]" />
+          <h2 className="text-[15px] font-semibold text-[var(--accent)]">
+            Preview
+          </h2>
+        </div>
+
+        <a
+          href="/img/resume.pdf"
+          target="_blank"
+          rel="noreferrer"
+          className="text-[12px] text-[var(--accent)] hover:underline flex items-center gap-1"
+        >
+          Open full PDF
+          <ArrowUpRight size={13} />
+        </a>
+      </div>
+
+      <div className="border border-[var(--border-subtle)] rounded-md overflow-hidden h-[530px] bg-[var(--bg-subtle)]">
+        <iframe
+          src="/img/resume.pdf#toolbar=0&navpanes=0&scrollbar=0"
+          className="w-full h-[530px] rounded-md border border-[var(--border-subtle)]"
+        />
+      </div>
+    </section>
   );
 }
 
