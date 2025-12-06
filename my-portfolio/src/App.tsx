@@ -79,12 +79,17 @@ type ProjectTag = "Full Stack" | "Data" | "Systems";
 type Project = {
   id: number;
   name: string;
-  description: string;
-  tech: string;
   year: string;
-  href?: string; 
-  demo?: string; 
+  tech: string;
+  href?: string;
+  demo?: string;
   img?: string;
+
+  // narrative fields
+  headline: string;  // impact one-liner
+  context: string;   // why this exists
+  csAngle: string;   // tech / design reasoning
+  outcome: string;   // what it unlocked for users / you
 };
 
 const IMPACT_AT_A_GLANCE = [
@@ -129,73 +134,136 @@ const TECH_STACK_AT_A_GLANCE = [
 const PROJECTS: Project[] = [
   {
     id: 1,
-    name: "Collab-Plan AI",
-    description:
-      "AI-powered meeting and conversation assistant with transcription.",
-    tech: "Python · FastAPI · React · SQLite · HuggingFace",
+    name: "Chicken Game",
     year: "2025",
-    href: "https://github.com/jlee600/CollabPlan-AI",
-    demo: "https://youtu.be/iZvC5hSalXE",
-    img: "/img/collabplan.png",
+    tech: "Python · RL · A* · Simulation",
+    href: "https://github.com/jlee600/Chicken-Game",
+    img: "/img/chicken.png",
+
+    headline: "Grid world arena for testing search vs reinforcement learning.",
+    context:
+      "I wanted a small but honest setting to compare how search based agents and RL agents behave under pressure, not just how their loss curves look.",
+    csAngle:
+      "Built a custom environment, an A* baseline, and a simple RL agent in Python so I could control every part of state, rewards, and evaluation.",
+    outcome:
+      "Peak rating 1730 / 2000, 34 / 102 teams, trained on 18k logged games to compare search vs RL.",
   },
   {
     id: 2,
-    name: "Hip-Exo Skeleton",
-    description: "Development tools and controllers for a robotic hip exoskeleton platform.",
-    tech: "Python · ML · Mechatronics",
+    name: "Collab-Plan AI",
     year: "2025",
-    href: "https://www.epic.gatech.edu/projects/",
-    img: "/img/hipexo.jpg",
+    tech: "Python · FastAPI · React · SQLite · HuggingFace",
+    href: "https://github.com/jlee600/CollabPlan-AI",
+    demo: "https://youtu.be/iZvC5hSalXE",
+    img: "/img/collabplan.png",
+
+    headline: "Local first meeting assistant for calls that should not disappear.",
+    context:
+      "Teams had recordings, chat logs, and random notes, but nothing that made it easy to recall what was agreed or who owned which task.",
+    csAngle:
+      "Used FastAPI, React, and a local SQLite store so users keep control of data while running diarization and summarization with HF models.",
+    outcome:
+      "Cut meeting review time by ~28%, improved transcript clarity by ~11%, and handled 90-minute calls across 3 input modes.",
   },
   {
     id: 3,
-    name: "Master Exoskeleton Dashboard",
-    description: "Live dashboard and launcher for exoskeleton controller scripts.",
-    tech: "Python · SSH · Linux",
+    name: "Hip-Exo Skeleton",
     year: "2025",
-    href: "https://github.com/jlee600/Exo-Launcher",
-    demo: "/img/exo_dashboard.pdf",
-    img: "/img/rhex2.png",
+    tech: "Python · ML · Mechatronics",
+    href: "https://www.epic.gatech.edu/projects/",
+    img: "/img/hipexo.jpg",
+
+    headline: "Control and tooling for a hip exoskeleton in a real lab setting.",
+    context:
+      "Researchers needed controllers and helpers that could move from simulation to hardware without rewriting glue code each time.",
+    csAngle:
+      "Focused on clean Python modules, data logging, and ML friendly interfaces so control policies and experiments share one code path.",
+    outcome:
+      "Made it easier for the lab to try new policies and compare runs, instead of each person maintaining their own fragile script stack.",
   },
   {
     id: 4,
-    name: "Pipelined LC-3200b CPU",
-    description:
-      "Five-stage pipelined CPU in CircuitSim with hazard detection.",
-    tech: "Assembly · CircuitSim · Excel",
+    name: "Master Exoskeleton Dashboard",
     year: "2025",
-    href: "https://github.com/jlee600/lc3200b-pipelined-processor",
-    demo: "/img/lc3_report.pdf",
-    img: "/img/lc3.png",
+    tech: "Python · SSH · Linux",
+    href: "https://github.com/jlee600/Exo-Launcher",
+    demo: "/img/exo_dashboard.pdf",
+    img: "/img/rhex2.png",
+
+    headline: "Single launch surface for a cluster of Jetsons in the lab.",
+    context:
+      "Running experiments meant juggling many SSH sessions, passwords, and sync steps, which slowed people down and caused mistakes.",
+    csAngle:
+      "Built a Python based launcher and web dashboard that handles Wi Fi, SSH, and controller scripts as idempotent tasks instead of manual commands.",
+    outcome:
+      "Reduced Jetson setup time by ~55%, removed 4–6 manual steps per run, and centralized control for 25+ lab users.",
   },
   {
     id: 5,
-    name: "Airline Management System",
-    description: "MySQL database for managing airline operations and routes.",
-    tech: "MySQL · Draw.io",
+    name: "Pipelined LC-3200b CPU",
     year: "2025",
-    href: "https://github.com/jlee600/Airline-Management-System",
-    img: "/img/airline.png",
+    tech: "Assembly · CircuitSim · Excel",
+    href: "https://github.com/jlee600/lc3200b-pipelined-processor",
+    demo: "/img/lc3_report.pdf",
+    img: "/img/lc3.png",
+
+    headline: "Five stage pipeline to see hazards instead of just reading about them.",
+    context:
+      "I wanted a hands on way to feel how structural, data, and control hazards show up in a real design, not only in slides.",
+    csAngle:
+      "Implemented IF–ID–EX–MEM–WB with hazard detection and forwarding, then used traces and Excel to study CPI and stall behavior.",
+    outcome:
+      "Achieved about 4.1× speedup over the single-cycle design while cutting pipeline stalls by ~93% on test programs.",
   },
   {
     id: 6,
-    name: "Spotify-Wrapped Clone",
-    description: "Android app surfacing personalized listening stats.",
-    tech: "Java · Kotlin · Android Studio · SQLite · Spotify API",
-    year: "2024",
-    href: "https://github.com/jlee600/Spotify-Project",
-    demo: "https://youtu.be/cEpOLU2JK2M",
-    img: "/img/spotify.png",
+    name: "Airline Management System",
+    year: "2025",
+    tech: "MySQL · Draw.io",
+    href: "https://github.com/jlee600/Airline-Management-System",
+    img: "/img/airline.png",
+
+    headline: "Relational model for messy airline rules.",
+    context:
+      "I kept seeing toy database examples that ignore edge cases, so I wanted a schema that reflects real booking and route logic.",
+    csAngle:
+      "Designed an ER model in Draw.io, then translated it into MySQL tables, foreign keys, and queries that answer real ops questions.",
+    outcome:
+      "Designed 20+ normalized tables, built 14 stored procedures, and kept complex joins under 120 ms on 2k-row datasets.",
   },
   {
     id: 7,
+    name: "Spotify-Wrapped Clone",
+    year: "2024",
+    tech: "Java · Kotlin · Android Studio · SQLite · Spotify API",
+    href: "https://github.com/jlee600/Spotify-Project",
+    demo: "https://youtu.be/cEpOLU2JK2M",
+    img: "/img/spotify.png",
+
+    headline: "Year in review for music habits on Android.",
+    context:
+      "I wanted to learn Android by shipping something people instantly understand: a wrap up of what they actually listen to.",
+    csAngle:
+      "Used the Spotify API, a local SQLite cache, and Android UI patterns so stats feel fast and work even when the network is spotty.",
+    outcome:
+      "Improved local stats queries by 29%, cut API latency by 15%, and shipped v1 with a 6-person Android team.",
+  },
+  {
+    id: 8,
     name: "Han River EDA",
-    description: "Exploratory data analysis on South Korea's Han River.",
-    tech: "Python · Pandas · Matplotlib",
     year: "2023",
+    tech: "Python · Pandas · Matplotlib",
     href: "https://github.com/jlee600/HanRiverEDA/blob/main/Downloads/1302_project_1.ipynb",
     demo: "/img/eda_report.pdf",
     img: "/img/eda.png",
+
+    headline: "Telling a cleaner story with public data from the Han River.",
+    context:
+      "Raw CSV files were available, but it was hard to see what was happening to the river over time by reading tables alone.",
+    csAngle:
+      "Used Pandas to clean and reshape the data, then Matplotlib to build plots that expose trends in flow and quality.",
+    outcome:
+      "Produced a notebook that reads like a walkthrough instead of a dump of graphs, which helped classmates pick up the findings quickly.",
   },
 ];
 
@@ -694,67 +762,159 @@ function OverviewTab() {
   );
 }
 
-function PinnedRepo({ project }: { project: Project }) {
-  const primaryHref = project.href ?? project.demo ?? "#";
+function ProjectRow({ project }: { project: Project }) {
+  const primaryHref = project.href ?? project.demo;
 
   return (
-    <a
-      href={primaryHref}
-      target="_blank"
-      rel="noreferrer"
-      className="group rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] hover:bg-[var(--bg)] transition-colors shadow-[var(--shadow)] overflow-hidden flex flex-col"
+    <article
+      className="
+        rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-subtle)]
+        shadow-[var(--shadow)] p-3 md:p-4
+        flex flex-col md:flex-row gap-4 md:gap-5
+        hover:border-[var(--accent)] hover:bg-[var(--bg)] hover:shadow-sm
+        transition-all
+      "
     >
-      {/* Thumbnail */}
-      {project.img && (
-        <div className="aspect-[4/3] w-full overflow-hidden bg-[var(--bg-subtle)]">
-          <img
-            src={project.img}
-            alt={project.name}
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-          />
-        </div>
-      )}
-
-      {/* Content */}
-      <div className="p-4 flex flex-col flex-1">
-        {/* Name + Year */}
-        <div className="flex items-start justify-between gap-2 mb-1">
-          <div className="flex items-center gap-2">
-            <div className="text-[14px] font-semibold leading-tight group-hover:underline">
-              {project.name}
+      {/* Left: large thumbnail */}
+      <a
+        href={primaryHref}
+        target={primaryHref ? "_blank" : undefined}
+        rel={primaryHref ? "noreferrer" : undefined}
+        className={classNames(
+          "md:w-[360px] lg:w-[400px] w-full shrink-0",
+          primaryHref && "cursor-pointer"
+        )}
+      >
+        <div className="aspect-[4/3] w-full rounded-lg overflow-hidden border border-[var(--border-subtle)] bg-[var(--shell-bg)]">
+          {project.img ? (
+            <img
+              src={project.img}
+              alt={project.name}
+              className="h-full w-full object-cover transition-transform duration-300 hover:scale-[1.02]"
+            />
+          ) : (
+            <div className="h-full w-full flex items-center justify-center text-[11px] text-[var(--fg-muted)]">
+              Preview coming soon
             </div>
-          </div>
-
-          <span className="text-[11px] text-[var(--fg-muted)]">
-            {project.year}
-          </span>
-        </div>
-
-        {/* Description */}
-        <p className="text-[12px] text-[var(--fg-muted)] leading-relaxed mb-3">
-          {project.description}
-        </p>
-
-        {/* Footer: tech + demo pushed to bottom */}
-        <div className="mt-auto pt-2 border-t border-[var(--border-subtle)] flex items-center justify-between">
-          <p className="text-[11px] text-[var(--fg-muted)] truncate">
-            {project.tech}
-          </p>
-
-          {project.demo && (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="text-[11px] text-[var(--accent)] inline-flex items-center gap-1 group-hover:underline"
-            >
-              Demo <ArrowUpRight size={11} />
-            </a>
           )}
         </div>
+      </a>
+
+      {/* Right: header, body, footer */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Header */}
+        <header className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <h3 className="text-[14px] md:text-[15px] font-semibold text-[var(--fg)] truncate">
+              {project.name}
+            </h3>
+            <p className="
+              text-[12px] md:text-[13px]
+              text-[var(--fg-muted)]
+              bg-[var(--accent-soft)]
+              px-2 py-1 rounded-md
+              w-fit mt-1
+            ">
+              {project.headline}
+            </p>
+          </div>
+          <span className="text-[11px] text-[var(--fg-muted)] mt-0.5 whitespace-nowrap">
+            {project.year}
+          </span>
+        </header>
+
+        {/* Body */}
+        <div className="mt-3 flex-1 max-w-[70ch] space-y-3">
+          {project.context && (
+            <div className="border-l border-[var(--border-subtle)] pl-3">
+              <div className="text-[10px] font-semibold tracking-[0.12em] uppercase text-[var(--fg-muted)] mb-1">
+                Context
+              </div>
+              <p className="text-[12px] md:text-[13px] text-[var(--fg-muted)] leading-snug">
+                {project.context}
+              </p>
+            </div>
+          )}
+
+          {project.csAngle && (
+            <div className="border-l border-[var(--border-subtle)] pl-3">
+              <div className="text-[10px] font-semibold tracking-[0.12em] uppercase text-[var(--fg-muted)] mb-1">
+                Approach
+              </div>
+              <p className="text-[12px] md:text-[13px] text-[var(--fg-muted)] leading-snug">
+                {project.csAngle}
+              </p>
+            </div>
+          )}
+
+          {project.outcome && (
+            <div className="border-l border-[var(--border-subtle)] pl-3">
+              <div className="text-[10px] font-semibold tracking-[0.12em] uppercase text-[var(--fg-muted)] mb-1">
+                Result
+              </div>
+              <p className="text-[12px] md:text-[13px] text-[var(--fg-muted)] leading-snug">
+                {project.outcome}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Footer: tech left, buttons right (Demo then GitHub) */}
+        <footer className="mt-3 flex items-center gap-3">
+          {/* Tech stack on the left */}
+          <div className="text-[11px] text-[var(--fg-muted)]">
+            {project.tech}
+          </div>
+
+          {/* Buttons pinned to the right */}
+          <div className="flex gap-2 ml-auto">
+            {project.demo && (
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noreferrer"
+                className="
+                  inline-flex items-center gap-1
+                  px-2 py-1
+                  text-[10px]
+                  border border-[var(--border)]
+                  rounded-md
+                  text-[var(--fg-muted)]
+                  hover:text-[var(--fg)]
+                  hover:border-[var(--accent)]
+                  transition-colors
+                "
+              >
+                <ArrowUpRight size={11} />
+                Demo
+              </a>
+            )}
+
+            {project.href && (
+              <a
+                href={project.href}
+                target="_blank"
+                rel="noreferrer"
+                className="
+                  inline-flex items-center gap-1
+                  px-2 py-1
+                  text-[10px]
+                  border border-[var(--border)]
+                  rounded-md
+                  text-[var(--fg-muted)]
+                  hover:text-[var(--fg)]
+                  hover:border-[var(--accent)]
+                  transition-colors
+                "
+              >
+                <GithubIcon size={11} />
+                GitHub
+              </a>
+            )}
+          </div>
+        </footer>
       </div>
-    </a>
+    </article>
   );
 }
 
@@ -771,19 +931,9 @@ function ExperienceTab() {
 
         <div className="space-y-4">
           <ExperienceItem
-            company="K.L. Scott & Associates"
-            role="AI Agent Software Dev Intern"
-            dates="Fall 2025"
-            logo="/img/logo/klsa.jpg"
-            bullets={[
-              "Designing and building AI agentic workflows that use LLMs for planning and analysis.",
-              "Integrating AI tools with existing data and reporting stacks for public sector clients.",
-            ]}
-          />
-          <ExperienceItem
             company="Georgia Tech EPIC Lab"
             role="Software Engineer"
-            dates="Spring 2025 – Present"
+            dates="Jan 2025 – Present"
             logo="/img/logo/epic.jpeg"
             bullets={[
               "Working on ML-driven controllers and tooling for a hip exoskeleton platform.",
@@ -791,9 +941,19 @@ function ExperienceTab() {
             ]}
           />
           <ExperienceItem
+            company="K.L. Scott & Associates"
+            role="AI Agent Software Dev Intern"
+            dates="Oct 2025 - Dec 2025"
+            logo="/img/logo/klsa.jpg"
+            bullets={[
+              "Designed and built AI agentic workflows that use LLMs for planning and analysis.",
+              "Integrated AI tools with existing data and reporting stacks for public sector clients.",
+            ]}
+          />
+          <ExperienceItem
             company="SendSafely"
             role="Software Engineering Intern"
-            dates="Summer 2025"
+            dates="May 2025 - Aug 2025"
             logo="/img/logo/ss.png"
             bullets={[
               "Automated SDK release and deployment flows across several languages.",
@@ -877,10 +1037,9 @@ function ProjectsTab() {
           Projects
         </h2>
 
-        {/* was: grid gap-4 sm:grid-cols-2 xl:grid-cols-3 */}
-        <div className="grid gap-5 grid-cols-1 md:grid-cols-2">
-          {PROJECTS.map((p) => (
-            <PinnedRepo key={p.id} project={p} />
+        <div className="space-y-4">
+          {PROJECTS.map((project) => (
+            <ProjectRow key={project.id} project={project} />
           ))}
         </div>
       </section>
