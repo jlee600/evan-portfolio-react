@@ -270,7 +270,7 @@ const PROJECTS: Project[] = [
 type SkillLevel = 1 | 2 | 3 | 4 | 5;
 type SkillItem = { name: string; level: SkillLevel };
 type SkillGroup = {
-  category: "Backend" | "Frontend" | "Data" | "Cloud / DevOps" | "Tooling" | "Team";
+  category: "Backend" | "Frontend" | "ML / Data" | "Cloud / DevOps" | "Tooling" | "Team";
   items: { name: string; level: SkillLevel }[];
 };
 
@@ -298,13 +298,14 @@ const SKILLS: SkillGroup[] = [
     ],
   },
   {
-    category: "Data",
+    category: "ML / Data",
     items: [
       { name: "Pandas / Numpy", level: 5 },
       { name: "Matplotlib", level: 5 },
-      { name: "Dash / Plotly", level: 4 },
-      { name: "Hugging Face", level: 3 },
-      { name: "TCN", level: 2 },
+      { name: "PyTorch", level: 4 },
+      { name: "scikit-learn", level: 3 },
+      { name: "FAISS / RAG", level: 3 },
+      { name: "Neural Networks", level: 2 },
     ],
   },
   {
@@ -312,7 +313,8 @@ const SKILLS: SkillGroup[] = [
     items: [
       { name: "GitHub Actions", level: 5 },
       { name: "Shell scripting", level: 4 },
-      { name: "Jira", level: 4 },
+      { name: "CI/CD Pipelines", level: 4 },
+      { name: "Jira", level: 3 },
       { name: "AWS (KMS, S3, Secrets)", level: 3 },
       { name: "Docker", level: 2 },
     ],
@@ -338,10 +340,10 @@ const SKILLS: SkillGroup[] = [
 ];
 
 // map 6 groups to 4 radar axes
-const RADAR_GROUPS: Record<SkillGroup["category"], "Backend" | "Frontend" | "Data" | "DevOps" | null> = {
+const RADAR_GROUPS: Record<SkillGroup["category"], "Backend" | "Frontend" | "ML / Data" | "DevOps" | null> = {
   Backend: "Backend",
   Frontend: "Frontend",
-  Data: "Data",
+  "ML / Data": "ML / Data",
   "Cloud / DevOps": "DevOps",
   Tooling: null,
   Team: null,
@@ -545,14 +547,14 @@ export default function App() {
               <div className="mt-2 flex items-center justify-between text-[12px] text-[var(--fg-muted)]">
                 <span>Tech focus</span>
                 <span className="font-semibold text-[var(--fg)]">
-                  Backend · Data · AI
+                  Backend · ML · Data · AI
                 </span>
                 
               </div>
               <div className="mt-3 border-t border-[var(--border-subtle)] pt-3">
                 <div className="space-y-1">
                   <FocusMixRow label="Backend" level={5} />
-                  <FocusMixRow label="Data" level={5} />
+                  <FocusMixRow label="ML / Data" level={5} />
                   <FocusMixRow label="DevOps" level={4} />
                   <FocusMixRow label="Frontend" level={3} />
                 </div>
