@@ -640,7 +640,7 @@ function OverviewTab() {
       </section>
 
       {/* Current focus */}
-      <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
+      {/* <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
         <h2 className="text-[15px] font-semibold mb-2 flex items-center gap-2 text-[var(--accent)]">
           <Spotlight size={16} className="text-[var(--fg-muted)]" />
           Current Focus
@@ -653,7 +653,7 @@ function OverviewTab() {
           </li>
           <li>Preparing for 2026 SWE / data internships.</li>
         </ul>
-      </section>
+      </section> */}
 
       {/* Pinned work */}
       <section className="rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] shadow-[var(--shadow)] p-4 md:p-5">
