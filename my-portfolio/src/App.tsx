@@ -136,7 +136,7 @@ const PROJECTS: Project[] = [
     id: 1,
     name: "Chicken Game",
     year: "2025",
-    tech: "Python · Pytorch· A* · Alpha-Beta Pruning",
+    tech: "Python · Pytorch · A* · Alpha-Beta Pruning",
     href: "https://github.com/jlee600/Chicken-Game",
     img: "/img/chicken.png",
 
