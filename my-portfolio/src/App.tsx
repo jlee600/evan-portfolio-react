@@ -933,6 +933,15 @@ function ExperienceTab() {
 
         <div className="space-y-4">
           <ExperienceItem
+              company="Georgia Tech College of Computing"
+              role="Research Assistant"
+              dates="Jan 2026 – Present"
+              logo="/img/logo/coc.jpg"
+              bullets={[
+                "Project TokenSmith – ML-oriented text database system (advisor: Prof. Joy Arulraj)",
+              ]}
+            />
+          <ExperienceItem
             company="Georgia Tech EPIC Lab"
             role="Software Engineer"
             dates="Jan 2025 – Present"
