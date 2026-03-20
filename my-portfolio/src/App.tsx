@@ -187,7 +187,7 @@ const PROJECTS: Project[] = [
     year: "2025",
     tech: "Python · SSH · Linux",
     href: "https://github.com/jlee600/Exo-Launcher",
-    demo: "/img/exo_dashboard.pdf",
+    demo: "https://youtu.be/DgRfzM1G72I",
     img: "/img/rhex2.png",
 
     headline: "Single launch surface for a cluster of Jetsons in the lab.",
