@@ -134,6 +134,39 @@ const TECH_STACK_AT_A_GLANCE = [
 const PROJECTS: Project[] = [
   {
     id: 1,
+    name: "TokenSmith",
+    year: "2026",
+    tech: "Python · RAG · FAISS · BM25 · llama.cpp",
+    href: "https://github.com/georgia-tech-db/TokenSmith",
+    img: "/img/tokensmith.png",
+
+    headline: "Low-latency textbook search built for local retrieval and QA.",
+    context:
+      "Long textbook PDFs are slow to search and hard to query meaningfully with plain keyword lookup alone.",
+    csAngle:
+      "Built a local LLM-based RAG pipeline with FAISS vector indexing and hybrid retrieval combining dense search with BM25 scoring.",
+    outcome:
+      "Supported semantic search over 100+ page PDFs while reducing retrieval latency to sub-second interactive queries.",
+  },
+  {
+    id: 2,
+    name: "Master Exoskeleton Dashboard",
+    year: "2026",
+    tech: "Python · Javascript · SSH · Linux",
+    href: "https://github.com/jlee600/Exo-Launcher",
+    demo: "https://youtu.be/DgRfzM1G72I",
+    img: "/img/rhex2.png",
+
+    headline: "Single launch surface for a cluster of Jetsons in the lab.",
+    context:
+      "Running experiments meant juggling many SSH sessions, passwords, and sync steps, which slowed people down and caused mistakes.",
+    csAngle:
+      "Built a Python based launcher and web dashboard that handles Wi Fi, SSH, and controller scripts as idempotent tasks instead of manual commands.",
+    outcome:
+      "Reduced Jetson setup time by ~55%, removed 4–6 manual steps per run, and centralized control for 25+ lab users.",
+  },
+  {
+    id: 3,
     name: "Chicken Game",
     year: "2025",
     tech: "Python · Pytorch · A* · Alpha-Beta Pruning",
@@ -149,7 +182,7 @@ const PROJECTS: Project[] = [
       "Peak rating 1730 / 2000, 34 / 102 teams, trained on 18k logged games to compare search vs RL.",
   },
   {
-    id: 2,
+    id: 4,
     name: "Collab-Plan AI",
     year: "2025",
     tech: "Python · FastAPI · React · SQLite · HuggingFace",
@@ -166,7 +199,7 @@ const PROJECTS: Project[] = [
       "Cut meeting review time by ~28%, improved transcript clarity by ~11%, and handled 90-minute calls across 3 input modes.",
   },
   {
-    id: 3,
+    id: 5,
     name: "Hip-Exo Skeleton",
     year: "2025",
     tech: "Python · ML · Mechatronics",
@@ -181,25 +214,9 @@ const PROJECTS: Project[] = [
     outcome:
       "Made it easier for the lab to try new policies and compare runs, instead of each person maintaining their own fragile script stack.",
   },
+  
   {
-    id: 4,
-    name: "Master Exoskeleton Dashboard",
-    year: "2025",
-    tech: "Python · SSH · Linux",
-    href: "https://github.com/jlee600/Exo-Launcher",
-    demo: "https://youtu.be/DgRfzM1G72I",
-    img: "/img/rhex2.png",
-
-    headline: "Single launch surface for a cluster of Jetsons in the lab.",
-    context:
-      "Running experiments meant juggling many SSH sessions, passwords, and sync steps, which slowed people down and caused mistakes.",
-    csAngle:
-      "Built a Python based launcher and web dashboard that handles Wi Fi, SSH, and controller scripts as idempotent tasks instead of manual commands.",
-    outcome:
-      "Reduced Jetson setup time by ~55%, removed 4–6 manual steps per run, and centralized control for 25+ lab users.",
-  },
-  {
-    id: 5,
+    id: 6,
     name: "Pipelined LC-3200b CPU",
     year: "2025",
     tech: "Assembly · CircuitSim · Excel",
@@ -216,7 +233,7 @@ const PROJECTS: Project[] = [
       "Achieved about 4.1× speedup over the single-cycle design while cutting pipeline stalls by ~93% on test programs.",
   },
   {
-    id: 6,
+    id: 7,
     name: "Airline Management System",
     year: "2025",
     tech: "MySQL · Draw.io",
@@ -232,7 +249,7 @@ const PROJECTS: Project[] = [
       "Designed 20+ normalized tables, built 14 stored procedures, and kept complex joins under 120 ms on 2k-row datasets.",
   },
   {
-    id: 7,
+    id: 8,
     name: "Spotify-Wrapped Clone",
     year: "2024",
     tech: "Java · Kotlin · Android Studio · SQLite · Spotify API",
@@ -249,7 +266,7 @@ const PROJECTS: Project[] = [
       "Improved local stats queries by 29%, cut API latency by 15%, and shipped v1 with a 6-person Android team.",
   },
   {
-    id: 8,
+    id: 9,
     name: "Han River EDA",
     year: "2023",
     tech: "Python · Pandas · Matplotlib",
@@ -280,10 +297,32 @@ const SKILLS: SkillGroup[] = [
     items: [
       { name: "Python", level: 5 },
       { name: "Java / Kotlin", level: 5 },
-      { name: "PostgreSQL / MySQL", level: 4 },
-      { name: "FastAPI", level: 4 },
-      { name: "REST APIs", level: 4 },
+      { name: "PostgreSQL / MySQL", level: 5 },
+      { name: "API (Fast/REST)", level: 4 },
+      { name: "Linux", level: 4 },
       { name: "C", level: 3 },
+    ],
+  },
+  {
+    category: "ML / Data",
+    items: [
+      { name: "Pandas / NumPy", level: 5 },
+      { name: "FAISS (Vector Search)", level: 5 },
+      { name: "PyTorch", level: 4 },
+      { name: "RAG Systems", level: 4 },
+      { name: "scikit-learn", level: 4 },
+      { name: "Matplotlib / Plotly", level: 3 },
+    ],
+  },
+  {
+    category: "Cloud / DevOps",
+    items: [
+      { name: "GitHub Actions", level: 5 },
+      { name: "CI/CD Pipelines", level: 4 },
+      { name: "Shell scripting", level: 4 },
+      { name: "AWS (KMS, S3, Secrets)", level: 3 },
+      { name: "Docker", level: 3 },
+      { name: "Jira", level: 3 },
     ],
   },
   {
@@ -291,32 +330,10 @@ const SKILLS: SkillGroup[] = [
     items: [
       { name: "Android (Java/XML)", level: 4 },
       { name: "Javascript / Typescript", level: 4 },
-      { name: "HTML / CSS", level: 3 },
       { name: "React", level: 3 },
+      { name: "HTML / CSS", level: 3 },
       { name: "Tailwind", level: 3 },
       { name: "Vite", level: 2 },
-    ],
-  },
-  {
-    category: "ML / Data",
-    items: [
-      { name: "Pandas / Numpy", level: 5 },
-      { name: "Matplotlib", level: 5 },
-      { name: "PyTorch", level: 4 },
-      { name: "scikit-learn", level: 3 },
-      { name: "FAISS / RAG", level: 3 },
-      { name: "Neural Networks", level: 2 },
-    ],
-  },
-  {
-    category: "Cloud / DevOps",
-    items: [
-      { name: "GitHub Actions", level: 5 },
-      { name: "Shell scripting", level: 4 },
-      { name: "CI/CD Pipelines", level: 4 },
-      { name: "Jira", level: 3 },
-      { name: "AWS (KMS, S3, Secrets)", level: 3 },
-      { name: "Docker", level: 2 },
     ],
   },
   {
@@ -331,7 +348,7 @@ const SKILLS: SkillGroup[] = [
   {
     category: "Team",
     items: [
-      { name: "Mentoring / Peer Instruction", level: 5 },
+      { name: "Mentoring / Teaching", level: 5 },
       { name: "Cross-Team Collaboration", level: 5 },
       { name: "Code Reviews", level: 4 },
       { name: "Technical Documentation", level: 4 },
@@ -933,52 +950,57 @@ function ExperienceTab() {
 
         <div className="space-y-4">
           <ExperienceItem
-              company="Georgia Tech College of Computing"
-              role="Research Assistant"
-              dates="Jan 2026 – Present"
-              logo="/img/logo/coc.jpg"
-              bullets={[
-                "Project TokenSmith – ML-oriented text database system (advisor: Prof. Joy Arulraj)",
-              ]}
-            />
+            company="Georgia Tech College of Computing"
+            role="Research Assistant"
+            dates="Jan 2026 – Present"
+            logo="/img/logo/coc.jpg"
+            bullets={[
+              "Built TokenSmith, a local LLM-based RAG system using FAISS and BM25 for textbook-scale search.",
+              "Reduced retrieval latency to sub-second while improving answer relevance across 100+ page documents.",
+            ]}
+          />
+
           <ExperienceItem
             company="Georgia Tech EPIC Lab"
             role="Software Engineer"
             dates="Jan 2025 – Present"
             logo="/img/logo/epic.jpeg"
             bullets={[
-              "Working on ML-driven controllers and tooling for a hip exoskeleton platform.",
-              "Shipping dashboards and scripts that make it easier for researchers to run experiments.",
+              "Designed ML-driven exoskeleton controllers evaluated on ~30k IMU and encoder samples across 8 gait modes.",
+              "Built a real-time control + visualization system enabling 25 researchers to deploy Jetson controllers in ~1 minute.",
             ]}
           />
+
           <ExperienceItem
             company="K.L. Scott & Associates"
             role="AI Agent Software Dev Intern"
             dates="Oct 2025 - Dec 2025"
             logo="/img/logo/klsa.jpg"
             bullets={[
-              "Designed and built AI agentic workflows that use LLMs for planning and analysis.",
-              "Integrated AI tools with existing data and reporting stacks for public sector clients.",
+              "Engineered AI workflow pipelines (n8n + OpenAI) integrating 4+ external systems across 20+ recurring processes.",
+              "Designed a production PostgreSQL system with 24 normalized tables for structured AI outputs and analytics.",
             ]}
           />
+
           <ExperienceItem
             company="SendSafely"
             role="Software Engineering Intern"
             dates="May 2025 - Aug 2025"
             logo="/img/logo/ss.png"
             bullets={[
-              "Automated SDK release and deployment flows across several languages.",
-              "Helped migrate encryption workflows toward AWS KMS based key management.",
+              "Built CI/CD pipelines for multi-language SDKs using GitHub Actions, S3, and shell automation.",
+              "Migrated encryption workflows to AWS KMS, eliminating manual key rotation and standardizing key usage.",
             ]}
           />
+
           <ExperienceItem
             company="GSU Department of Computer Science"
             role="Object-Oriented Programming Head Tutor"
             dates="Fall 2023"
             logo="/img/logo/gsu.png"
             bullets={[
-              "Ran weekly review sessions for CS 1301/1302 covering core OOP and data structure concepts.",
-              "Built practice sets and examples that strengthened understanding for first-year students.",
+              "Led a 12-person tutoring team supporting 200+ students in OOP and data structures.",
+              "Ran weekly problem-solving sessions and designed practice material for ~20 students per session.",
             ]}
           />
         </div>
@@ -1079,7 +1101,7 @@ function SkillsTab() {
             </div>
             <p className="text-[12px] md:text-[13px] text-[var(--fg-muted)] text-center sm:text-left sm:max-w-[240px] leading-snug">
               Strongest in <span className="font-semibold">Backend</span> and{" "}
-              <span className="font-semibold">Data</span>, with solid{" "}
+              <span className="font-semibold">ML</span>, with solid{" "}
               <span className="font-semibold">Cloud / DevOps</span> and enough{" "}
               <span className="font-semibold">Frontend</span> to ship tools and
               dashboards.
@@ -1410,7 +1432,7 @@ function ContactTab() {
           <ul className="space-y-1">
             <li>
               <span className="font-semibold text-[var(--fg)]">Authorization:</span>
-              &nbsp;Green card holder; naturalization in progress (expected February 2026).
+              &nbsp;Green card holder; naturalization in progress.
             </li>
             <li>
               <span className="font-semibold text-[var(--fg)]">Location:</span>
