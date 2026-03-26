@@ -94,22 +94,22 @@ type Project = {
 
 const IMPACT_AT_A_GLANCE = [
   {
-    label: "Automation savings",
+    label: "Workflow automation",
     value: "33%",
     detail:
-      "Shorter analysis time across 27 research workflows with n8n + AI agents at KLSA",
+      "Reduced analysis time across 27 workflows using n8n + LLM-based agents at KLSA",
   },
   {
     label: "Experiment setup",
     value: "55%",
     detail:
-      "Faster Jetson controller setup from the real-time dashboard used by EPIC Lab researchers",
+      "Faster Jetson controller setup via unified dashboard for 25+ EPIC Lab researchers",
   },
   {
-    label: "Deployments",
+    label: "CI/CD throughput",
     value: "43%",
     detail:
-      "Faster SDK deployment cycles after CI/CD work on GitHub Actions and AWS at SendSafely",
+      "Shortened SDK release cycles with GitHub Actions and AWS-based pipelines at SendSafely",
   },
 ];
 
@@ -117,17 +117,17 @@ const TECH_STACK_AT_A_GLANCE = [
   {
     label: "Languages",
     value: "Python · Java · SQL",
-    detail: "C, TypeScript, JavaScript, and Assembly",
+    detail: "C, TypeScript, JavaScript, Assembly",
   },
   {
-    label: "Backend & data",
-    value: "FastAPI · REST · SQL",
-    detail: "PostgreSQL, MySQL, SQLite, and data tooling",
+    label: "Backend & ML",
+    value: "FastAPI · REST · RAG",
+    detail: "FAISS, PyTorch, PostgreSQL, SQLite",
   },
   {
-    label: "Cloud & workflow",
-    value: "AWS · GitHub Actions",
-    detail: "KMS, S3, Secrets Manager, and n8n",
+    label: "Cloud & DevOps",
+    value: "AWS · CI/CD",
+    detail: "GitHub Actions, KMS, S3, Docker",
   },
 ];
 
@@ -682,10 +682,10 @@ function OverviewTab() {
         <div className="grid md:grid-cols-3 gap-3">
           {[
             {
-              title: "CollabPlan-AI",
-              desc: "Local-first meeting analysis with transcription, diarization, and action items.",
-              tech: "Python · FastAPI · React · SQLite · HF",
-              link: "https://github.com/jlee600/CollabPlan-AI",
+              title: "TokenSmith",
+              desc: "Local LLM-based RAG system for low-latency search and Q&A over textbook PDFs.",
+              tech: "Python · FAISS · BM25 · RAG",
+              link: "https://github.com/georgia-tech-db/TokenSmith",
             },
             {
               title: "Exo-Launcher",
@@ -694,10 +694,10 @@ function OverviewTab() {
               link: "https://github.com/jlee600/Exo-Launcher",
             },
             {
-              title: "lc3200b-pipeline",
-              desc: "Five-stage pipelined CPU with hazard detection and forwarding.",
-              tech: "CircuitSim · Assembly",
-              link: "https://github.com/jlee600/lc3200b-pipelined-processor",
+              title: "CollabPlan-AI",
+              desc: "Local-first meeting analysis with transcription, diarization, and action items.",
+              tech: "Python · FastAPI · React · SQLite · HF",
+              link: "https://github.com/jlee600/CollabPlan-AI",
             },
           ].map((proj) => (
             <a
