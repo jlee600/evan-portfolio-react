@@ -406,12 +406,14 @@ const COURSEWORK: Course[] = [
   { code: "CS 2340", title: "Objects & Design", category: "CS" },
   { code: "CS 2110", title: "Computer Organization & Programming", category: "CS" },
   { code: "CS 2200", title: "Systems & Networks", category: "CS" , key: true},
-  { code: "CS 3251", title: "Computer Networking I", category: "CS" },
+  { code: "CS 3001", title: "Computing & Society", category: "CS" },
+  { code: "CS 3251", title: "Computer Networking I", category: "CS", key: true },
   { code: "CS 3510", title: "Design & Analysis of Algorithms", category: "CS" },
   { code: "CS 3600", title: "Artificial Intelligence", category: "CS" , key: true},
   { code: "CS 3630", title: "Perception & Robotics", category: "CS" },
   { code: "CS 4400", title: "Database Systems", category: "CS", key: true },
-  { code: "CS 4476", title: "Computer Vision", category: "CS" , key: true},
+  { code: "CS 4476", title: "Computer Vision", category: "CS"},
+  { code: "CS 4641", title: "Machine Learning", category: "CS" , key: true},
 
   // Math
   { code: "MATH 1551", title: "Differential Calculus", category: "Math" },
@@ -517,7 +519,7 @@ export default function App() {
                     Evan Lee
                   </div>
                   <div className="mt-1 text-[13px] text-[var(--fg-muted)]">
-                    <span className="font-medium text-[var(--fg)]">Software engineer</span>
+                    <span className="font-medium text-[var(--fg)]">Software Engineer</span>
                     <span className="opacity-70"> · CS @ Georgia Tech</span>
                   </div>
                 </div>
@@ -534,6 +536,17 @@ export default function App() {
                 <div className="flex items-center gap-1.5">
                   <MapPin size={14} />
                   <span>Atlanta, GA</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Linkedin size={14} />
+                  <a
+                    href="https://linkedin.com/in/jlee4223"
+                    className="text-[var(--accent)] hover:underline"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    linkedin.com/in/jlee4223
+                  </a>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <GithubIcon size={14} />
