@@ -237,7 +237,7 @@ const PROJECTS: Project[] = [
     name: "Airline Management System",
     year: "2025",
     tech: "MySQL · Draw.io",
-    href: "https://github.com/jlee600/Airline-Management-System",
+    href: "https://github.com/jlee600/GaTech/tree/main/Spring%202025/Database-System/Final%20Project",
     img: "/img/airline.png",
 
     headline: "Relational model for messy airline rules.",
