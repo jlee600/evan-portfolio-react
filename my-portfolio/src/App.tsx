@@ -963,46 +963,56 @@ function ExperienceTab() {
 
         <div className="space-y-4">
           <ExperienceItem
+            company="IBM"
+            role="Software Engineer Intern"
+            dates="May 2026 – Aug 2026"
+            logo="/img/logo/ibm.png"
+            bullets={[
+              "Selected for the Enterprise AI & Automation team in Sillion Valley Laboratory in San Jose to develop scalable backend services.",
+            ]}
+          />
+
+          <ExperienceItem
             company="Georgia Tech College of Computing"
-            role="Research Assistant"
+            role="Software Research Assistant"
             dates="Jan 2026 – Present"
             logo="/img/logo/coc.jpg"
             bullets={[
-              "Built TokenSmith, a local LLM-based RAG system using FAISS and BM25 for textbook-scale search.",
-              "Reduced retrieval latency to sub-second while improving answer relevance across 100+ page documents.",
+              "Architected TokenSmith, a local RAG system using llama.cpp for high-performance C++ inference, achieving sub-300ms retrieval latency over 100+ page documents.",
+              "Implemented a hybrid retrieval pipeline combining FAISS dense vector search and BM25 scoring with semantic boundary chunking to reduce hallucinations.",
             ]}
           />
 
           <ExperienceItem
             company="Georgia Tech EPIC Lab"
-            role="Software Engineer"
-            dates="Jan 2025 – Present"
+            role="Software Research Assistant"
+            dates="Jan 2025 – May 2026"
             logo="/img/logo/epic.jpeg"
             bullets={[
-              "Designed ML-driven exoskeleton controllers evaluated on ~30k IMU and encoder samples across 8 gait modes.",
-              "Built a real-time control + visualization system enabling 25 researchers to deploy Jetson controllers in ~1 minute.",
+              "Developed ML-driven exoskeleton controllers by processing 30,000+ samples from stroke patients, optimizing real-time intent prediction across 8 gait modes.",
+              "Engineered an automated deployment orchestrator for NVIDIA Jetson via SSH ControlMaster, reducing experiment setup time from 5min to <1min.",
             ]}
           />
 
           <ExperienceItem
             company="K.L. Scott & Associates"
-            role="AI Agent Software Dev Intern"
-            dates="Oct 2025 - Dec 2025"
+            role="Software Engineer Intern"
+            dates="Oct 2025 – Dec 2025"
             logo="/img/logo/klsa.jpg"
             bullets={[
-              "Engineered AI workflow pipelines (n8n + OpenAI) integrating 4+ external systems across 20+ recurring processes.",
-              "Designed a production PostgreSQL system with 24 normalized tables for structured AI outputs and analytics.",
+              "Orchestrated Node.js-based automation pipelines using n8n and OpenAI API, integrating multi-source inputs across 20+ workflows per cycle.",
+              "Architected a production PostgreSQL database on Azure with 24 normalized tables, ensuring data integrity and optimizing query performance for AI-driven analytics.",
             ]}
           />
 
           <ExperienceItem
             company="SendSafely"
-            role="Software Engineering Intern"
-            dates="May 2025 - Aug 2025"
+            role="Software Engineer Intern"
+            dates="May 2025 – Aug 2025"
             logo="/img/logo/ss.png"
             bullets={[
-              "Built CI/CD pipelines for multi-language SDKs using GitHub Actions, S3, and shell automation.",
-              "Migrated encryption workflows to AWS KMS, eliminating manual key rotation and standardizing key usage.",
+              "Engineered automated CI/CD pipelines for cross-platform SDKs using GitHub Actions and AWS S3, standardizing release cycles across 10+ repositories.",
+              "Strengthened infrastructure security by migrating encryption key management to AWS KMS, automating routine key rotation and access control.",
             ]}
           />
 
@@ -1012,8 +1022,8 @@ function ExperienceTab() {
             dates="Fall 2023"
             logo="/img/logo/gsu.png"
             bullets={[
-              "Led a 12-person tutoring team supporting 200+ students in OOP and data structures.",
-              "Ran weekly problem-solving sessions and designed practice material for ~20 students per session.",
+              "Led a 12-person tutoring team for CS 1301/1302, supporting 200+ students through weekly problem-solving sessions on OOP and data structures.",
+              "Designed practice materials and ran sessions for ~20 students per week to reinforce core software engineering principles.",
             ]}
           />
         </div>
