@@ -134,6 +134,22 @@ const TECH_STACK_AT_A_GLANCE = [
 const PROJECTS: Project[] = [
   {
     id: 1,
+    name: "Hate-Speech Detector",
+    year: "2026",
+    tech: "Python · Scikit-learn · TF-IDF · Logistic Regression · SVM · Naive Bayes",
+    href: "https://github.com/jlee600/automated-hate-speech-detection",
+    img: "/img/hate.png",
+
+    headline: "Comparative analysis of linear and probabilistic models for hate speech classification.",
+    context:
+      "Hate speech often utilizes indirect language and shares vocabulary with neutral text, making simple keyword filters ineffective for social media moderation.",
+    csAngle:
+      "Compared cost-sensitive Logistic Regression, high-dimensional Linear SVM, and probabilistic Naive Bayes using TF-IDF and feature engineering.",
+    outcome:
+      "Identified Naive Bayes as the top performer for recall at 80.1%, while Logistic Regression achieved the highest overall PR-AUC of 84.1%.",
+  },
+  {
+    id: 2,
     name: "TokenSmith",
     year: "2026",
     tech: "Python · RAG · FAISS · BM25 · llama.cpp",
@@ -149,7 +165,7 @@ const PROJECTS: Project[] = [
       "Supported semantic search over 100+ page PDFs while reducing retrieval latency to sub-second interactive queries.",
   },
   {
-    id: 2,
+    id: 3,
     name: "Master Exoskeleton Dashboard",
     year: "2026",
     tech: "Python · Javascript · SSH · Linux",
@@ -166,7 +182,7 @@ const PROJECTS: Project[] = [
       "Reduced Jetson setup time by ~55%, removed 4–6 manual steps per run, and centralized control for 25+ lab users.",
   },
   {
-    id: 3,
+    id: 4,
     name: "Chicken Game",
     year: "2025",
     tech: "Python · Pytorch · A* · Alpha-Beta Pruning",
@@ -182,7 +198,7 @@ const PROJECTS: Project[] = [
       "Peak rating 1730 / 2000, 34 / 102 teams, trained on 18k logged games to compare search vs RL.",
   },
   {
-    id: 4,
+    id: 5,
     name: "Collab-Plan AI",
     year: "2025",
     tech: "Python · FastAPI · React · SQLite · HuggingFace",
@@ -199,7 +215,7 @@ const PROJECTS: Project[] = [
       "Cut meeting review time by ~28%, improved transcript clarity by ~11%, and handled 90-minute calls across 3 input modes.",
   },
   {
-    id: 5,
+    id: 6,
     name: "Hip-Exo Skeleton",
     year: "2025",
     tech: "Python · ML · Mechatronics",
@@ -216,7 +232,7 @@ const PROJECTS: Project[] = [
   },
   
   {
-    id: 6,
+    id: 7,
     name: "Pipelined LC-3200b CPU",
     year: "2025",
     tech: "Assembly · CircuitSim · Excel",
@@ -233,7 +249,7 @@ const PROJECTS: Project[] = [
       "Achieved about 4.1× speedup over the single-cycle design while cutting pipeline stalls by ~93% on test programs.",
   },
   {
-    id: 7,
+    id: 8,
     name: "Airline Management System",
     year: "2025",
     tech: "MySQL · Draw.io",
@@ -249,7 +265,7 @@ const PROJECTS: Project[] = [
       "Designed 20+ normalized tables, built 14 stored procedures, and kept complex joins under 120 ms on 2k-row datasets.",
   },
   {
-    id: 8,
+    id: 9,
     name: "Spotify-Wrapped Clone",
     year: "2024",
     tech: "Java · Kotlin · Android Studio · SQLite · Spotify API",
@@ -266,7 +282,7 @@ const PROJECTS: Project[] = [
       "Improved local stats queries by 29%, cut API latency by 15%, and shipped v1 with a 6-person Android team.",
   },
   {
-    id: 9,
+    id: 10,
     name: "Han River EDA",
     year: "2023",
     tech: "Python · Pandas · Matplotlib",
