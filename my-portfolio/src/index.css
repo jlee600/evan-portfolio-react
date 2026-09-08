@@ -166,10 +166,11 @@ img { display: block; max-width: 100%; }
 .experience-meta time { display: block; color: var(--muted); font-size: 12px; line-height: 1.5; }
 .experience-meta span { display: block; margin-top: 3px; color: var(--subtle); font-size: 11px; line-height: 1.45; }
 .experience-title { display: flex; gap: 11px; }
+.experience-title > div:last-child { min-width: 0; }
 .logo-box { display: grid; place-items: center; flex: 0 0 auto; width: 38px; height: 38px; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: #fff; }
 .logo-box img { width: 29px; height: 29px; object-fit: contain; }
 .experience-title h3 { margin: 0; font-size: 17px; letter-spacing: -0.02em; }
-.experience-title p { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+.experience-title p { margin: 3px 0 0; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
 .experience-body ul { display: grid; gap: 7px; max-width: 730px; margin: 16px 0 0 49px; padding: 0; list-style: none; }
 .experience-body li { position: relative; padding-left: 15px; color: var(--muted); font-size: 14px; line-height: 1.52; }
 .experience-body li::before { content: ""; position: absolute; left: 0; top: 10px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
@@ -328,15 +329,17 @@ button:focus-visible, a:focus-visible { outline: 3px solid color-mix(in srgb, va
   .featured-copy p { min-height: 0; }
   .page-header { padding: 0 0 22px; }
   .page-header > p:last-child { margin-top: 6px; font-size: 14px; }
-  .experience-item { grid-template-columns: 32px minmax(0, 1fr); gap: 11px; padding: 23px 0; }
-  .experience-meta { grid-column: 2; grid-row: 1; align-self: start; margin: 33px 0 0 49px; }
-  .experience-meta span { display: inline; margin: 0 0 0 6px; }
-  .experience-meta span::before { content: "· "; }
-  .experience-body { grid-column: 2; grid-row: 1 / span 2; }
+  .experience-item { grid-template-columns: 32px minmax(0, 1fr); grid-template-rows: auto auto auto; gap: 0 11px; padding: 23px 0; }
+  .timeline-marker { grid-column: 1; grid-row: 1 / span 3; }
+  .experience-body { display: contents; }
+  .experience-title { grid-column: 2; grid-row: 1; min-width: 0; }
+  .experience-meta { display: flex; grid-column: 2; grid-row: 2; flex-wrap: wrap; gap: 2px 8px; min-width: 0; margin: 7px 0 0 49px; padding: 0; }
+  .experience-meta time, .experience-meta span { display: inline; margin: 0; line-height: 1.45; }
+  .experience-meta span::before { content: none; }
   .timeline-marker::after { left: 14px; }
   .experience-title h3 { font-size: 16px; }
   .experience-title p { font-size: 13px; }
-  .experience-body ul { margin: 32px 0 0 0; }
+  .experience-body ul { grid-column: 2; grid-row: 3; min-width: 0; margin: 18px 0 0; }
   .project-case { padding: 28px 0; }
   .project-headline { font-size: 15px; }
   .case-details > div { grid-template-columns: 1fr; gap: 5px; }
@@ -374,7 +377,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid color-mix(in srgb, va
   .experience-item { grid-template-columns: 30px minmax(0, 1fr); gap: 10px; }
   .timeline-marker span { width: 27px; height: 27px; }
   .timeline-marker::after { left: 13px; }
-  .experience-meta { margin-left: 61px; }
+  .experience-meta { margin-left: 56px; }
   .logo-box { width: 45px; height: 45px; }
   .skill-row { font-size: 13px; }
   .skill-level i { width: 13px; }
