@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { ArrowDownToLine, ArrowUpRight, Github, Linkedin, Mail, MapPin, Moon, Sun } from "lucide-react";
-import { coursework, experiences, featuredProjectIds, impact, overviewExperienceIds, profile, projects, skills, type Project } from "./portfolioData";
+import { coursework, experiences, featuredProjectIds, overviewExperienceIds, profile, projects, skills, type Project } from "./portfolioData";
 
 const SkillRadar = lazy(() => import("./SkillRadar"));
 
@@ -86,17 +86,25 @@ function ProfilePanel() {
       <p className="profile-bio">{profile.bio}</p>
       <div className="profile-links">
         <a href={`mailto:${profile.email}`}><Mail size={17} aria-hidden="true" /><span>{profile.email}</span></a>
-        <a href={profile.linkedin} target="_blank" rel="noreferrer"><Linkedin size={17} aria-hidden="true" /><span>{profile.linkedinDisplay}</span><ArrowUpRight size={14} /></a>
-        <a href={profile.github} target="_blank" rel="noreferrer"><Github size={17} aria-hidden="true" /><span>{profile.githubDisplay}</span><ArrowUpRight size={14} /></a>
+        <a href={profile.linkedin} target="_blank" rel="noreferrer"><Linkedin size={17} aria-hidden="true" /><span>{profile.linkedinDisplay}</span></a>
+        <a href={profile.github} target="_blank" rel="noreferrer"><Github size={17} aria-hidden="true" /><span>{profile.githubDisplay}</span></a>
         <div className="profile-location"><MapPin size={17} aria-hidden="true" /><span>{profile.location}</span></div>
       </div>
-      <div className="recruiter-notes"><p><span>Education</span>{profile.education}</p><p><span>Work authorization</span>{profile.authorization}</p><p><span>Primary focus</span>{profile.primaryFocus}</p></div>
     </aside>
   );
 }
 
 function PageHeader({ title, description }: { title: string; description: string }) {
   return <header className="page-header"><h2>{title}</h2><p>{description}</p></header>;
+}
+
+function EducationLogo() {
+  const [showPlaceholder, setShowPlaceholder] = useState(false);
+  return (
+    <div className="education-logo">
+      {showPlaceholder ? <span title="Georgia Tech logo placeholder">GT</span> : <img src={profile.educationLogo} alt="Georgia Tech" onError={() => setShowPlaceholder(true)} />}
+    </div>
+  );
 }
 
 function Overview({ onNavigate }: { onNavigate: (section: SectionId) => void }) {
@@ -108,10 +116,23 @@ function Overview({ onNavigate }: { onNavigate: (section: SectionId) => void }) 
         <p className="eyebrow">Overview</p>
         <h2>Backend systems, AI infrastructure, and applied machine learning.</h2>
         <p className="hero-copy">{profile.about}</p>
-        <div className="hero-actions"><button className="action-link" onClick={() => onNavigate("projects")}>Explore selected work <ArrowUpRight size={14} /></button><button className="text-button" onClick={() => onNavigate("experience")}>View experience</button></div>
+        <div className="hero-actions"><button className="action-link" onClick={() => onNavigate("resume")}>Resume <ArrowUpRight size={14} /></button><button className="text-button" onClick={() => onNavigate("experience")}>View experience</button></div>
       </section>
-      <section className="impact-strip" aria-label="Selected impact metrics">
-        {impact.map((item) => <div key={item.label} className="impact-item"><strong>{item.value}</strong><span>{item.label}</span><small>{item.detail}</small></div>)}
+      <section className="overview-section education-section" aria-labelledby="education-heading">
+        <div className="section-heading-row education-heading-row">
+          <div><p className="eyebrow">Education</p><h3 id="education-heading">Georgia Institute of Technology</h3></div>
+          <span>Atlanta, Georgia</span>
+        </div>
+        <div className="education-overview">
+          <EducationLogo />
+          <div className="degree-list">
+            {profile.education.map((item) => <div key={item.degree}><strong>{item.degree}</strong><span>{item.expected}</span></div>)}
+          </div>
+          <dl className="overview-facts">
+            <div><dt>Work authorization</dt><dd>{profile.authorization}</dd></div>
+            <div><dt>Primary focus</dt><dd>{profile.primaryFocus}</dd></div>
+          </dl>
+        </div>
       </section>
       <section className="overview-section">
         <div className="section-heading-row"><div><p className="eyebrow">Recent experience</p><h3>Working across research and industry.</h3></div><button className="text-button" onClick={() => onNavigate("experience")}>All experience <ArrowUpRight size={15} /></button></div>
@@ -195,7 +216,7 @@ function Skills() {
         <div className="skills-thesis"><p className="eyebrow">Engineering profile</p><h3>Backend foundations, applied ML, and the infrastructure to ship both.</h3><p>Comfort levels reflect the tools I use most often, not a claim that learning ever stops.</p></div>
       </section>
       <div className="skill-groups">{skills.map((group) => <section className="skill-group" key={group.category}><h3>{group.category}</h3><div>{group.items.map((item) => <SkillRow key={item.name} name={item.name} level={item.level} />)}</div></section>)}</div>
-      <RelevantCoursework />
+      <CourseworkSection />
     </div>
   );
 }
@@ -205,18 +226,18 @@ function SkillRow({ name, level }: { name: string; level: number }) {
   return <div className="skill-row"><span>{name}</span><div className="skill-level" aria-label={`${name}: ${labels[level]}`}>{Array.from({ length: 5 }, (_, index) => <i key={index} className={index < level ? "filled" : ""} />)}</div></div>;
 }
 
-function RelevantCoursework() {
+function CourseworkSection() {
   const categories = ["Computer Science", "Mathematics"] as const;
   return (
-    <section className="relevant-coursework">
-      <div className="coursework-heading"><p className="eyebrow">Coursework</p><p className="coursework-note">Complete undergraduate computer science and mathematics coursework.</p></div>
-      <div className="coursework-categories">
+    <section className="coursework-section" aria-labelledby="coursework-heading">
+      <div className="coursework-heading"><h3 id="coursework-heading">Coursework</h3><p>Undergraduate computer science and mathematics curriculum.</p></div>
+      <div className="course-index">
         {categories.map((category) => (
-          <div className="coursework-category" key={category}>
+          <div className="course-band" key={category}>
             <h3>{category}</h3>
-            <div className="compact-course-list">
-              {coursework.filter((course) => course.category === category).map((course) => <div key={course.code}><span>{course.code}</span><p>{course.title}</p></div>)}
-            </div>
+            <dl className="course-list">
+              {coursework.filter((course) => course.category === category).map((course) => <div key={course.code}><dt>{course.code}</dt><dd>{course.title}</dd></div>)}
+            </dl>
           </div>
         ))}
       </div>
@@ -227,7 +248,13 @@ function RelevantCoursework() {
 function Resume() {
   return (
     <div className="section-view">
-      <div className="resume-header"><PageHeader title="Resume" description="View the current resume here, open it in a new tab, or download a copy." /><div className="resume-actions"><a className="compact-control" href={profile.resume} target="_blank" rel="noreferrer">Open PDF <ArrowUpRight size={14} /></a><a className="compact-control" href={profile.resume} download="Evan-Lee-Resume.pdf">Download <ArrowDownToLine size={14} /></a></div></div>
+      <header className="page-header resume-page-header">
+        <h2>Resume</h2>
+        <div className="resume-subtitle-row">
+          <p>View the current resume here, open it in a new tab, or download a copy.</p>
+          <div className="resume-actions"><a href={profile.resume} target="_blank" rel="noreferrer">Open PDF <ArrowUpRight size={13} /></a><a href={profile.resume} download="Evan-Lee-Resume.pdf">Download PDF <ArrowDownToLine size={13} /></a></div>
+        </div>
+      </header>
       <div className="resume-frame"><iframe src={`${profile.resume}#toolbar=0&navpanes=0`} title="Evan Lee resume" /></div>
     </div>
   );

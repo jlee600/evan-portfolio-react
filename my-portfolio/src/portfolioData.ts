@@ -31,8 +31,12 @@ export type SkillGroup = {
 export const profile = {
   name: "Evan Lee",
   role: "Software Engineer",
-  school: "M.S. and B.S. Computer Science at Georgia Tech",
-  education: "B.S. expected Dec 2026 · M.S. expected Dec 2027",
+  school: "Computer Science @ Georgia Tech",
+  educationLogo: "/img/logo/georgia-tech.png",
+  education: [
+    { degree: "B.S. Computer Science", expected: "Expected Dec 2026" },
+    { degree: "M.S. Computer Science", expected: "Expected Dec 2027" },
+  ],
   location: "Atlanta, Georgia",
   phone: "770-331-4776",
   email: "evanj3034@gmail.com",
@@ -44,17 +48,11 @@ export const profile = {
   resume: "/img/resume.pdf",
   bio: "Backend software engineer with production, AI systems, and infrastructure experience.",
   about:
-    "I build backend platforms, retrieval systems, and cloud infrastructure. At Georgia Tech, I am completing a B.S. in Computer Science and pursuing an M.S. while teaching software engineering and researching database systems.",
+    "I build backend platforms, retrieval systems, and cloud infrastructure, drawing on experience in production engineering, database research, and software engineering education.",
   availability: "Open to backend and data-focused software engineering roles.",
   authorization: "U.S. permanent resident",
   primaryFocus: "Backend · Data systems · AI infrastructure",
 };
-
-export const impact = [
-  { value: "65K+", label: "issues processed", detail: "Release intelligence across 16 repositories at IBM" },
-  { value: "10 → 1 min", label: "validation time", detail: "Across four Kubernetes environments at IBM" },
-  { value: "88%", label: "Recall@5", detail: "Up from 64% for textbook retrieval at Georgia Tech" },
-];
 
 export const overviewExperienceIds = ["ibm", "gt-teaching", "gt-database-research"];
 export const featuredProjectIds = [2, 4, 7];
@@ -114,8 +112,8 @@ export const experiences: Experience[] = [
   {
     id: "gt-database-research",
     category: "Academic",
-    company: "Georgia Tech College of Computing · Advanced Database Systems Lab",
-    role: "Research Assistant",
+    company: "Georgia Tech College of Computing",
+    role: "Research Assistant · Advanced Database Systems Lab",
     dates: "Jan 2026 - Present",
     location: "Atlanta, GA",
     logo: "/img/logo/coc.jpg",
@@ -126,8 +124,8 @@ export const experiences: Experience[] = [
   {
     id: "epic-research",
     category: "Academic",
-    company: "Georgia Tech Research Institute · Exoskeleton & Prosthetic Intelligent Controls Lab",
-    role: "Research Assistant",
+    company: "Georgia Tech Research Institute",
+    role: "Research Assistant · Exoskeleton & Prosthetic Intelligent Controls Lab",
     dates: "Jan 2025 - May 2026",
     location: "Atlanta, GA",
     logo: "/img/logo/epic.jpeg",
@@ -135,20 +133,7 @@ export const experiences: Experience[] = [
       "Trained TCN intent-prediction models in PyTorch on 30,000+ stroke-patient gait samples, reaching 0.882 macro F1 after Optuna tuning.",
       "Built NVIDIA Jetson inference and deployment pipelines that reduced experiment setup time from 5 minutes to under 1 minute.",
     ],
-  },
-  {
-    id: "gsu-tutor",
-    category: "Academic",
-    company: "Georgia State University Department of Computer Science",
-    role: "Object-Oriented Programming Head Tutor",
-    dates: "Fall 2023",
-    location: "Atlanta, GA",
-    logo: "/img/logo/gsu.png",
-    bullets: [
-      "Led a 12-person tutoring team for CS 1301 and CS 1302, supporting 200+ students through weekly problem-solving sessions on object-oriented programming and data structures.",
-      "Designed practice materials and led sessions for about 20 students per week.",
-    ],
-  },
+  }
 ];
 
 export const projects: Project[] = [
@@ -280,12 +265,12 @@ export const projects: Project[] = [
 ];
 
 export const skills: SkillGroup[] = [
-  { category: "Backend", items: [{ name: "Python", level: 5 }, { name: "Java / Kotlin", level: 5 }, { name: "PostgreSQL / MySQL", level: 5 }, { name: "FastAPI / REST", level: 4 }, { name: "Linux", level: 4 }, { name: "C", level: 3 }] },
-  { category: "ML / Data", items: [{ name: "Pandas / NumPy", level: 5 }, { name: "FAISS / Vector Search", level: 5 }, { name: "PyTorch", level: 4 }, { name: "RAG Systems", level: 4 }, { name: "Scikit-learn", level: 4 }, { name: "Matplotlib / Plotly", level: 3 }] },
-  { category: "Cloud / DevOps", items: [{ name: "GitHub Actions", level: 5 }, { name: "CI/CD Pipelines", level: 4 }, { name: "Shell Scripting", level: 4 }, { name: "AWS", level: 3 }, { name: "Docker", level: 3 }, { name: "Jira", level: 3 }] },
-  { category: "Frontend", items: [{ name: "Android", level: 4 }, { name: "JavaScript / TypeScript", level: 4 }, { name: "React", level: 3 }, { name: "HTML / CSS", level: 3 }, { name: "Tailwind", level: 3 }, { name: "Vite", level: 2 }] },
-  { category: "Tooling", items: [{ name: "Git", level: 5 }, { name: "VS Code / IntelliJ", level: 5 }, { name: "DataGrip / MySQL Workbench", level: 4 }, { name: "LaTeX", level: 2 }] },
-  { category: "Team", items: [{ name: "Mentoring / Teaching", level: 5 }, { name: "Cross-Team Collaboration", level: 5 }, { name: "Code Reviews", level: 4 }, { name: "Technical Documentation", level: 4 }] },
+  { category: "Backend", items: [{ name: "Python", level: 5 }, { name: "Java / Kotlin", level: 5 }, { name: "PostgreSQL / MySQL", level: 5 }, { name: "FastAPI / REST", level: 4 }, { name: "Linux", level: 4 }] },
+  { category: "ML / Data", items: [{ name: "Pandas / NumPy", level: 5 }, { name: "FAISS / Vector Search", level: 5 }, { name: "PyTorch", level: 4 }, { name: "RAG Systems", level: 4 }, { name: "Scikit-learn", level: 4 }] },
+  { category: "Cloud / DevOps", items: [{ name: "GitHub Actions", level: 5 }, { name: "CI/CD Pipelines", level: 4 }, { name: "Shell Scripting", level: 4 }, { name: "AWS", level: 3 }, { name: "Docker", level: 3 }] },
+  { category: "Frontend", items: [{ name: "Android", level: 4 }, { name: "JavaScript / TypeScript", level: 4 }, { name: "React", level: 3 }, { name: "HTML / CSS", level: 3 }, { name: "Tailwind", level: 3 }] },
+  { category: "Tooling", items: [{ name: "Git", level: 5 }, { name: "VS Code / IntelliJ", level: 5 }, { name: "DataGrip / MySQL Workbench", level: 4 }, { name: "CircuitSim / Assembly", level: 4 }, { name: "LaTeX", level: 2 }] },
+  { category: "Team", items: [{ name: "Mentoring / Teaching", level: 5 }, { name: "Cross-Team Collaboration", level: 5 }, { name: "Code Reviews", level: 4 }, { name: "Technical Documentation", level: 4 }, { name: "Software Testing", level: 4 }] },
 ];
 
 export const coursework = [
