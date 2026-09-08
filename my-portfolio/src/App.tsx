@@ -3,6 +3,7 @@ import { ArrowDownToLine, ArrowUpRight, Github, Linkedin, Mail, MapPin, Moon, Su
 import { coursework, experiences, featuredProjectIds, overviewExperienceIds, profile, projects, skills, type Project } from "./portfolioData";
 
 const SkillRadar = lazy(() => import("./SkillRadar"));
+const lastUpdated = new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(`${__LAST_UPDATED__}T12:00:00Z`));
 
 type SectionId = "overview" | "experience" | "projects" | "skills" | "resume";
 type Theme = "light" | "dark";
@@ -210,7 +211,7 @@ function Skills() {
   }, []);
   return (
     <div className="section-view">
-      <PageHeader title="Skills" description="Backend and data depth, with experience across infrastructure, ML, and product interfaces." />
+      <PageHeader title="Skills" description="Backend and data, with experience across infrastructure, ML, and product interfaces." />
       <section className="skills-summary">
         <div className="radar-wrap" aria-label="Relative technical focus radar chart"><Suspense fallback={<div className="radar-placeholder" aria-hidden="true" />}><SkillRadar data={radarData} /></Suspense></div>
         <div className="skills-thesis"><p className="eyebrow">Engineering profile</p><h3>Backend foundations, applied ML, and the infrastructure to ship both.</h3><p>Comfort levels reflect the tools I use most often, not a claim that learning ever stops.</p></div>
@@ -251,7 +252,7 @@ function Resume() {
       <header className="page-header resume-page-header">
         <h2>Resume</h2>
         <div className="resume-subtitle-row">
-          <p>View the current resume here, open it in a new tab, or download a copy.</p>
+          <p>Last updated: {lastUpdated}</p>
           <div className="resume-actions"><a href={profile.resume} target="_blank" rel="noreferrer">Open PDF <ArrowUpRight size={13} /></a><a href={profile.resume} download="Evan-Lee-Resume.pdf">Download PDF <ArrowDownToLine size={13} /></a></div>
         </div>
       </header>
