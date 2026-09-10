@@ -91,10 +91,9 @@ img { display: block; max-width: 100%; }
 .eyebrow { margin: 0 0 7px; color: var(--accent); font-size: 11px; font-weight: 750; letter-spacing: 0.1em; line-height: 1.4; text-transform: uppercase; }
 .profile-heading h1 { margin: 0; font-size: 27px; line-height: 1.06; letter-spacing: -0.035em; }
 .profile-school { margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
-.profile-bio { margin: 18px 0 0; color: var(--muted); font-size: 15px; line-height: 1.52; }
 .profile-links { display: grid; gap: 1px; margin-top: 18px; padding: 14px 0 0; border-top: 1px solid var(--border); }
-.profile-links a, .profile-location { display: flex; align-items: center; min-height: 30px; gap: 8px; color: var(--muted); font-size: 13px; }
-.profile-links a span, .profile-location span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.profile-links a, .profile-location, .profile-authorization { display: flex; align-items: center; min-height: 30px; gap: 8px; color: var(--muted); font-size: 13px; }
+.profile-links a span, .profile-location span, .profile-authorization span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .profile-links a:hover { color: var(--accent); }
 .action-link {
   display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid var(--border-strong); border-radius: 7px;
@@ -114,23 +113,36 @@ img { display: block; max-width: 100%; }
 .hero-actions { display: flex; align-items: center; gap: 16px; margin-top: 19px; }
 .text-button { display: inline-flex; align-items: center; gap: 5px; padding: 8px 0; border: 0; background: none; color: var(--accent); font-size: 14px; font-weight: 650; cursor: pointer; }
 .text-button:hover { color: var(--accent-hover); }
+.section-utility-link { padding: 4px 0; font-size: 12px; }
 
+.degree-details dt { margin-bottom: 4px; color: var(--subtle); font-size: 10px; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; }
 .overview-section { padding: 42px 0 0; }
 .section-heading-row { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 18px; }
 .section-heading-row h3 { margin: 0; font-size: clamp(21px, 2vw, 27px); letter-spacing: -0.03em; line-height: 1.16; }
-.education-section { padding-top: 30px; border-top: 1px solid var(--border); }
-.education-heading-row { align-items: end; margin-bottom: 15px; }
-.education-heading-row > span { padding-bottom: 2px; color: var(--muted); font-size: 12px; white-space: nowrap; }
-.education-overview { display: grid; grid-template-columns: 54px minmax(240px, 0.9fr) minmax(310px, 1.1fr); align-items: center; gap: 20px; padding: 18px 0 0; border-top: 1px solid var(--border); }
+.overview-section-heading { margin-bottom: 18px; }
+.overview-section-heading h3 { margin: 0; font-size: clamp(21px, 2vw, 27px); letter-spacing: -0.03em; line-height: 1.16; }
+.section-label-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 7px; }
+.section-label-row .eyebrow { margin: 0; }
+.education-section { padding-top: 32px; }
+.education-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 12px; }
+.education-section-heading .eyebrow { margin: 0; }
+.coursework-toggle svg { transition: transform 160ms ease; }
+.coursework-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+.education-overview { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.school-identity { display: flex; align-items: center; gap: 14px; padding: 17px 0; }
+.school-identity h3 { margin: 0; font-size: 18px; line-height: 1.25; letter-spacing: -0.02em; }
+.school-identity p { margin: 3px 0 0; color: var(--muted); font-size: 12px; }
 .education-logo { display: grid; place-items: center; width: 46px; height: 46px; overflow: hidden; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); color: var(--accent); font-size: 15px; font-weight: 800; letter-spacing: -0.04em; }
 .education-logo img { width: 100%; height: 100%; object-fit: cover; }
-.degree-list { display: grid; gap: 10px; }
-.degree-list > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 16px; }
-.degree-list strong { font-size: 14px; line-height: 1.4; }
-.degree-list span { color: var(--muted); font-size: 12px; white-space: nowrap; }
-.overview-facts { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 20px; margin: 0; padding-left: 20px; border-left: 1px solid var(--border); }
-.overview-facts dt { margin-bottom: 4px; color: var(--subtle); font-size: 10px; font-weight: 750; letter-spacing: 0.08em; text-transform: uppercase; }
-.overview-facts dd { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.degree-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--border); }
+.degree-item { min-width: 0; padding: 17px 20px 18px 0; }
+.degree-item + .degree-item { padding-right: 0; padding-left: 20px; border-left: 1px solid var(--border); }
+.degree-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.degree-heading h4 { margin: 0; font-size: 14px; line-height: 1.4; }
+.degree-heading > span { flex: 0 0 auto; color: var(--muted); font-size: 12px; white-space: nowrap; }
+.degree-details { display: flex; flex-wrap: wrap; gap: 20px; margin: 13px 0 0; }
+.degree-details div { min-width: 0; }
+.degree-details dd { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
 .overview-experience { border-top: 1px solid var(--border); }
 .overview-experience article { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; align-items: center; gap: 13px; min-height: 70px; border-bottom: 1px solid var(--border); }
 .overview-experience article:last-child { border-bottom: 0; }
@@ -215,7 +227,8 @@ img { display: block; max-width: 100%; }
 .resume-actions a:hover { color: var(--accent-hover); }
 .resume-frame { height: min(980px, calc(100vh - 110px)); min-height: 650px; overflow: hidden; border: 1px solid var(--border); border-radius: 20px; background: #e5e5e7; box-shadow: var(--shadow); }
 .resume-frame iframe { width: 100%; height: 100%; border: 0; }
-.coursework-section { margin-top: 34px; }
+.coursework-section { margin-top: 20px; animation: coursework-in 180ms ease both; }
+@keyframes coursework-in { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
 .coursework-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding: 25px 0 17px; }
 .coursework-heading h3 { margin: 0; font-size: 17px; letter-spacing: -0.015em; }
 .coursework-heading p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
@@ -243,8 +256,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid color-mix(in srgb, va
   }
   .nav-link { font-size: 14px; }
   .profile-school { font-size: 14px; }
-  .profile-bio { font-size: 16px; }
-  .profile-links a, .profile-location { font-size: 14px; }
+  .profile-links a, .profile-location, .profile-authorization { font-size: 14px; }
   .hero h2 { font-size: clamp(30px, 2.7vw, 36px); }
   .hero-copy { font-size: 17px; }
   .section-heading-row h3 { font-size: clamp(23px, 2vw, 28px); }
@@ -280,8 +292,6 @@ button:focus-visible, a:focus-visible { outline: 3px solid color-mix(in srgb, va
   .skills-summary { grid-template-columns: 1fr; }
   .skill-groups { grid-template-columns: 1fr; }
   .resume-subtitle-row { align-items: flex-start; }
-  .education-overview { grid-template-columns: 50px minmax(0, 1fr); }
-  .overview-facts { grid-column: 2; padding: 15px 0 0; border-top: 1px solid var(--border); border-left: 0; }
   .course-band { grid-template-columns: 125px minmax(0, 1fr); gap: 20px; }
   .course-list { grid-template-columns: 1fr; }
   .course-list > div:nth-last-child(2) { border-bottom-color: color-mix(in srgb, var(--border) 70%, transparent); }
@@ -302,9 +312,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid color-mix(in srgb, va
   .profile-heading { margin: 0; }
   .profile-heading h1 { font-size: 25px; }
   .profile-school { font-size: 13px; }
-  .profile-bio { margin-top: 16px; font-size: 15px; }
   .profile-links { grid-template-columns: 1fr 1fr; }
-  .profile-links a, .profile-location { min-width: 0; }
+  .profile-links a, .profile-location, .profile-authorization { min-width: 0; }
   .main-content { padding-top: 30px; }
   .theme-button { position: static; }
   .hero { padding: 0 0 27px; }
@@ -313,12 +322,12 @@ button:focus-visible, a:focus-visible { outline: 3px solid color-mix(in srgb, va
   .hero-actions { gap: 14px; margin-top: 16px; }
   .overview-section { padding-top: 38px; }
   .education-section { padding-top: 26px; }
-  .education-heading-row { display: block; }
-  .education-heading-row > span { display: block; margin-top: 5px; }
-  .education-overview { grid-template-columns: 44px minmax(0, 1fr); align-items: start; gap: 15px; padding: 16px 0; }
+  .school-identity { padding: 15px 0; }
   .education-logo { width: 42px; height: 42px; }
-  .degree-list > div { grid-template-columns: 1fr; gap: 1px; }
-  .overview-facts { grid-column: 1 / -1; grid-template-columns: 1fr; gap: 13px; }
+  .school-identity h3 { font-size: 17px; }
+  .degree-grid { grid-template-columns: 1fr; }
+  .degree-item { padding: 15px 0; }
+  .degree-item + .degree-item { padding: 15px 0; border-top: 1px solid var(--border); border-left: 0; }
   .section-heading-row { align-items: flex-start; }
   .section-heading-row h3 { font-size: 23px; }
   .section-heading-row .text-button { flex: 0 0 auto; }
@@ -351,7 +360,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid color-mix(in srgb, va
   .resume-subtitle-row { display: block; }
   .resume-actions { flex-wrap: wrap; margin-top: 10px; }
   .resume-frame { height: 640px; min-height: 0; border-radius: 14px; }
-  .coursework-section { margin-top: 28px; }
+  .coursework-section { margin-top: 18px; }
   .coursework-heading { display: block; }
   .coursework-heading h3 { margin-bottom: 5px; }
   .course-band { grid-template-columns: 1fr; gap: 10px; padding: 18px 0; }
@@ -368,6 +377,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid color-mix(in srgb, va
 @media (max-width: 430px) {
   .page-grid { padding-inline: 17px; }
   .profile-links { grid-template-columns: 1fr; }
+  .degree-heading { display: block; }
+  .degree-heading > span { display: block; margin-top: 2px; }
   .section-heading-row { display: block; }
   .section-heading-row .text-button { margin-top: 10px; }
   .overview-experience time { white-space: normal; }

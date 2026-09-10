@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { ArrowDownToLine, ArrowUpRight, Github, Linkedin, Mail, MapPin, Moon, Sun } from "lucide-react";
+import { ArrowDownToLine, ArrowUpRight, BadgeCheck, ChevronDown, Github, Linkedin, Mail, MapPin, Moon, Sun } from "lucide-react";
 import { coursework, experiences, featuredProjectIds, overviewExperienceIds, profile, projects, skills, type Project } from "./portfolioData";
 
 const SkillRadar = lazy(() => import("./SkillRadar"));
@@ -83,11 +83,11 @@ function ProfilePanel() {
         <img className="profile-photo" src="/img/profile.jpg" alt="Evan Lee" />
         <div className="profile-heading"><p className="eyebrow">{profile.role}</p><h1>{profile.name}</h1><p className="profile-school">{profile.school}</p></div>
       </div>
-      <p className="profile-bio">{profile.bio}</p>
       <div className="profile-links">
         <a href={`mailto:${profile.email}`}><Mail size={17} aria-hidden="true" /><span>{profile.email}</span></a>
         <a href={profile.linkedin} target="_blank" rel="noreferrer"><Linkedin size={17} aria-hidden="true" /><span>{profile.linkedinDisplay}</span></a>
         <a href={profile.github} target="_blank" rel="noreferrer"><Github size={17} aria-hidden="true" /><span>{profile.githubDisplay}</span></a>
+        <div className="profile-authorization"><BadgeCheck size={17} aria-hidden="true" /><span>{profile.authorization}</span></div>
         <div className="profile-location"><MapPin size={17} aria-hidden="true" /><span>{profile.location}</span></div>
       </div>
     </aside>
@@ -108,40 +108,58 @@ function EducationLogo() {
 }
 
 function Overview({ onNavigate }: { onNavigate: (section: SectionId) => void }) {
+  const [showCoursework, setShowCoursework] = useState(false);
   const featured = projects.filter((project) => featuredProjectIds.includes(project.id));
   const recentExperience = overviewExperienceIds.map((id) => experiences.find((item) => item.id === id)).filter((item) => item !== undefined);
   return (
     <div className="section-view overview-view">
       <section className="hero">
         <p className="eyebrow">Overview</p>
-        <h2>Backend systems, AI infrastructure, and applied machine learning.</h2>
+        <h2>Backend, AI infra, and ML.</h2>
         <p className="hero-copy">{profile.about}</p>
         <div className="hero-actions"><button className="action-link" onClick={() => onNavigate("resume")}>Resume <ArrowUpRight size={14} /></button><button className="text-button" onClick={() => onNavigate("experience")}>View experience</button></div>
       </section>
       <section className="overview-section education-section" aria-labelledby="education-heading">
-        <div className="section-heading-row education-heading-row">
-          <div><p className="eyebrow">Education</p><h3 id="education-heading">Georgia Institute of Technology</h3></div>
-          <span>Atlanta, Georgia</span>
+        <div className="education-section-heading">
+          <p className="eyebrow">Education</p>
+          <button className="text-button section-utility-link coursework-toggle" type="button" aria-expanded={showCoursework} aria-controls="coursework" onClick={() => setShowCoursework((current) => !current)}>
+            {showCoursework ? "Hide coursework" : "View coursework"}
+            <ChevronDown size={14} aria-hidden="true" />
+          </button>
         </div>
         <div className="education-overview">
-          <EducationLogo />
-          <div className="degree-list">
-            {profile.education.map((item) => <div key={item.degree}><strong>{item.degree}</strong><span>{item.expected}</span></div>)}
+          <div className="school-identity">
+            <EducationLogo />
+            <div><h3 id="education-heading">Georgia Institute of Technology</h3><p>Atlanta, Georgia</p></div>
           </div>
-          <dl className="overview-facts">
-            <div><dt>Work authorization</dt><dd>{profile.authorization}</dd></div>
-            <div><dt>Primary focus</dt><dd>{profile.primaryFocus}</dd></div>
-          </dl>
+          <div className="degree-grid">
+            {profile.education.map((item) => (
+              <article className="degree-item" key={item.degree}>
+                <div className="degree-heading"><h4>{item.degree}</h4><span>{item.expected}</span></div>
+                <dl className="degree-details">
+                  <div><dt>Concentration</dt><dd>{item.concentration}</dd></div>
+                  {item.gpa && <div><dt>GPA</dt><dd>{item.gpa}</dd></div>}
+                </dl>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
+      {showCoursework && <CourseworkSection />}
       <section className="overview-section">
-        <div className="section-heading-row"><div><p className="eyebrow">Recent experience</p><h3>Working across research and industry.</h3></div><button className="text-button" onClick={() => onNavigate("experience")}>All experience <ArrowUpRight size={15} /></button></div>
+        <div className="overview-section-heading">
+          <div className="section-label-row"><p className="eyebrow">Recent experience</p><button className="text-button section-utility-link" onClick={() => onNavigate("experience")}>All experience <ArrowUpRight size={14} /></button></div>
+          <h3>Working across research and industry.</h3>
+        </div>
         <div className="overview-experience">
           {recentExperience.map((item) => <article key={item.id}><img src={item.logo} alt="" /><div><h4>{item.company}</h4><p>{item.role}</p></div><time>{item.dates}</time></article>)}
         </div>
       </section>
       <section className="overview-section">
-        <div className="section-heading-row"><div><p className="eyebrow">Selected work</p><h3>Projects with measurable outcomes.</h3></div><button className="text-button" onClick={() => onNavigate("projects")}>All projects <ArrowUpRight size={15} /></button></div>
+        <div className="overview-section-heading">
+          <div className="section-label-row"><p className="eyebrow">Selected work</p><button className="text-button section-utility-link" onClick={() => onNavigate("projects")}>All projects <ArrowUpRight size={14} /></button></div>
+          <h3>Projects with measurable outcomes.</h3>
+        </div>
         <div className="featured-projects">{featured.map((project) => <FeaturedProject key={project.id} project={project} />)}</div>
       </section>
     </div>
@@ -216,7 +234,6 @@ function Skills() {
         <div className="skills-thesis"><p className="eyebrow">Engineering profile</p><h3>Backend foundations, applied ML, and the infrastructure to ship both.</h3><p>Comfort levels reflect the tools I use most often, not a claim that learning ever stops.</p></div>
       </section>
       <div className="skill-groups">{skills.map((group) => <section className="skill-group" key={group.category}><h3>{group.category}</h3><div>{group.items.map((item) => <SkillRow key={item.name} name={item.name} level={item.level} />)}</div></section>)}</div>
-      <CourseworkSection />
     </div>
   );
 }
@@ -229,7 +246,7 @@ function SkillRow({ name, level }: { name: string; level: number }) {
 function CourseworkSection() {
   const categories = ["Computer Science", "Mathematics"] as const;
   return (
-    <section className="coursework-section" aria-labelledby="coursework-heading">
+    <section id="coursework" className="coursework-section" aria-labelledby="coursework-heading">
       <div className="coursework-heading"><h3 id="coursework-heading">Coursework</h3><p>Undergraduate computer science and mathematics curriculum.</p></div>
       <div className="course-index">
         {categories.map((category) => (

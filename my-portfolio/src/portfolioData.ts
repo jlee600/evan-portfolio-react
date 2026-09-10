@@ -34,8 +34,8 @@ export const profile = {
   school: "Computer Science @ Georgia Tech",
   educationLogo: "/img/logo/georgia-tech.png",
   education: [
-    { degree: "B.S. Computer Science", expected: "Expected Dec 2026" },
-    { degree: "M.S. Computer Science", expected: "Expected Dec 2027" },
+    { degree: "B.S. Computer Science", expected: "Expected Dec 2026", concentration: "AI & Information", gpa: "3.95/4.00" },
+    { degree: "M.S. Computer Science", expected: "Expected Dec 2027", concentration: "Artificial Intelligence" },
   ],
   location: "Atlanta, Georgia",
   phone: "770-331-4776",
@@ -46,12 +46,10 @@ export const profile = {
   linkedinDisplay: "linkedin.com/in/jlee4223",
   website: "https://evanlee.site",
   resume: "/img/resume.pdf",
-  bio: "Backend software engineer with production, AI systems, and infrastructure experience.",
   about:
-    "I build backend platforms, retrieval systems, and cloud infrastructure, drawing on experience in production engineering, database research, and software engineering education.",
+    "I’m most interested in the systems behind the product: how data moves, how components talk to each other, and what happens when things need to work at real scale. Most of my work has ended up somewhere between backend engineering, infrastructure, and ML.",
   availability: "Open to backend and data-focused software engineering roles.",
   authorization: "U.S. permanent resident",
-  primaryFocus: "Backend · Data systems · AI infrastructure",
 };
 
 export const overviewExperienceIds = ["ibm", "gt-teaching", "gt-database-research"];
