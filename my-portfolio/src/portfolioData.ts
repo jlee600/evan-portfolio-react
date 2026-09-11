@@ -47,7 +47,7 @@ export const profile = {
   website: "https://evanlee.site",
   resume: "/img/resume.pdf",
   about:
-    "I’m most interested in the systems behind the product: how data moves, how components talk to each other, and what happens when things need to work at real scale.",
+    "Hi, I'm building backend and data systems, with applied ML where it’s useful!",
   availability: "Open to backend and data-focused software engineering roles.",
   authorization: "U.S. permanent resident",
 };
@@ -114,7 +114,7 @@ export const experiences: Experience[] = [
     dates: "Jan 2025 - May 2026",
     location: "Atlanta, GA",
     logo: "/img/logo/epic.jpeg",
-    description: "I trained PyTorch intent models on 30,000+ gait samples and built NVIDIA Jetson inference tooling for exoskeleton experiments. The models reached 0.882 macro F1, and the tooling cut setup from 5 minutes to under 1 minute.",
+    description: "I trained PyTorch intent models on 30,000+ gait samples and built NVIDIA Jetson inference tooling for exoskeleton experiments.",
   }
 ];
 

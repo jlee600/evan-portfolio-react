@@ -65,7 +65,7 @@ function ProfilePanel() {
     <aside className="profile-panel" aria-label="Profile and contact information">
       <div className="profile-intro">
         <img className="profile-photo" src="/img/profile.jpg" alt="Evan Lee" />
-        <div className="profile-heading"><h1>{profile.name}</h1><p className="profile-school">{profile.school}</p></div>
+        <div className="profile-heading"><h1>{profile.name}</h1><p className="profile-school">{profile.school}</p><p className="profile-bio">{profile.about}</p></div>
       </div>
       <div className="profile-links">
         <a href={`mailto:${profile.email}`}><Mail size={17} aria-hidden="true" /><span>{profile.email}</span></a>
@@ -208,7 +208,7 @@ function CourseworkSection() {
   const categories = ["Computer Science", "Mathematics"] as const;
   return (
     <section id="coursework" className="coursework-section" aria-labelledby="coursework-heading">
-      <div className="coursework-heading"><h3 id="coursework-heading">Coursework</h3><p>Undergraduate computer science and mathematics curriculum.</p></div>
+      <div className="coursework-heading"><h3 id="coursework-heading">Coursework</h3><p>Undergraduate CS & Math curriculum.</p></div>
       <div className="course-index">
         {categories.map((category) => (
           <div className="course-band" key={category}>
