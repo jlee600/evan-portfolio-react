@@ -20,18 +20,18 @@ export type Experience = {
   dates: string;
   location: string;
   logo: string;
-  bullets: string[];
+  description: string;
 };
 
 export type SkillGroup = {
-  category: "Backend" | "Frontend" | "ML / Data" | "Cloud / DevOps" | "Tooling" | "Team";
+  category: "Languages" | "Backend" | "ML / Data" | "Infrastructure / DevOps" | "Frontend / Product";
   items: { name: string; level: 1 | 2 | 3 | 4 | 5 }[];
 };
 
 export const profile = {
   name: "Evan Lee",
   role: "Software Engineer",
-  school: "Computer Science @ Georgia Tech",
+  school: "CS @ Georgia Tech",
   educationLogo: "/img/logo/georgia-tech.png",
   education: [
     { degree: "B.S. Computer Science", expected: "Expected Dec 2026", concentration: "AI & Information", gpa: "3.95/4.00" },
@@ -47,7 +47,7 @@ export const profile = {
   website: "https://evanlee.site",
   resume: "/img/resume.pdf",
   about:
-    "I’m most interested in the systems behind the product: how data moves, how components talk to each other, and what happens when things need to work at real scale. Most of my work has ended up somewhere between backend engineering, infrastructure, and ML.",
+    "I’m most interested in the systems behind the product: how data moves, how components talk to each other, and what happens when things need to work at real scale.",
   availability: "Open to backend and data-focused software engineering roles.",
   authorization: "U.S. permanent resident",
 };
@@ -64,10 +64,7 @@ export const experiences: Experience[] = [
     dates: "May 2026 - Aug 2026",
     location: "San Jose, CA",
     logo: "/img/logo/ibm.png",
-    bullets: [
-      "Built a release intelligence platform with Django, IBM Db2, and watsonx.ai that parsed, clustered, and deduplicated 65,000+ issues across 16 repositories to generate consolidated changelogs for 12 engineering teams.",
-      "Engineered Helm-based validation pipelines for four Kubernetes environments, concurrently checking 300+ AWS secrets and 500+ container images and reducing end-to-end validation time from 10 minutes to 1 minute.",
-    ],
+    description: "At IBM's watsonx Orchestrate team, I worked on internal release tooling for 12 engineering teams, mainly around issue deduplication, changelog generation, and Kubernetes validation.",
   },
   {
     id: "klsa",
@@ -77,10 +74,7 @@ export const experiences: Experience[] = [
     dates: "Oct 2025 - Dec 2025",
     location: "Atlanta, GA",
     logo: "/img/logo/klsa.jpg",
-    bullets: [
-      "Developed a containerized multi-agent verification pipeline with Python, FastAPI, LangChain, Docker, and OpenAI APIs, reaching a 93% completion rate on five-stage workflows spanning 2,100+ insurance policy clauses.",
-      "Architected a normalized 24-table PostgreSQL backend on Azure that persisted 5,000+ execution states and traceable audit logs across four coordinated AI agents.",
-    ],
+    description: "I built the backend for a multi-agent verification system, including the execution-state model, API layer, and workflow orchestration across four agents.",
   },
   {
     id: "sendsafely",
@@ -90,10 +84,7 @@ export const experiences: Experience[] = [
     dates: "May 2025 - Aug 2025",
     location: "Newark, DE",
     logo: "/img/logo/ss.png",
-    bullets: [
-      "Implemented a secure document download service with Java and Spring Boot, integrating AWS Secrets Manager for credential validation and serving 50,000+ monthly encrypted file requests at sub-200ms TTFB.",
-      "Automated CI/CD pipelines with GitHub Actions and AWS S3 for Python, Java, and JavaScript SDKs, streamlining versioning and artifact distribution across 10+ active repositories.",
-    ],
+    description: "I worked mostly on backend and delivery infrastructure, including a secure Spring Boot download service and CI/CD for multiple SDKs.",
   },
   {
     id: "gt-teaching",
@@ -103,9 +94,7 @@ export const experiences: Experience[] = [
     dates: "Aug 2026 - Present",
     location: "Atlanta, GA",
     logo: "/img/logo/coc.jpg",
-    bullets: [
-      "Support a 140-student software engineering course through weekly project syncs with a 28-student cohort and office hours covering Java, Spring Boot, REST APIs, testing, architecture patterns, and Google Cloud.",
-    ],
+    description: "I help students work through Java and Spring Boot projects, REST APIs, testing, architecture, and Google Cloud in a 140-student software engineering course.",
   },
   {
     id: "gt-database-research",
@@ -115,9 +104,7 @@ export const experiences: Experience[] = [
     dates: "Jan 2026 - Present",
     location: "Atlanta, GA",
     logo: "/img/logo/coc.jpg",
-    bullets: [
-      "Benchmarked dense, sparse, and hybrid retrieval with FAISS and BM25 for a textbook RAG system, improving Recall@5 from 64% to 88% while delivering sub-300ms source-cited answers for 100+ students.",
-    ],
+    description: "I evaluated FAISS and BM25 retrieval for a textbook RAG system, improving Recall@5 from 64% to 88% while keeping source-cited responses under 300ms.",
   },
   {
     id: "epic-research",
@@ -127,10 +114,7 @@ export const experiences: Experience[] = [
     dates: "Jan 2025 - May 2026",
     location: "Atlanta, GA",
     logo: "/img/logo/epic.jpeg",
-    bullets: [
-      "Trained TCN intent-prediction models in PyTorch on 30,000+ stroke-patient gait samples, reaching 0.882 macro F1 after Optuna tuning.",
-      "Built NVIDIA Jetson inference and deployment pipelines that reduced experiment setup time from 5 minutes to under 1 minute.",
-    ],
+    description: "I trained PyTorch intent models on 30,000+ gait samples and built NVIDIA Jetson inference tooling for exoskeleton experiments. The models reached 0.882 macro F1, and the tooling cut setup from 5 minutes to under 1 minute.",
   }
 ];
 
@@ -263,12 +247,11 @@ export const projects: Project[] = [
 ];
 
 export const skills: SkillGroup[] = [
-  { category: "Backend", items: [{ name: "Python", level: 5 }, { name: "Java / Kotlin", level: 5 }, { name: "PostgreSQL / MySQL", level: 5 }, { name: "FastAPI / REST", level: 4 }, { name: "Linux", level: 4 }] },
-  { category: "ML / Data", items: [{ name: "Pandas / NumPy", level: 5 }, { name: "FAISS / Vector Search", level: 5 }, { name: "PyTorch", level: 4 }, { name: "RAG Systems", level: 4 }, { name: "Scikit-learn", level: 4 }] },
-  { category: "Cloud / DevOps", items: [{ name: "GitHub Actions", level: 5 }, { name: "CI/CD Pipelines", level: 4 }, { name: "Shell Scripting", level: 4 }, { name: "AWS", level: 3 }, { name: "Docker", level: 3 }] },
-  { category: "Frontend", items: [{ name: "Android", level: 4 }, { name: "JavaScript / TypeScript", level: 4 }, { name: "React", level: 3 }, { name: "HTML / CSS", level: 3 }, { name: "Tailwind", level: 3 }] },
-  { category: "Tooling", items: [{ name: "Git", level: 5 }, { name: "VS Code / IntelliJ", level: 5 }, { name: "DataGrip / MySQL Workbench", level: 4 }, { name: "CircuitSim / Assembly", level: 4 }, { name: "LaTeX", level: 2 }] },
-  { category: "Team", items: [{ name: "Mentoring / Teaching", level: 5 }, { name: "Cross-Team Collaboration", level: 5 }, { name: "Code Reviews", level: 4 }, { name: "Technical Documentation", level: 4 }, { name: "Software Testing", level: 4 }] },
+  { category: "Backend", items: [{ name: "Django", level: 5 }, { name: "Spring Boot", level: 5 }, { name: "REST APIs", level: 5 }, { name: "PostgreSQL", level: 5 }, { name: "FastAPI", level: 4 }, { name: "MySQL", level: 4 }] },
+  { category: "ML / Data", items: [{ name: "Pandas", level: 5 }, { name: "FAISS", level: 5 }, { name: "BM25", level: 5 }, { name: "RAG Systems", level: 5 }, { name: "PyTorch", level: 4 }, { name: "Scikit-learn", level: 4 }, { name: "NumPy", level: 4 }, { name: "Vector Search", level: 4 }, { name: "llama.cpp", level: 4 }, { name: "LangChain", level: 4 }] },
+  { category: "Infrastructure / DevOps", items: [{ name: "GitHub Actions", level: 5 }, { name: "CI/CD", level: 5 }, { name: "Linux", level: 4 }, { name: "Shell scripting", level: 4 }, { name: "AWS", level: 4 }, { name: "Docker", level: 4 }, { name: "Kubernetes", level: 4 }, { name: "Helm", level: 4 }, { name: "Azure", level: 3 }, { name: "Google Cloud", level: 3 }] },
+  { category: "Languages", items: [{ name: "Python", level: 5 }, { name: "Java", level: 5 }, { name: "SQL", level: 5 }, { name: "Kotlin", level: 4 }, { name: "JavaScript / TypeScript", level: 4 }, { name: "Shell", level: 4 }, { name: "Verilog", level: 4 }, { name: "Assembly", level: 3 }] },
+  { category: "Frontend / Product", items: [{ name: "React", level: 4 }, { name: "Android", level: 4 }, { name: "HTML / CSS", level: 3 }, { name: "Tailwind", level: 3 }] },
 ];
 
 export const coursework = [
