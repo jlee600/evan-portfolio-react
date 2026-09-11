@@ -118,7 +118,6 @@ function Overview({ onNavigate }: { onNavigate: (section: SectionId) => void }) 
         <p className="eyebrow">Overview</p>
         <h2>Backend, AI infra, and ML.</h2>
         <p className="hero-copy">{profile.about}</p>
-        <div className="hero-actions"><button className="action-link" onClick={() => onNavigate("resume")}>Resume <ArrowUpRight size={14} /></button><button className="text-button" onClick={() => onNavigate("experience")}>View experience</button></div>
       </section>
       <section className="overview-section education-section" aria-labelledby="education-heading">
         <div className="education-section-heading">
